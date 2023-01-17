@@ -1249,3 +1249,227 @@ O *Scalable Vector Graphics* (SVG) é um formato de arquivo vetorial compatível
 </svg>
 
 ```
+
+---
+
+# < video >
+
+```html
+
+<video width="600" height="340" controls autoplay muted>
+  <source src="movie.mp4" type="video/mp4">
+    Your browser does not support the video tag.
+</video>
+
+```
+
+---
+
+# Adicionando CSS
+## Externo
+
+```html
+
+<!DOCTYPE html>
+<html>
+  <head>
+    <link rel="stylesheet" href="style.css">
+  </head>
+  <body>
+  </body>
+</html>
+```
+---
+
+# Adicionando CSS
+## Interno
+
+```html
+
+<!DOCTYPE html>
+<html>
+  <head>
+    <style>
+      body {
+        background-color: cian;
+      }
+    </style>
+  </head>
+  <body>
+  </body>
+</html>
+```
+
+---
+
+# Ordem de prioridade dos estilos
+
+* Estilo *inline* (dentro da tag de HTML);
+* Externos e internos (dentro da tag < head >);
+* Padrão do Navegador.
+
+---
+
+# Sintaxe do CSS
+
+<img src="https://www.w3schools.com/css/img_selector.gif" style="width:70%; display:block; margin: 0 auto;">
+
+```css
+
+h1 {
+  color: blue;
+  font-size: 12px;
+}
+
+```
+
+---
+
+# Seletores
+## tag
+
+```css
+
+h1 {
+  color: blue;
+  font-size: 12px;
+}
+
+```
+
+---
+
+# Seletores
+## Seletor de ID
+
+```css
+
+#texto {
+  color: blue;
+  font-size: 12px;
+}
+
+```
+
+---
+
+# Seletores
+## Seletor de Class
+
+```css
+
+.center {
+  text-align: center;
+}
+
+p.center{
+  text-align: center;
+}
+
+```
+
+---
+
+# Seletores
+## Seletor Universal
+
+```css
+
+* {
+  text-align: center;
+}
+
+```
+
+---
+
+# Seletores
+## Agrupamento
+
+```css
+
+h1, h2, p {
+  text-align: center;
+}
+
+```
+
+---
+
+# Comentário
+
+```css
+p {
+  color: green; /* Comentário de uma única linha */
+}
+
+/* Comentário em bloco
+
+p {
+  color: green; 
+}
+
+*/
+
+```
+
+--- 
+
+# Cores
+* **Cor-luz:** é toda cor formada pela emissão direta de luz (sistema aditivo);
+* **Cor-pigmento:** é a cor refletida por um objeto (sistema subtrativo);
+
+### RGB e CMKY
+
+* No grupo **cor-luz**, as cores primárias são vermelho, verde e azul (**sistema RGB**);
+* No grupo **cor-pigmento**, as cores primárias são: ciano, magenta e amarelo. A elas se junta o preto, que serve para dar contrate (**sistema CMYK**).
+
+---
+
+# RGB
+
+<img src="https://gerenciamentodecor.files.wordpress.com/2016/02/3288e-rgb.jpg" style="display:block; width:600px; margin: 0 auto;">
+
+---
+
+# CMYK
+
+<img src="https://gerenciamentodecor.files.wordpress.com/2016/02/12e79-cmy.jpg" style="display:block; width:600px; margin: 0 auto;">
+
+---
+
+# Características das Cores
+
+**Matiz** é a característica que define e distingue uma cor. Azul, vermelho e amarelo são matizes. A mistura de matizes dá origem a outro matiz.
+
+**Tom** refere-se à maior ou menor quantidade de luz presente na cor. Ao adicionarmos preto a um matiz, ele fica gradualmente mais escuro. Essa graduação é conhecida como escala tonal. Acrescentando branco a um matiz, obtemos escalas tonais mais claras.
+
+**Intensidade** tem a ver com o brilho da cor. Um matiz de intensidade alta é vívida, brilhante, como o amarelo. Um matiz de intensidade baixa é mais apagada, como as cores pastéis.
+
+<small style="font-size:15px;">* http://www.invivo.fiocruz.br/cienciaetecnologia/cor-luz-ou-pigmento/#:~:text=A%20cor%2Dluz%20ou%20cor,que%20o%20olho%20humano%20percebe.</small>
+
+
+
+---
+
+# Cores
+## RGB 
+### rgb(red, green, blue)
+
+* Cada parâmetro (vermelho, verde e azul) define a intensidade da cor entre 0 e 255.
+
+## HEX
+### #rrggbb
+* Onde rr (vermelho), gg (verde) e bb (azul) são valores hexadecimais entre 00 e ff (o mesmo que decimal 0-255).
+
+---
+
+# Hierarquia de Especificidade
+
+* Estilos *inline* (dentro da tag de HTML);
+* ID (#nav-var);
+* Classes, pseudo-classes e seletores de atirbutos (.texto, :hover, [href]);
+* Elementos e pseudoelementos (p, :after).
+
+---
+
