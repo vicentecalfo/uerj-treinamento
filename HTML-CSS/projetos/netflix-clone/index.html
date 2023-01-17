@@ -12,236 +12,275 @@
 </head>
 
 <body>
-    <div class="container">
-        <div class="hero">
-            <header>
-                <div class="logo">
-                    <svg viewBox="0 0 111 30" data-uia="netflix-logo" class="svg-icon svg-icon-netflix-logo"
-                        aria-hidden="true" focusable="false">
-                        <g id="netflix-logo">
-                            <path
-                                d="M105.06233,14.2806261 L110.999156,30 C109.249227,29.7497422 107.500234,29.4366857 105.718437,29.1554972 L102.374168,20.4686475 L98.9371075,28.4375293 C97.2499766,28.1563408 95.5928391,28.061674 93.9057081,27.8432843 L99.9372012,14.0931671 L94.4680851,-5.68434189e-14 L99.5313525,-5.68434189e-14 L102.593495,7.87421502 L105.874965,-5.68434189e-14 L110.999156,-5.68434189e-14 L105.06233,14.2806261 Z M90.4686475,-5.68434189e-14 L85.8749649,-5.68434189e-14 L85.8749649,27.2499766 C87.3746368,27.3437061 88.9371075,27.4055675 90.4686475,27.5930265 L90.4686475,-5.68434189e-14 Z M81.9055207,26.93692 C77.7186241,26.6557316 73.5307901,26.4064111 69.250164,26.3117443 L69.250164,-5.68434189e-14 L73.9366389,-5.68434189e-14 L73.9366389,21.8745899 C76.6248008,21.9373887 79.3120255,22.1557784 81.9055207,22.2804387 L81.9055207,26.93692 Z M64.2496954,10.6561065 L64.2496954,15.3435186 L57.8442216,15.3435186 L57.8442216,25.9996251 L53.2186709,25.9996251 L53.2186709,-5.68434189e-14 L66.3436123,-5.68434189e-14 L66.3436123,4.68741213 L57.8442216,4.68741213 L57.8442216,10.6561065 L64.2496954,10.6561065 Z M45.3435186,4.68741213 L45.3435186,26.2498828 C43.7810479,26.2498828 42.1876465,26.2498828 40.6561065,26.3117443 L40.6561065,4.68741213 L35.8121661,4.68741213 L35.8121661,-5.68434189e-14 L50.2183897,-5.68434189e-14 L50.2183897,4.68741213 L45.3435186,4.68741213 Z M30.749836,15.5928391 C28.687787,15.5928391 26.2498828,15.5928391 24.4999531,15.6875059 L24.4999531,22.6562939 C27.2499766,22.4678976 30,22.2495079 32.7809542,22.1557784 L32.7809542,26.6557316 L19.812541,27.6876933 L19.812541,-5.68434189e-14 L32.7809542,-5.68434189e-14 L32.7809542,4.68741213 L24.4999531,4.68741213 L24.4999531,10.9991564 C26.3126816,10.9991564 29.0936358,10.9054269 30.749836,10.9054269 L30.749836,15.5928391 Z M4.78114163,12.9684132 L4.78114163,29.3429562 C3.09401069,29.5313525 1.59340144,29.7497422 0,30 L0,-5.68434189e-14 L4.4690224,-5.68434189e-14 L10.562377,17.0315868 L10.562377,-5.68434189e-14 L15.2497891,-5.68434189e-14 L15.2497891,28.061674 C13.5935889,28.3437998 11.906458,28.4375293 10.1246602,28.6868498 L4.78114163,12.9684132 Z">
-                            </path>
-                        </g>
-                    </svg>
-                </div>
-                <button class="mobile-menu-btn">
-                    <i class="fa-solid fa-bars"></i>
-                </button>
-            </header>
-            <div class="menu">
-                <nav class="left">
-                    <ul>
-                        <li>
-                            <a href="#">Início</a>
-                        </li>
-                        <li>
-                            <a href="#">Séries</a>
-                        </li>
-                        <li>
-                            <a href="#">Filmes</a>
-                        </li>
-                        <li>
-                            <a href="#">Recentes</a>
-                        </li>
-                        <li>
-                            <a href="#">Minha Lista</a>
-                        </li>
-                    </ul>
-                </nav>
-                <nav class="right">
-                    <ul>
-                        <li>
-                            <a href="#"><i class="fas fa-search"></a></i>
-                        </li>
-                        <li><a href="#">Infantil</a></li>
-                        <li>
-                            <a href="#"><i class="fas fa-gift"></a></i>
-                        </li>
-                        <li>
-                            <a href="#"><i class="fas fa-bell">
-                                    <span class="badge">13</span>
-                            </a></i>
-                        </li>
-                        <li class="user">
-                            <a href="#">
-                                <img src="https://faces-img.xcdn.link/thumb-lorem-face-5209_thumb.jpg" class="avatar"
-                                    alt="Foto de perfil do usuário Maria de Lurdes">
-                                <i class="fas fa-sort-down"></i></a>
-                        </li>
-                    </ul>
-                </nav>
-            </div>
-            <div class="banner">
-                <img src="images/banner.webp" class="poster" alt="Banner da série Caleidoscópio">
-                <p class="synopsis">
-                    Um ladrão magistral e sua equipe querem roubar 7 bilhões de dólares.
-                    Mas, para o plano dar certo, eles terão que lidar com traições,
-                    ganâncias e muitas outras ameaças.
-                </p>
-                <div class="buttons">
-                    <button class="btn primary">
-                        <i class="fas fa-play"></i>
-                        Assistir
+    <div class="wrapper">
+        <div class="container">
+            <div class="hero">
+                <header>
+                    <div class="logo">
+                        <svg viewBox="0 0 111 30" data-uia="netflix-logo" class="svg-icon svg-icon-netflix-logo"
+                            aria-hidden="true" focusable="false">
+                            <g id="netflix-logo">
+                                <path
+                                    d="M105.06233,14.2806261 L110.999156,30 C109.249227,29.7497422 107.500234,29.4366857 105.718437,29.1554972 L102.374168,20.4686475 L98.9371075,28.4375293 C97.2499766,28.1563408 95.5928391,28.061674 93.9057081,27.8432843 L99.9372012,14.0931671 L94.4680851,-5.68434189e-14 L99.5313525,-5.68434189e-14 L102.593495,7.87421502 L105.874965,-5.68434189e-14 L110.999156,-5.68434189e-14 L105.06233,14.2806261 Z M90.4686475,-5.68434189e-14 L85.8749649,-5.68434189e-14 L85.8749649,27.2499766 C87.3746368,27.3437061 88.9371075,27.4055675 90.4686475,27.5930265 L90.4686475,-5.68434189e-14 Z M81.9055207,26.93692 C77.7186241,26.6557316 73.5307901,26.4064111 69.250164,26.3117443 L69.250164,-5.68434189e-14 L73.9366389,-5.68434189e-14 L73.9366389,21.8745899 C76.6248008,21.9373887 79.3120255,22.1557784 81.9055207,22.2804387 L81.9055207,26.93692 Z M64.2496954,10.6561065 L64.2496954,15.3435186 L57.8442216,15.3435186 L57.8442216,25.9996251 L53.2186709,25.9996251 L53.2186709,-5.68434189e-14 L66.3436123,-5.68434189e-14 L66.3436123,4.68741213 L57.8442216,4.68741213 L57.8442216,10.6561065 L64.2496954,10.6561065 Z M45.3435186,4.68741213 L45.3435186,26.2498828 C43.7810479,26.2498828 42.1876465,26.2498828 40.6561065,26.3117443 L40.6561065,4.68741213 L35.8121661,4.68741213 L35.8121661,-5.68434189e-14 L50.2183897,-5.68434189e-14 L50.2183897,4.68741213 L45.3435186,4.68741213 Z M30.749836,15.5928391 C28.687787,15.5928391 26.2498828,15.5928391 24.4999531,15.6875059 L24.4999531,22.6562939 C27.2499766,22.4678976 30,22.2495079 32.7809542,22.1557784 L32.7809542,26.6557316 L19.812541,27.6876933 L19.812541,-5.68434189e-14 L32.7809542,-5.68434189e-14 L32.7809542,4.68741213 L24.4999531,4.68741213 L24.4999531,10.9991564 C26.3126816,10.9991564 29.0936358,10.9054269 30.749836,10.9054269 L30.749836,15.5928391 Z M4.78114163,12.9684132 L4.78114163,29.3429562 C3.09401069,29.5313525 1.59340144,29.7497422 0,30 L0,-5.68434189e-14 L4.4690224,-5.68434189e-14 L10.562377,17.0315868 L10.562377,-5.68434189e-14 L15.2497891,-5.68434189e-14 L15.2497891,28.061674 C13.5935889,28.3437998 11.906458,28.4375293 10.1246602,28.6868498 L4.78114163,12.9684132 Z">
+                                </path>
+                            </g>
+                        </svg>
+                    </div>
+                    <button class="mobile-menu-btn">
+                        <i class="fa-solid fa-bars"></i>
                     </button>
-                    <button class="btn secondary">
-                        <i class="fas fa-plus"></i>
-                        Minhas Lista
-                    </button>
+                </header>
+                <div class="menu">
+                    <nav class="left">
+                        <ul>
+                            <li>
+                                <a href="#">Início</a>
+                            </li>
+                            <li>
+                                <a href="#">Séries</a>
+                            </li>
+                            <li>
+                                <a href="#">Filmes</a>
+                            </li>
+                            <li>
+                                <a href="#">Recentes</a>
+                            </li>
+                            <li>
+                                <a href="#">Minha Lista</a>
+                            </li>
+                        </ul>
+                    </nav>
+                    <nav class="right">
+                        <ul>
+                            <li>
+                                <a href="#"><i class="fas fa-search"></a></i>
+                            </li>
+                            <li><a href="#">Infantil</a></li>
+                            <li>
+                                <a href="#"><i class="fas fa-gift"></a></i>
+                            </li>
+                            <li>
+                                <a href="#"><i class="fas fa-bell">
+                                        <span class="badge">13</span>
+                                </a></i>
+                            </li>
+                            <li class="user">
+                                <a href="#">
+                                    <img src="https://faces-img.xcdn.link/thumb-lorem-face-5209_thumb.jpg"
+                                        class="avatar" alt="Foto de perfil do usuário Maria de Lurdes">
+                                    <i class="fas fa-sort-down"></i></a>
+                            </li>
+                        </ul>
+                    </nav>
+                </div>
+                <div class="banner">
+                    <img src="images/banner.webp" class="poster" alt="Banner da série Caleidoscópio">
+                    <p class="synopsis">
+                        Um ladrão magistral e sua equipe querem roubar 7 bilhões de dólares.
+                        Mas, para o plano dar certo, eles terão que lidar com traições,
+                        ganâncias e muitas outras ameaças.
+                    </p>
+                    <div class="buttons">
+                        <a class="btn primary" href="#open-modal">
+                            <i class="fas fa-play"></i>
+                            Assistir</a>
+                        <button class="btn secondary">
+                            <i class="fas fa-plus"></i>
+                            Minhas Lista
+                        </button>
+                    </div>
+                    <div id="open-modal" class="modal-window">
+                        <div>
+                            <a href="#" title="Fechar" class="modal-close">
+                                <i class="fa-regular fa-circle-xmark"></i>
+                            </a>
+                            <video style="width:100%;" controls>
+                                <source src="videos/trailer-1.mp4" type="video/mp4">
+                                Seu Navegador não suporta vídeos.
+                            </video>
+                        </div>
+                    </div>
                 </div>
             </div>
-        </div>
-        <main>
-            <section>
-                <h2>Recomendados</h2>
-                <div class="slider">
-                    <button class="ctrl prev"><i class="fa-solid fa-chevron-left"></i></button>
-                    <button class="ctrl next"><i class="fa-solid fa-chevron-right"></i></button>
-                    <ul>
-                        <li><button><img src="images/video-01.jpg"></button></li>
-                        <li><button><img src="images/video-02.jpg"></button></li>
-                        <li><button><img src="images/video-03.webp"></button></li>
-                        <li><button><img src="images/video-04.jpg"></button></li>
-                        <li><button><img src="images/video-05.jpg"></button></li>
-                        <li><button><img src="images/video-06.webp"></button></li>
-                    </ul>
-
-                </div>
-            </section>
-            <section>
-                <h2>Continuar Assistindo</h2>
-                <div class="slider">
-                    <button class="ctrl prev"><i class="fa-solid fa-chevron-left"></i></button>
-                    <button class="ctrl next"><i class="fa-solid fa-chevron-right"></i></button>
-                    <ul>
-                        <li><button><img src="images/video-07.webp">
-                                <div class="progress">
-                                    <div class="current" style="width:45%;"></div>
+            <main>
+                <section>
+                    <h2>Recomendados</h2>
+                    <div class="slider">
+                        <button class="ctrl prev"><i class="fa-solid fa-chevron-left"></i></button>
+                        <button class="ctrl next"><i class="fa-solid fa-chevron-right"></i></button>
+                        <ul>
+                            <li><a href="#open-modal-1">
+                                    <img src="images/video-01.jpg">
+                                </a>
+                                <div id="open-modal-1" class="modal-window">
+                                    <div>
+                                        <a href="#" title="Fechar" class="modal-close">
+                                            <i class="fa-regular fa-circle-xmark"></i>
+                                        </a>
+                                        <iframe src="https://www.youtube.com/embed/stXDshqSzLM"
+                                            title="YouTube video player" frameborder="0"
+                                            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+                                            allowfullscreen></iframe>
+                                    </div>
                                 </div>
-                            </button></li>
-                        <li><button><img src="images/video-08.webp">
-                                <progress id="file" value="89" max="100"></progress></button></li>
-                        <li><button><img src="images/video-09.webp">
-                                <progress id="file" value="55" max="100"></progress></button></li>
-                        <li><button><img src="images/video-10.webp">
-                                <progress id="file" value="45" max="100"></progress></button></li>
-                        <li><button><img src="images/video-11.webp">
-                                <progress id="file" value="87" max="100"></progress></button></li>
-                        <li><button><img src="images/video-12.webp">
-                                <progress id="file" value="24" max="100"></progress></button></li>
-                    </ul>
+                            </li>
+                            <li><a href="#open-modal-2"><img src="images/video-02.jpg"></a>
+                                <div id="open-modal-2" class="modal-window">
+                                    <div>
+                                        <a href="#" title="Fechar" class="modal-close">
+                                            <i class="fa-regular fa-circle-xmark"></i>
+                                        </a>
+                                        <iframe src="https://www.youtube.com/embed/tjujvMkqWe4"
+                                            title="YouTube video player" frameborder="0"
+                                            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+                                            allowfullscreen></iframe>
+                                    </div>
+                                </div>
+                            </li>
+                            <li><a href="#"><img src="images/video-03.webp"></a>
+                            </li>
+                            <li><button><img src="images/video-04.jpg"></button></li>
+                            <li><button><img src="images/video-05.jpg"></button></li>
+                            <li><button><img src="images/video-06.webp"></button></li>
+                        </ul>
 
-                </div>
-            </section>
-            <section>
-                <h2>Em Alta</h2>
-                <div class="slider">
-                    <button class="ctrl prev"><i class="fa-solid fa-chevron-left"></i></button>
-                    <button class="ctrl next"><i class="fa-solid fa-chevron-right"></i></button>
-                    <ul>
-                        <li><button><img src="images/video-06.webp"></button></li>
-                        <li><button><img src="images/video-05.jpg"></button></li>
-                        <li><button><img src="images/video-04.jpg"></button></li>
-                        <li><button><img src="images/video-03.webp"></button></li>
-                        <li><button><img src="images/video-02.jpg"></button></li>
-                        <li><button><img src="images/video-01.jpg"></button></li>
-                    </ul>
+                    </div>
+                </section>
+                <section>
+                    <h2>Continuar Assistindo</h2>
+                    <div class="slider">
+                        <button class="ctrl prev"><i class="fa-solid fa-chevron-left"></i></button>
+                        <button class="ctrl next"><i class="fa-solid fa-chevron-right"></i></button>
+                        <ul>
+                            <li><button><img src="images/video-07.webp">
+                                    <div class="progress">
+                                        <div class="current" style="width:45%;"></div>
+                                    </div>
+                                </button></li>
+                            <li><button><img src="images/video-08.webp">
+                                    <progress id="file" value="89" max="100"></progress></button></li>
+                            <li><button><img src="images/video-09.webp">
+                                    <progress id="file" value="55" max="100"></progress></button></li>
+                            <li><button><img src="images/video-10.webp">
+                                    <progress id="file" value="45" max="100"></progress></button></li>
+                            <li><button><img src="images/video-11.webp">
+                                    <progress id="file" value="87" max="100"></progress></button></li>
+                            <li><button><img src="images/video-12.webp">
+                                    <progress id="file" value="24" max="100"></progress></button></li>
+                        </ul>
 
+                    </div>
+                </section>
+                <section>
+                    <h2>Em Alta</h2>
+                    <div class="slider">
+                        <button class="ctrl prev"><i class="fa-solid fa-chevron-left"></i></button>
+                        <button class="ctrl next"><i class="fa-solid fa-chevron-right"></i></button>
+                        <ul>
+                            <li><button><img src="images/video-06.webp"></button></li>
+                            <li><button><img src="images/video-05.jpg"></button></li>
+                            <li><button><img src="images/video-04.jpg"></button></li>
+                            <li><button><img src="images/video-03.webp"></button></li>
+                            <li><button><img src="images/video-02.jpg"></button></li>
+                            <li><button><img src="images/video-01.jpg"></button></li>
+                        </ul>
+
+                    </div>
+                </section>
+            </main>
+            <footer>
+                <nav class="social">
+                    <ul>
+                        <li>
+                            <a href="#" target="_blank">
+                                <i class="fa-brands fa-facebook-f"></i>
+                            </a>
+                        </li>
+                        <li>
+                            <a href="#" target="_blank">
+                                <i class="fa-brands fa-instagram"></i>
+                            </a>
+                        </li>
+                        <li>
+                            <a href="#" target="_blank">
+                                <i class="fa-brands fa-twitter"></i>
+                            </a>
+                        </li>
+                        <li>
+                            <a href="#" target="_blank">
+                                <i class="fa-brands fa-youtube"></i>
+                            </a>
+                        </li>
+                    </ul>
+                </nav>
+                <div class="menu-footer">
+                    <nav>
+                        <ul>
+                            <li>
+                                <a href="#">Audiodescrição</a>
+                            </li>
+                            <li>
+                                <a href="#">
+                                    Relações com Investidores
+                                </a>
+                            </li>
+                            <li>
+                                <a href="#">Avisos Legais</a>
+                            </li>
+                        </ul>
+                    </nav>
+                    <nav>
+                        <ul>
+                            <li>
+                                <a href="#">Central de Ajuda</a>
+                            </li>
+                            <li>
+                                <a href="#">Carreiras</a>
+                            </li>
+                            <li>
+                                <a href="#">
+                                    Preferências de Cookies
+                                </a>
+                            </li>
+                        </ul>
+                    </nav>
+                    <nav>
+                        <ul>
+                            <li>
+                                <a href="#">Cartão Pré-pago</a>
+                            </li>
+                            <li>
+                                <a href="#">Termos de Uso</a>
+                            </li>
+                            <li>
+                                <a href="#">
+                                    Informações Corporativas
+                                </a>
+                            </li>
+                        </ul>
+                    </nav>
+                    <nav>
+                        <ul>
+                            <li>
+                                <a href="#">Imprensa</a>
+                            </li>
+                            <li>
+                                <a href="#">Privacidade</a>
+                            </li>
+                            <li>
+                                <a href="#">Entre em Contato</a>
+                            </li>
+                        </ul>
+                    </nav>
                 </div>
-            </section>
-        </main>
-        <footer>
-            <nav class="social">
-                <ul>
-                    <li>
-                        <a href="#" target="_blank">
-                            <i class="fa-brands fa-facebook-f"></i>
-                        </a>
-                    </li>
-                    <li>
-                        <a href="#" target="_blank">
-                            <i class="fa-brands fa-instagram"></i>
-                        </a>
-                    </li>
-                    <li>
-                        <a href="#" target="_blank">
-                            <i class="fa-brands fa-twitter"></i>
-                        </a>
-                    </li>
-                    <li>
-                        <a href="#" target="_blank">
-                            <i class="fa-brands fa-youtube"></i>
-                        </a>
-                    </li>
-                </ul>
-            </nav>
-            <div class="menu-footer">
-                <nav>
-                    <ul>
-                        <li>
-                            <a href="#">Audiodescrição</a>
-                        </li>
-                        <li>
-                            <a href="#">
-                                Relações com Investidores
-                            </a>
-                        </li>
-                        <li>
-                            <a href="#">Avisos Legais</a>
-                        </li>
-                    </ul>
-                </nav>
-                <nav>
-                    <ul>
-                        <li>
-                            <a href="#">Central de Ajuda</a>
-                        </li>
-                        <li>
-                            <a href="#">Carreiras</a>
-                        </li>
-                        <li>
-                            <a href="#">
-                                Preferências de Cookies
-                            </a>
-                        </li>
-                    </ul>
-                </nav>
-                <nav>
-                    <ul>
-                        <li>
-                            <a href="#">Cartão Pré-pago</a>
-                        </li>
-                        <li>
-                            <a href="#">Termos de Uso</a>
-                        </li>
-                        <li>
-                            <a href="#">
-                                Informações Corporativas
-                            </a>
-                        </li>
-                    </ul>
-                </nav>
-                <nav>
-                    <ul>
-                        <li>
-                            <a href="#">Imprensa</a>
-                        </li>
-                        <li>
-                            <a href="#">Privacidade</a>
-                        </li>
-                        <li>
-                            <a href="#">Entre em Contato</a>
-                        </li>
-                    </ul>
-                </nav>
-            </div>
-            <div class="service">
-                <a href="#">Código de Serviço</a>
-            </div>
-            <div class="copyright">
-                <p>&copy; 1997-2023 Netflix, Inc.</p>
-            </div>
-        </footer>
+                <div class="service">
+                    <a href="#">Código de Serviço</a>
+                </div>
+                <div class="copyright">
+                    <p>&copy; 1997-2023 Netflix, Inc.</p>
+                </div>
+            </footer>
+        </div>
     </div>
 </body>
 
