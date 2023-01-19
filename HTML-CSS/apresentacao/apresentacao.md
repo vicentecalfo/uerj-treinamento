@@ -1473,3 +1473,292 @@ p {
 
 ---
 
+# Box-Model
+
+Todos os elementos HTML podem ser considerados como caixas, que consiste em: **margens**, **bordas**, **preenchimento** e o **conteúdo real**.
+
+<div style="display: flex; grid-gap:30px">
+<div><img src="https://miro.medium.com/max/408/1*sKnLrT1TtqWDZg7GWoBCow.png" style="height:202px; width:408px; display:block; margin: 30px auto;"></div>
+<div style="font-size:24px;">
+
+<br>
+
+* **Conteúdo** - O conteúdo da caixa, onde aparecem texto e imagens;
+* **Preenchimento** - Limpa uma área ao redor do conteúdo. O enchimento é transparente;
+* **Borda** - Uma borda que contorna o preenchimento e o conteúdo;
+* **Margin** - Limpa uma área fora da borda. A margem é transparente.
+</div>
+</div>
+
+
+
+---
+
+# Box-Model (Altura e Largura)
+
+```css
+
+div {
+  width: 300px;
+  padding: 10px;
+  border: 2px solid red;
+  margin: 0;
+}
+
+/*
+
+300px (largura declarada)
++ 20px (preenchimento esquerdo + direito)
++ 4px (borda esquerda + direita)
++ 0px (margem esquerda + direita)
+= 324px (largura real)
+*/
+
+```
+---
+
+# Box-Sizing
+A propriedade CSS **box-sizing** nos permite incluir o preenchimento e a borda na largura e altura total de um elemento.
+
+```css
+
+.teste1 {
+  width: 300px;
+  padding: 50px;
+  border: 1px solid green;
+}
+
+.teste2 {
+  width: 300px;
+  padding: 50px;
+  border: 1px solid purple;
+  /*box-sizing: border-box;*/
+}
+
+```
+
+---
+
+# Background
+## background-color
+
+Especifica a cor de fundo de um elemento.
+
+```css
+
+.body {
+  background-color: #000000;
+}
+
+```
+
+---
+
+# Background
+## background-image
+
+Especifica uma imagem a ser usada como plano de fundo de um elemento.
+
+```css
+
+.body {
+  background-image: url("imagem.png");
+}
+
+```
+
+---
+
+# Background
+## background-repeat e background-position
+
+Controla a repetição de uma imagem horizontal e vertical.
+
+```css
+
+.body {
+  background-image: url("imagem.png");
+  background-repeat: repeat-x; /* repeat|repeat-x|repeat-y|no-repeat */
+  background-position: center top; /* x% y% | x y (px)*/
+}
+
+```
+
+---
+
+# Background
+## background-attachment
+
+Trava ou não a imagem de fundo quando houver rolagem de tela.
+
+```css
+
+.body {
+  background-image: url("imagem.png");
+  background-repeat: no-repeat;
+  background-attachment: fixed; /* fixed|scroll */
+}
+
+```
+
+---
+
+# Background
+## Declaração compacta
+
+```css
+
+.body {
+  background: #ffffff url("imagem.png") no-repeat right top;
+}
+
+```
+
+---
+
+# Borders
+# style, color, width
+
+```css
+
+p {
+  border-style: solid; /* border-top-style */ /* dotted solid double dashed */
+  border-width: 25px 10px 4px 35px; /* 25px top, 10px right, 4px bottom and 35px left */
+  border-color: red; /* red green blue yellow */
+  border-radius: 5px;
+}
+
+/* Declaração compacta */
+
+p {
+  border: 6px solid green;
+}
+
+p {
+  border-bottom: 6px solid red;
+}
+
+```
+
+---
+
+# Margin
+
+```css
+
+p {
+  margin-top: 100px;
+  margin-bottom: 100px;
+  margin-right: 150px;
+  margin-left: 80px;
+}
+
+p {
+  margin: 25px 50px 75px 100px;
+}
+
+```
+
+---
+
+# Padding
+
+```css
+
+div {
+  padding-top: 50px;
+  padding-right: 30px;
+  padding-bottom: 50px;
+  padding-left: 80px;
+}
+
+div {
+  padding: 25px 50px 75px 100px;
+}
+
+```
+
+---
+
+# Width/Height
+
+```css
+
+div {
+  height: 200px;
+  width: 50%;
+}
+
+```
+
+---
+
+# Text
+
+```css
+
+p {
+  background-color: lightgrey;
+  color: green;
+  text-align: justify;
+  text-align-last: left;
+  text-decoration:underline; /* none|underline|overline|line-through */
+  text-decoration-color: red;
+  text-decoration-style: solid;
+  text-transform: uppercase;  /* none|capitalize|uppercase|lowercase */
+  text-indent: 50px; /* Recuo da primeira linha */
+  letter-spacing: 5px;
+  word-spacing: 10px;
+  line-height: 150%;
+  text-shadow: 2px 2px 5px red; /* H V Blur Cor*/
+}
+
+```
+
+---
+
+# Font
+## Famílias
+
+* **Serif fonts** - têm um pequeno traço nas bordas de cada letra. Eles criam uma sensação de formalidade e elegância.
+* **Sans-serif** -  têm linhas limpas (sem pequenos traços anexados). Eles criam um visual moderno e minimalista.
+* **Monospace fonts** - aqui todas as letras têm a mesma largura fixa. Eles criam uma aparência mecânica. 
+* **Cursive** -  imitam a caligrafia humana.
+* **Fantasy** -  são fontes decorativas/divertidas.
+
+---
+
+# Diferença entre fontes Serif e Sans-serif
+
+<img src="https://www.w3schools.com/css/serif.gif" style="display:display; width:400px; margin: 40px auto;">
+
+---
+
+# Fonts
+
+```css
+
+p {
+  font-family: Arial, Helvetica, sans-serif;
+  font-style: normal; /* normal | italic | oblique */
+  font-size: 40px;
+}
+
+```
+
+---
+
+# Unidades de Medida
+
+# Absoluta
+*  **px** - (pixel)
+
+# Relativas
+* **vw, vh** - viewport
+* **em** - Relativo ao tamanho da fonte na qual a unidade é declarada
+* **rem** - Relativo ao tamanho da fonte do elemento raiz
+* **%** - unidade percentual
+
+---
+
+
