@@ -279,7 +279,7 @@ Isso define a capacidade de um item crescer, se necessário.
 
 # align-self
 
-Isso define a capacidade de um item crescer, se necessário.
+Isso permite que o alinhamento padrão (ou aquele especificado por align-items) seja substituído por alinhamento de item individual.
 
 ```css
 
@@ -291,7 +291,7 @@ Isso define a capacidade de um item crescer, se necessário.
 
 ---
 
-<img src="https://css-tricks.com/wp-content/uploads/2018/10/flex-grow.svg">
+<img src="https://css-tricks.com/wp-content/uploads/2018/10/align-self.svg">
 
 <small style="font-size:16px;">* https://css-tricks.com/snippets/css/a-guide-to-flexbox/</small>
 
