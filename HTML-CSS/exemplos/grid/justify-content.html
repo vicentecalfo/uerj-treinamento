@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CSS Grid</title>
+    <style>
+        * {
+            box-sizing: border-box;
+        }
+
+        body {
+            margin: 0;
+            padding: 0;
+        }
+
+        .box-1 {
+            background: #8ecae6;
+        }
+
+        .box-2 {
+            background: #219ebc;
+        }
+
+        .box-3 {
+            background: #023047;
+        }
+
+        .box-4 {
+            background: #ffb703;
+        }
+
+        .box-5 {
+            background: #370617;
+        }
+
+        .box-6 {
+            background: #6a040f;
+        }
+
+        .box-7 {
+            background: #9d0208;
+        }
+
+        .box-8 {
+            background: #d00000;
+        }
+
+        .box-9 {
+            background: #d90429;
+        }
+
+        .box-10 {
+            background: #386641;
+        }
+
+        .container {
+            display: grid;
+            border: 10px solid #e09f3e;
+            grid-template-columns: repeat(3, 300px);
+            grid-template-rows: repeat(4, 20px);
+            justify-content: space-between;
+            height: 100vh;
+        }
+
+        .box {
+            display: flex;
+            /* grid */
+            justify-content: center;
+            align-items: center;
+            font-size: 35px;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="container">
+        <div class="box box-1">1</div>
+        <div class="box box-2">2</div>
+        <div class="box box-3">3</div>
+        <div class="box box-4">4</div>
+        <div class="box box-5">5</div>
+        <div class="box box-6">6</div>
+        <div class="box box-7">7</div>
+        <div class="box box-8">8</div>
+        <div class="box box-9">9</div>
+        <div class="box box-9">10</div>
+    </div>
+
+</body>
+
+</html>
