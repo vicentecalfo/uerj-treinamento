@@ -1,0 +1,99 @@
+/* Reset CSS Padrão */
+
+html {
+    box-sizing: border-box;
+    font-size: 16px;
+    height: 100vh;
+    overflow: hidden;
+}
+
+*,
+*:before,
+*:after {
+    box-sizing: border-box;
+}
+
+body,
+h1,
+h2,
+h3,
+h4,
+h5,
+h6,
+p,
+ol,
+ul {
+    margin: 0;
+    padding: 0;
+    font-weight: normal;
+}
+
+ol,
+ul {
+    list-style: none;
+}
+
+img {
+    max-width: 100%;
+    height: auto;
+}
+
+body {
+    margin: 0;
+    padding: 0;
+    background-color: #FBF7F4;
+}
+
+/* Estilo Genérico */
+
+.container {
+    height: 100vh;
+    overflow: hidden;
+    display: grid;
+    grid-template-columns: 1fr 2fr 2fr 120px;
+    grid-template-rows: 1fr;
+    gap: 30px;
+    padding: 30px;
+    font-family: Arial, Helvetica, sans-serif;
+}
+
+.container .primary-nav {
+    background-color: transparent;
+    display: grid;
+    grid-template-columns: 1fr;
+    grid-template-rows: auto 1fr auto;
+}
+
+.container .primary-content {
+    background-color: #ffffff;
+}
+
+.container .secondary-content {
+    background-color: transparent;
+}
+
+.container .user-section {
+    background-color: transparent;
+}
+
+/* menu */
+
+.container .primary-nav ul{
+    list-style: none;
+}
+
+.container .primary-nav ul li a{
+    display: flex;
+    gap:10px;
+    align-items: center;
+    text-decoration: none;
+    padding:10px;
+    color: #000;
+    font-weight: bold;
+    font-size: 0.8rem;
+
+}
+
+.container .primary-nav ul li a.active{
+    background-color: #EEE6E2;
+}
