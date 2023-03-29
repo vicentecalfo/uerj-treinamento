@@ -554,6 +554,18 @@ db.products.find({title:{$lte:"I"}}).count()
 
 ```
 
+---
+
+# $rename
+
+Renomeia os campos.
+
+```js
+
+db.users.updateOne({id:2},{$rename:{"firstName":"firstN", "lastName":"lastN"}})
+
+```
+
 
 ---
 
@@ -877,4 +889,343 @@ db.cart.bulkWrite([
 
 ---
 
+# Data
 
+```js
+
+db.cart.updateOne({id:1}, {$set:{date: new Date()}})
+
+db.cart.updateOne({id:1}, {$set:{date: ISODate('2023-03-29T12:47:51.5207')}})
+
+// buscando
+
+db.cart.find({ date: { $gt: ISODate('2012-01-01') } }).count()
+
+db.cart.find({ date: { $lt: ISODate('2012-01-01') } }).count()
+
+
+```
+
+---
+
+# $push / $each
+
+```js
+
+db.cart.updateOne({id:1}, {$push:{products: {id:122, title: 'Produto 122'}}})
+
+
+db.cart.updateOne({id:1}, 
+	{$push:{products: {  $each: [ {id:123, title: 'Produto 123'}, {id:9999, title: 'Produto 9999'} ]   } }}
+	)
+
+```
+
+---
+
+# $addToSet
+
+```js
+
+// Adiciona item no array como valor único 
+// (se o valor já tiver no array o item não é incluído em duplicidade)
+
+db.posts.updateOne({id:1}, {$addToSet:{tags: 'horror' }})
+
+
+```
+
+---
+
+# $pop
+
+```js
+// remove o primeiro item do array
+db.cart.updateOne({id:1}, {$pop:{products: -1 }})
+
+// remove o último item do array
+db.cart.updateOne({id:1}, {$pop:{products: 1 }})
+
+
+```
+
+---
+
+# $pull
+
+```js
+
+// Remove do array
+
+db.cart.updateOne({id:1}, {$pull:{products: { id:88 } }})
+
+// db.cart.updateOne({id:1}, {$set:{fruits: [ "apples", "pears", "oranges", "grapes", "bananas" ]}})
+
+db.cart.updateOne({id:1}, {$pull:{products: { $in: [ "apples", "oranges" ] } }})
+
+
+```
+
+---
+
+# Documentos Aninhados
+
+```js
+
+
+db.users.updateOne({id:1}, {$set:{'address.city': 'Rio de Janeiro' }})
+
+//Se o campo nãp existir ele adiciona (comportamento padrão)
+db.users.updateOne({id:1}, {$set:{'address.cidade': 'São Paulo' }})
+
+//$ é o índice do item a ser editado dentro do array
+db.cart.updateOne({id:1, 'products.id':18}, {$set:{'products.$.price': 99 }})
+
+
+
+```
+
+---
+
+# Aggregations Pipelines - $SUM
+
+Soma o valor definido a partir de todos os documentos da coleção.
+
+```js
+
+
+// Lista de quantos itens existem por categoria
+db.products.aggregate([{$group:{_id:"$category", total:{$sum:1} }}])
+
+// Lista de quantos itens existem em estoque por categoria
+db.products.aggregate([{$group:{_id:"$category", stock:{$sum:"$stock"} }}])
+
+
+
+```
+
+---
+
+# Aggregations Pipelines - $avg
+
+Calcula a média de todos os valores dados de todos os documentos da coleção.
+
+```js
+
+// Calcula a média de preço por categoria
+db.products.aggregate([{$group:{_id:"$category", media:{$avg:"$price"} }}])
+
+// Calcula a média da nota de avaliação
+db.products.aggregate([{$group:{_id:"$category", media:{$avg:"$rating"} }}])
+
+
+
+```
+
+---
+
+# Aggregations Pipelines - $min
+
+Obtém o mínimo dos valores correspondentes de todos os documentos da coleção.
+
+```js
+
+// Mostra o menor preço por categoria
+db.products.aggregate([{$group:{_id:"$category", min:{$min:"$price"} }}])
+
+// Mostra a menor nota por categoria
+db.products.aggregate([{$group:{_id:"$category", min:{$min:"$rating"} }}])
+
+
+
+```
+
+---
+
+# Aggregations Pipelines - $max
+
+Obtém o máximo dos valores correspondentes de todos os documentos da coleção.
+
+```js
+
+// Mostra o menor preço por categoria
+db.products.aggregate([{$group:{_id:"$category", max:{$max:"$price"} }}])
+
+// Mostra a menor nota por categoria
+db.products.aggregate([{$group:{_id:"$category", max:{$max:"$rating"} }}])
+
+
+
+```
+
+---
+
+# Aggregations Pipelines - $max
+
+Obtém o máximo dos valores correspondentes de todos os documentos da coleção.
+
+```js
+
+// Mostra o menor preço por categoria
+db.products.aggregate([{$group:{_id:"$category", max:{$max:"$price"} }}])
+
+// Mostra a menor nota por categoria
+db.products.aggregate([{$group:{_id:"$category", max:{$max:"$rating"} }}])
+
+
+
+```
+
+---
+
+# Aggregations Pipelines - $match
+
+Filtra os documentos para passar apenas os documentos que correspondem à(s) condição(ões) especificada(s) para o próximo estágio do pipeline.
+
+```js
+
+// Descobre a média de nota
+// Me mostra apenas quem tem média >= 4.5
+
+db.products.aggregate( [
+   { $group: { _id: "$category", nota: { $avg: "$rating" } } },
+   { $match: { nota: { $gte: 4.5 } } }
+] )
+
+
+
+```
+
+---
+
+# Aggregations Pipelines - $project
+
+Passa os documentos com os campos solicitados para a próxima etapa do pipeline. 
+
+```js
+// primeiro coloca em maiúsculo o nome da marca
+// depois agrupa a quantidade de produtos por marca
+// depois ordena pelo nome (_id)
+
+db.products.aggregate( [
+	{ $project: { brand: {$toUpper:"$brand" }, _id:0 }},
+	{ $group: { _id: "$brand", total: { $sum:1 } } },
+	{ $sort: { "_id": 1 } }
+] )
+
+
+
+```
+
+---
+
+# Aggregations Pipelines - $sort
+
+Passa os documentos com os campos solicitados para a próxima etapa do pipeline. 
+
+```js
+// ordena de maneira decrescente
+// passa para próxima etapa apenas os campos title e brand
+// retorna apenas 2 itens
+
+db.products.aggregate( [
+	{ $sort: { 'title': -1 } },
+	{ $project:{ 'title': 1, 'brand': 1 } },
+	{ $limit: 2 }
+] )
+
+```
+
+---
+
+# Aggregations Pipelines - $sort
+
+Passa os documentos com os campos solicitados para a próxima etapa do pipeline. 
+
+```js
+// ordena de maneira decrescente
+// passa para próxima etapa apenas os campos title e brand
+// retorna apenas 2 itens
+
+db.products.aggregate( [
+	{ $sort: { 'title': -1 } },
+	{ $project:{ 'title': 1, 'brand': 1 } },
+	{ $limit: 2 }
+] )
+
+```
+
+---
+
+# Aggregations Pipelines - $sort
+
+Passa os documentos com os campos solicitados para a próxima etapa do pipeline. 
+
+```js
+
+db.products.aggregate( [
+	{ $match: { brand: { $in: [ "Apple","Samsung" ] } } },
+	{ $count: "Total"  }
+] )
+
+// db.products.find({brand:'Apple'}).count()
+
+// db.products.find({brand:'Samsung'}).count()
+
+```
+
+---
+
+# Validators
+
+
+```js
+
+db.createCollection("teste", {
+  validator: {
+    $jsonSchema: {
+      bsonType: "object",
+      required: [ "title" ],
+      properties: {
+        title: {
+          bsonType: "string",
+          description: "Title - Required."
+        },
+		body:{
+			bsonType: "string",
+          description: "Body."
+		}
+	  }
+	}
+  }
+})
+
+```
+
+# Validators - Update
+
+
+```js
+
+db.runCommand({
+	collMod:'teste',
+  validator: {
+    $jsonSchema: {
+      bsonType: "object",
+      required: [ "title" ],
+      properties: {
+        title: {
+          bsonType: "string",
+          description: "Title - Required."
+        },
+		body:{
+			bsonType: "string",
+          description: "Body."
+		}
+	  }
+	}
+  }
+})
+
+
+```
