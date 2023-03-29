@@ -531,4 +531,350 @@ db.col.find({"idade" : {$lte : 48}})
 
 ```
 
+---
+
+# Operadores Condicionais
+
+
+Valores "entre".
+
+```bash
+
+db.products.find({stock:{$gte:10, $lte:40}}).count()
+
+```
+
+Comparadores para strings
+
+Ex.: Resultado com todos os produtos que tenham o valor "title" começando de A até I.
+
+```bash
+
+db.products.find({title:{$lte:"I"}}).count()
+
+```
+
+
+---
+
+# Operador $exists
+
+Retorna os documentos que contenha o atributo especificado.
+
+```bash
+
+db.products.find({stock:{$exists:true}}).count()
+
+```
+
+---
+
+# Operador $type
+
+Retorna os documentos cujo atributo seja do tipo especificado (seguindo a notação BSON).
+
+```bash
+
+db.products.find({price:{$type:"number"}}).count()
+
+```
+
+Tabela com todos os tipos: https://www.mongodb.com/docs/manual/reference/operator/query/type/
+
+---
+
+# Operador $regex
+
+Retorna os documentos que satisfazem a expressão regular.
+
+```js
+
+// nomes que possuam a letra a em qualquer posição
+// Em SQL... WHERE (nome like %a%)
+db.products.find({"title":{$regex:"H"}});
+// nomes que terminem com a
+// Em SQL... WHERE (nome like %A)
+db.products.find({title:{$regex:"a\$"}});
+// nomes que comecem com A
+// Em SQL... WHERE (nome like A%)
+db.products.find({title:{$regex:"^A"}});
+
+```
+
+---
+
+# Mais conteúdo sobre REGEX
+
+- https://aurelio.net/regex/guia/
+- https://regexone.com/
+
+---
+
+# Operador $or
+
+Retorna todos os documentos que atendam a uma duas condições.
+.
+
+```js
+
+db.products.find({$or:[{price: {$lte: 50}},{stock: {$gte:20}}]})
+
+
+```
+
+---
+
+# Operador $and
+
+Retorna todos os documentos que atendam às duas condições.
+
+```js
+
+// explicitamente
+
+db.products.find({$and:[{price: {$lte: 50}},{stock: {$gte:20}}]})
+
+db.products.find({$and:[{price: {$lte: 50}},{price: {$gte:20}}]})
+
+// implicitamente
+
+db.products.find({price: {$lte: 50},stock: {$gte:20}})
+
+db.products.find({price: {$lte: 50, $gte:20}})
+
+
+```
+
+---
+
+# Combinando operadores $or e $and
+
+Retorna todos os documentos que atendam às duas condições.
+
+```js
+
+db.products.find({ $and : [
+		{ $or : [ {price: 40},{preço: 13} ] },
+		{ stock: { $gt:50 } }
+	]}
+)
+
+```
+
+---
+
+# Operadores $in a $all
+
+**$in:** retorna todos os documentos cujo atributo contenha pelo
+menos um dos valores especificados no array
+
+**$all:** retorna todos os documentos cujo atributo contenha todos os
+valores especificados no array
+
+---
+
+# Operadores $in a $all
+
+```js
+
+// todos os documentos que tenham history como tag
+db.posts.find({tags:"history"})
+
+
+// todos os documentos que contenham history
+// OU magical como tag
+db.posts.find({tags:{$in:["history","magical"]}})
+
+
+// todos os documentos que contenham american
+// E magical como tag
+db.posts.find({tags:{$all:["american","magical"]}})
+
+```
+
+---
+
+# Operadores $nin
+
+```js
+
+// todos os documentos que não contenham history
+// OU magical como tag
+db.posts.find({tags:{$nin:["history","magical"]}})
+
+
+```
+
+---
+
+# Operadores $eq e $ne
+
+```js
+
+// seleciona documentos em que o valor do campo é igual ao valor especificado.
+
+db.user.find({gender:{$eq:"male"}})
+
+// seleciona documentos em que o valor é diferente (not equal) do valor especificado
+
+db.user.find({gender:{$ne:"male"}})
+
+
+```
+
+---
+
+# Operadores $not
+
+```js
+
+// operador NOT, seleciona documentos que não satisfazem a 
+// expressão especificada, incluindo documentos que não contenham o atributo especificado
+db.products.find({price:{$not:{$gte:499}}}).count()
+
+// a consulta a seguir seleciona todos os documentos na coleção "products" 
+// em que o item "title" não começa com a letra h.
+db.products.find( { title: { $not: /^h.*/ } } )
+
+db.products.find( { title: { $not: /^[h-H].*/ } } )
+
+
+```
+
+---
+
+# Operadores $nor
+
+```js
+
+//  seleciona os documentos que não satisfazem a lista de condições
+
+db.products.find( { $nor: [ { price: 549 }, { stock: 94 } ]  } ).count()
+
+db.products.find( { $nor: [ { price: {$lt: 50} }, { stock: { $gt: 20 } } ] } ).count()
+
+```
+
+---
+
+# Ordenação
+
+- ASC: 1
+- DESC: -1
+
+
+```js
+
+db.products.find({price:{$lte:200}}).sort({brand:1})
+
+db.products.find({price:{$lte:200}}).sort({brand:-1})
+
+```
+
+
+---
+
+# Distinct
+
+Retorna os valores distintos para um atributo. 
+
+
+```js
+
+db.products.distinct("category")
+
+```
+
+
+---
+
+# Upsert
+
+Insere um novo documento (com os atributos do update) quando o critério de busca não for satisfeito por nenhum documento da coleção.
+
+
+
+```js
+
+db.users.updateOne({firstName:'Vicente'},{$set:{firstName:'Vicente',lastName:'Calfo'}},{upsert:true})
+
+```
+
+
+---
+
+# Multi - deprecated
+
+Se true, permite que todos os documentos da coleção, que satisfaçam a condição, sejam alterados.
+
+
+
+
+```js
+
+db.cart.update({discountedTotal:{$lte:500}},{$set:{prize:true}},{multi:true})
+
+```
+
+
+---
+
+# Bulk Write
+
+Atualiza todos os documentos na coleção que correspondem ao filtro.
+
+
+```js
+
+db.cart.bulkWrite([
+	{
+		updateMany:{
+			filter: {discountedTotal:{$lte:500}},
+			update: {$set:{prize:true}}
+		}
+	}
+])
+
+//db.cart.update({discountedTotal:{$lte:500}},{$set:{prize:true}},{multi:true})
+
+```
+
+---
+
+# Bulk Write
+
+Atualiza todos os documentos na coleção que correspondem ao filtro.
+
+
+```js
+
+db.cart.bulkWrite([
+	{
+		updateMany:{
+			filter: {discountedTotal:{$lte:500}},
+			update: {$set:{prize:true}}
+		}
+	},
+	{
+		updateMany:{
+			filter: {discountedTotal:{$lte:500}},
+			update: {$set:{prize:'teste'}}
+		}
+	},
+	{
+		updateMany:{
+			filter: {discountedTotal:{$lte:500}},
+			update: {$set:{prize:false}}
+		}
+	}
+],{
+	ordered: true
+})
+
+//db.cart.update({discountedTotal:{$lte:500}},{$set:{prize:true}},{multi:true})
+
+```
+
+---
+
 
