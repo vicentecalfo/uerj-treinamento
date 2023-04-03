@@ -1201,6 +1201,7 @@ db.createCollection("teste", {
 })
 
 ```
+---
 
 # Validators - Update
 
@@ -1227,5 +1228,113 @@ db.runCommand({
   }
 })
 
+
+```
+
+---
+
+# Instalando MONGOSH
+
+Download MongoDB Shell
+1 - https://www.mongodb.com/try/download/shell
+2 - Descompactar
+3 - Abrir configurações (painel de controle)
+4 - Ir em Sobre > Configurações Avançadas do Sistema
+4 - Variáveis de Ambiente
+5 - Ir em "Path" (criar ou Editar)
+6 - Colocar o caminho para binário (/bin)
+7 - Abrir o terminal e testar "mongosh --help"
+
+---
+
+# Instalando MONGO Tools
+
+Download MongoDB Tools
+1 - https://www.mongodb.com/docs/database-tools/installation/installation-windows/
+2 - Descompactar
+3 - Abrir configurações (painel de controle)
+4 - Ir em Sobre > Configurações Avançadas do Sistema
+4 - Variáveis de Ambiente
+5 - Ir em "Path" (criar ou Editar)
+6 - Colocar o caminho para binário (/bin)
+
+---
+
+# Criar Usuário e Senha (MongoDB Compass)
+
+```js
+
+db.createUser({
+	user: "user",
+	pwd: "123456",
+	roles:[{
+		role:"readWrite", bd: "testedb"
+	}]
+})
+
+// mongodb://user:123456@mongodb0.example.com:27017/testedb
+
+```
+https://www.mongodb.com/docs/manual/reference/built-in-roles/
+
+---
+
+# Testando a Conexão
+
+```js
+
+mongosh mongodb://teste:123456@localhost:27017/aula
+
+```
+
+---
+
+# Importanto Documentos
+
+```bash
+
+mongoimport 
+	--db aula 
+	--collection teste 
+	--file C:\Users\vicen\Documents\GitHub\uerj-treinamento\MongoDB\dummy-cart.json 
+	--jsonArray 
+	--uri mongodb://teste:123456@localhost:27017
+
+```
+
+---
+
+# Exportanto Documentos (DUMP)
+
+```bash
+
+mongodump 
+	--db aula 
+	-o C:\Users\vicen\Documents\GitHub\uerj-treinamento\MongoDB\Backup 
+	--uri mongodb://teste:123456@localhost:27017
+
+```
+
+---
+
+# Exportanto Documentos (JSON)
+
+```bash
+
+--db aula 
+	-o C:\Users\vicen\Documents\GitHub\uerj-treinamento\MongoDB\Backup2\out.json 
+	--uri mongodb://teste:123456@localhost:27017 
+	-c teste
+
+```
+
+---
+
+# Restore
+
+```bash
+
+mongorestore --db aula2 C:\Users\vicen\Documents\GitHub\uerj-treinamento\MongoDB\Backup\aula 
+--uri mongodb://localhost:27017
 
 ```
