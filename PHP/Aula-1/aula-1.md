@@ -210,11 +210,10 @@ local();
 ```
 ---
 
-O nosso *output* será incrementado mostrando 0,1 e 2. Porque usando <code>static</code> nós "guardamos" o valor de **\$**:
+O *output* será incrementado mostrando 0,1 e 2. Porque usando <code>static</code> nós "guardamos" o valor de <code>\$x</code>:
 
 ```php
 // var-local-static.php
-
 // Incluir esta nova função
 function localStatic()
 {
@@ -441,7 +440,50 @@ var_dump($soDeclarei);
 ```
 ---
 
-# Operações Matemáticas: Soma
+# Tipagem Estática
+
+- Não permite a alteração do tipo da variável após sua declaração.
+- Ajuda a prevenir erros de tipo em tempo de execução, o que pode levar a uma maior estabilidade e segurança do código.
+
+# Tipagem Dinâmica
+- As variáveis podem ter seu tipo alterado em tempo de execução.
+- A flexibilidade na mudança de tipos de dados pode permitir uma programação mais ágil e rápida.
+
+---
+
+# Tipagem Fraca
+- A tipagem fraca está ligada a característica da linguagem de realizar conversões automaticamente entre tipos diferentes de dados.
+
+# Tipagem Forte
+- Linguagens fortemente tipadas não realizam conversões automaticamente.
+
+---
+
+# Exemplo
+## Tipagem Fraca
+
+```php
+<?php
+// tipagem.php
+$num = 2;
+$numFake = "2";
+
+echo gettype($num);
+echo "\n";
+echo gettype($numFake);
+echo "\n";
+echo $num + $numFake;
+echo "\n";
+var_dump($num == $numFake);
+echo "\n";
+var_dump($num === $numFake);
+
+```
+
+
+---
+
+# Operações Matemáticas: Soma <code>+</code>
 ```php
 <?php
 // operacoes.php
@@ -466,7 +508,7 @@ echo "\n";
 ---
 
 
-# Operações Matemáticas: Subtração
+# Operações Matemáticas: Subtração <code>-</code>
 ```php
 <?php
 // operacoes.php
@@ -482,7 +524,7 @@ echo "\n";
 
 
 
-# Operações Matemáticas: Multiplicação
+# Operações Matemáticas: Multiplicação <code>*</code>
 ```php
 <?php
 // operacoes.php
@@ -502,7 +544,7 @@ echo "\n";
 ---
 
 
-# Operações Matemáticas: Divisão
+# Operações Matemáticas: Divisão <code>/</code>
 ```php
 <?php
 // operacoes.php
@@ -517,3 +559,60 @@ echo "Você dividiu sua compra de R$ " . $totalCompra .
 
 echo "\n";
 ```
+
+---
+
+# Operações Matemáticas: Potência <code>**</code>
+```php
+<?php
+// operacoes.php
+
+// ...
+
+$cuboAresta = 6; // cm
+$volumeCubo = 6 * 6 * 6; //cm2
+$volumeCuboOperadorPotencia = $cuboAresta ** 3; //cm2
+
+echo "Volume: " . $volumeCubo;
+echo "\n";
+echo "Volume usando operador de potência: " . $volumeCuboOperadorPotencia;
+```
+
+---
+
+# Operações Matemáticas: Modulus <code>%</code>
+```php
+<?php
+// operacoes.php
+
+// ...
+
+$restoDaDivisao = 15 % 2; 
+
+echo "Resto da divisão: " . $restoDaDivisao;
+echo "\n";
+```
+
+---
+
+# Interpolação e concatenação de string
+* Usando <code>aspas simples</code> precisamos <code>concatenar</code> os blocos usando <code>.</code> (ponto).
+* Usando <code>aspas dupla</code>s é possível realizar a <code>interpolação</code> de <code>strings</code>.
+
+ ```php
+// interpolacao-string.php
+$idade = 40;
+$nome = "Vicente Calfo";
+$msg = 'Sou o ' . $nome . ' e tenho ' . $idade . ' anos.'; // concatenação
+$msg2 = "Sou o " . $nome . " e tenho " . $idade . " anos."; // concatenação
+$msg3 = "Sou o $nome e tenho $idade anos."; // interpolação
+$msg4 = "Sou o {$nome} e tenho {$idade} anos."; // interpolação
+echo $msg;
+echo "\n";
+echo $msg2;
+echo "\n";
+echo $msg3;
+echo "\n";
+echo $msg4;
+```
+

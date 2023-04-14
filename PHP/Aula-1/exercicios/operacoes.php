@@ -10,8 +10,8 @@ $precoProdutoA = 30;
 $precoProdutoB = 40;
 $frete = 10;
 $desconto = 5;
-$qtdCartao = 4;
-$totalUnidadesCompradas = 5;
+$qtdCartao = 2;
+$totalUnidadesCompradas = 3;
 
 echo "Valor do produto A: R$ " . $precoProdutoA;
 
@@ -47,4 +47,23 @@ $dividindoTotalEm2Cartoes = $totalCompra / $qtdCartao;
 
 echo "Você dividiu sua compra de R$ " . $totalCompra .  " em " . $qtdCartao . " cartões. Será debitado R$" . $dividindoTotalEm2Cartoes . " em cada cartão.";
 
+echo "\n";
+echo "------------------------------------";
+echo "\n";
+
+$cuboAresta = 6; // cm
+$volumeCubo = 6 * 6 * 6; //cm2
+$volumeCuboOperadorPotencia = $cuboAresta ** 3; //cm2
+
+echo "Volume: " . $volumeCubo;
+echo "\n";
+echo "Volume usando operador de potência: " . $volumeCuboOperadorPotencia;
+
+echo "\n";
+echo "------------------------------------";
+echo "\n";
+
+$restoDaDivisao = 15 % 2; 
+
+echo "Resto da divisão: " . $restoDaDivisao;
 echo "\n";
