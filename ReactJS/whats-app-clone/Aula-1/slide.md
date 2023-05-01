@@ -588,6 +588,16 @@ npm install firebase
 
 ---
 
+# Instalando o React Firebase Hooks
+
+```bash
+
+npm i react-firebase-hooks
+
+```
+
+---
+
 # Inserindo as configurações no React - .env
 
 **Criar um arquivo <code>.env</code>**
@@ -626,5 +636,439 @@ const auth = getAuth(firebaseApp);
 const firestore = getFirestore(firebaseApp);
 
 function App() {}
+```
+
+---
+
+# Inserindo o React Firebase Hooks
+
+```jsx
+import { useAuthState } from "react-firebase-hooks/auth";
+
+function App() {
+  const [user] = useAuthState(auth);
+}
+```
+
+---
+
+# Preparando o botão de login (Google) - SignIn.jsx
+
+```jsx
+import "./SignIn.css";
+import { GoogleAuthProvider, signInWithPopup } from "firebase/auth";
+
+function SignIn({ auth }) {
+  const signInWithGoogle = () => {
+    const provider = new GoogleAuthProvider();
+    signInWithPopup(auth, provider);
+  };
+  return (
+    <div className="sign-in">
+      <button onClick={signInWithGoogle}>
+        <div>
+          <img src="/google.png" alt="Google Login" />
+        </div>
+        <div>Sign in with Google</div>
+      </button>
+    </div>
+  );
+}
+
+export default SignIn;
+```
+
+---
+
+# Criando o SignOut.jsx
+
+```jsx
+import "./SignOut.css";
+
+function SignOut({ auth }) {
+  return (
+    auth.currentUser && (
+      <div className="sign-out">
+        <img
+          className="avatar"
+          src={
+            auth?.currentUser?.photoURL ||
+            "https://api.dicebear.com/6.x/bottts/png"
+          }
+        />
+        <button onClick={() => auth.signOut()}>
+          <img src="./logout.png" alt="Logout" />
+        </button>
+      </div>
+    )
+  );
+}
+
+export default SignOut;
+```
+
+---
+
+# CSS - SignOut.css
+
+```css
+.sign-out {
+  display: grid;
+  grid-template-columns: 60px 60px;
+  height: 60px;
+  align-items: center;
+}
+
+.avatar {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+}
+
+button {
+  height: 60px;
+  display: grid;
+  align-items: center;
+  justify-content: center;
+  border: none;
+  background-color: transparent;
+  cursor: pointer;
+}
+button:hover {
+  background-color: rgba(0, 0, 0, 0.06);
+}
+
+img {
+  height: 35px;
+  display: block;
+}
+```
+
+---
+
+# Buscando Mensagens do Firebase - HTML
+
+```jsx
+return (
+  <>
+    <div className="chat-room">
+      <main>
+        {messages &&
+          messages.map((msg, index) => (
+            <ChatMessage key={index} message={msg} auth={auth} />
+          ))}
+      </main>
+    </div>
+  </>
+);
+```
+
+---
+
+# Importando Mensagens do Firebase - JS
+
+```jsx
+import { collection, limit, orderBy, query } from "firebase/firestore";
+import { useCollectionData } from "react-firebase-hooks/firestore";
+import ChatMessage from "./ChatMessage";
+
+function ChatRoom() {
+  const messagesRef = collection(firestore, "messages");
+  const dbQuery = query(messagesRef, orderBy("createdAt"), limit(25));
+  const collectionDataOption = { idField: "id" };
+  const [messages] = useCollectionData(dbQuery, collectionDataOption);
+  // restante do código
+}
+```
+
+---
+
+# Atribuição por Desestruturação
+
+```jsx
+
+const [a, b] = array; // [1,2]
+
+const { a, b } = obj;
+/**
+ * {
+ *  a: 1,
+ *  b: 2
+ * }
+ * /
+
+```
+
+---
+
+# Importando Mensagens do Firebase - Atualizando ChatMessage
+
+```jsx
+return (
+  <>
+    <div className={`message ${messageClass}`}>
+      <div className="bubble">
+        {messageClass === "sent" ? (
+          ""
+        ) : (
+          <img
+            className="avatar"
+            alt="Foto de Avatar"
+            src={photoURL || "https://api.dicebear.com/6.x/bottts/png"}
+          />
+        )}
+        <div className="display-message">
+          {messageClass === "sent" ? "" : <strong>{displayName}</strong>}
+          <p>{text}</p>
+          <small>{sentTime === "Invalid Date" ? "" : sentTime}</small>
+        </div>
+      </div>
+    </div>
+  </>
+);
+```
+
+---
+
+# Importando Mensagens do Firebase - Atualizando ChatMessage
+
+```jsx
+function ChatMessage(props) {
+  const { text, uid, photoURL, createdAt, displayName } = props.message;
+  const auth = props.auth;
+
+  const sentTime = new Date(createdAt?.seconds * 1000).toLocaleTimeString([], {
+    hour: "2-digit",
+    minute: "2-digit",
+  });
+
+  const messageClass = uid === auth?.currentUser?.uid ? "sent" : "received";
+
+  // ...
+}
+```
+
+---
+
+# Atualização do ChatRoom
+
+1. Precisamos da informação do usuário.
+2. Precisamos da instância (autenticada) do banco de dados;
+
+---
+
+# App.js
+
+Enviando os paramêtros.
+
+```jsx
+{
+  user ? (
+    <ChatRoom firestore={firestore} auth={auth} />
+  ) : (
+    <SignIn auth={auth} />
+  );
+}
+```
+
+---
+
+# ChatRoom.jsx
+
+Recebendo os parâmetros.
+
+```jsx
+function ChatRoom({ firestore, auth }) {
+  // ....
+}
+```
+
+---
+
+# Status Atual da Aplicação
+
+<img src="fb-14.png" />
+
+---
+
+# Testando a Lista de Mensagens
+
+<img src="fb-15.png" />
+
+---
+
+# Testando a Lista de Mensagens
+
+<img src="fb-16.png" />
+
+---
+
+# Testando a Lista de Mensagens
+
+<img src="fb-17.png" />
+
+---
+
+# Testando a Lista de Mensagens
+
+<img src="fb-18.png" />
+
+---
+
+# Testando a Lista de Mensagens
+
+<img src="fb-19.png" />
+
+---
+
+# Regras de Acesso do Banco - Firestore
+
+```js
+
+rules_version = '2';
+service cloud.firestore {
+  match /databases/{database}/documents {
+    match /{document=**} {
+    	allow read, write: if false;
+    }
+    match /messages/{docId} {
+        allow read : if request.auth.uid != null;
+        allow create : if canCreateMessage();
+    }
+    function canCreateMessage(){
+    	let isSignedIn = request.auth.uid != null;
+        let isOwner = request.auth.uid == request.resource.data.uid;
+      return isSignedIn && isOwner;
+    }
+  }
+}
+
+```
+
+---
+
+# React Hooks
+
+Os hooks permitem o uso de state e outros recursos que antes só eram possíveis dentro do React através de classes.
+
+---
+
+# useState
+
+O React Hook **useState** é uma função que permite a criação e o gerenciamento do estado local de um componente. Ao utilizar esse hook, é possível definir uma variável de estado e uma função que atualiza essa variável, que são retornadas em um array como resultado. Dessa forma, é possível modificar e atualizar o estado do componente de forma eficiente, evitando problemas com a mutabilidade de variáveis em JavaScript.
+
+```js
+const [state, setState] = useState(initialState);
+```
+
+---
+
+# Atualizando o ChatRoom.jsx
+
+```js
+import { useRef, useState } from "react";
+
+function ChatRoom({ firestore, auth }) {
+  // ... código
+  const [formValue, setFormValue] = useState("");
+
+  // formValue -> Valor do Formulário
+  // setFormValue -> Função para alterar o estado de formValue
+}
+```
+
+---
+
+# Convenções do useState
+
+- <code>useState</code> retorna um _array_ com 2 índices (2 posições);
+- Primeiro valor -> variável que guarda o estado (o valor);
+- Segundo valor -> função que nos permite tualizar o estado (o valor). **Atenção**: Podemos nomear a função como desejar, embora seja uma conveção usar o _prefixo_ **set**.
+
+```js
+// exemplos:
+const [formValue, setFormValue] = useState("");
+const [userName, setUserName] = useState("");
+```
+
+---
+
+# Implementando o comportamento do "enviar"
+
+```jsx
+return (
+  <>
+    <div className="chat-room">
+      <main>
+        {messages &&
+          messages.map((msg, index) => (
+            <ChatMessage key={index} message={msg} auth={auth} />
+          ))}
+        {/* <span ref={forceBottomScrollElement}></span> */}
+      </main>
+      <div className="form">
+        <form onSubmit={sendMessage}>
+          <input
+            value={formValue}
+            onChange={(e) => setFormValue(e.target.value)}
+            placeholder="Vamos conversar"
+            type="text"
+          />
+          <button type="submit" disabled={!formValue}>
+            <img src="./sent.png" alt="Botão de enviar" />
+          </button>
+        </form>
+      </div>
+    </div>
+  </>
+);
+```
+
+---
+
+# Comportamento do Clique (enviar)
+
+```js
+const sendMessage = async (e) => {
+  const { uid, photoURL, displayName } = auth.currentUser;
+
+  const docRef = await addDoc(messagesRef, {
+    text: formValue,
+    createdAt: serverTimestamp(),
+    uid,
+    photoURL,
+    displayName,
+  });
+
+  setFormValue("");
+};
+```
+
+---
+
+# Atualizando o import do firestore
+
+```js
+import {
+  addDoc,
+  collection,
+  limit,
+  orderBy,
+  query,
+  serverTimestamp,
+} from "firebase/firestore";
+```
+
+---
+
+# Problema - A página está recarregando!
+
+```js
+
+const sendMessage = async (e) => {
+    console.log(e);
+    e.preventDefault();
+    // retante do código
+}
 
 ```
