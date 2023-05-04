@@ -4,6 +4,7 @@ paginate: true
 ---
 
 # Treinamento PHP
+
 ## Aula 1
 
 Vicente Calfo
@@ -13,17 +14,38 @@ Vicente Calfo
 
 ---
 
-# Instalação 
+# Instalação
 
 1. Link para download: https://windows.php.net/download#php-8.2
 2. Descompactar o "zip"
 3. Abrir "variáveis de ambiente"
 4. Selecionar "Path" e "editar"
-5. Clicar em novo e colar o  caminho da pasta na qual os arquivos do ZIP foram extraídos
+5. Clicar em novo e colar o caminho da pasta na qual os arquivos do ZIP foram extraídos
 6. Abrir o terminal (cmd)
-7. Digitar >  <code>php -v</code> (verificar a versão instalada)
-8. Na pasta da instalação renomear o arquivo <code>php.ini-development</code> para <code>php.ini</code> 
+7. Digitar > <code>php -v</code> (verificar a versão instalada)
+8. Na pasta da instalação renomear o arquivo <code>php.ini-development</code> para <code>php.ini</code>
 
+---
+
+# PHP - Hypertext Preprocessor
+
+- Linguagem criada em 1994 e código liberado em 1995 (+/- 28 anos de idade);
+
+- Lnguagem de programação de código aberto e voltada para a web, usada principalmente para desenvolvimento de aplicações web dinâmicas;
+
+- É uma linguagem de script do lado do servidor (back-end);
+
+- Compatível com diversos bancos de dados, incluindo MySQL e PostgreSQL;
+
+- Fácil de aprender e possui uma grande comunidade de desenvolvedores;
+
+---
+
+# Utilização do PHP
+
+<img src="chart.png" style="width:600px; display:block; margin:0 auto;"/>
+
+https://w3techs.com/technologies/overview/programming_language
 
 ---
 
@@ -42,7 +64,7 @@ Vicente Calfo
 1. VS Code: https://code.visualstudio.com
 2. PHP Debug: https://marketplace.visualstudio.com/items?itemName=xdebug.php-debug
 3. PHP Intelephense: https://marketplace.visualstudio.com/items?itemName=bmewburn.vscode-intelephense-client
-4. PHPDoc Comment: https://marketplace.visualstudio.com/items?itemName=rexshi.phpdoc-comment-vscode-plugin 
+4. PHPDoc Comment: https://marketplace.visualstudio.com/items?itemName=rexshi.phpdoc-comment-vscode-plugin
 5. Prettier: https://marketplace.visualstudio.com/items?itemName=esbenp.prettier-vscode
 6. Abrir terminal <code>ctrl + shift + '</code> (escolher Command Prompt - CMD)
 
@@ -51,9 +73,10 @@ Vicente Calfo
 # Primeiro arquivo PHP
 
 1. Criar um arquivo chamado <code>ola-mundo.php</code>
-2. Colocar a tag obrigatória o arquivo 
-```php 
-<?php 
+2. Colocar a tag obrigatória o arquivo
+
+```php
+<?php
 /*
     <?php é obrigatório
      para o interpretador PHP "saber" como
@@ -61,6 +84,7 @@ Vicente Calfo
 */
 echo "Olá Mundo";
 ```
+
 3. No terminal navegar até a pasta onde está o arquivo criado
 4. Digitar: <code>php ola-mundo.php</code>
 
@@ -68,8 +92,8 @@ echo "Olá Mundo";
 
 # Comentários
 
-```php 
-<?php 
+```php
+<?php
 /*
     Isso é um comentário em "bloco" (block)
     <?php é obrigatório
@@ -85,17 +109,17 @@ echo "Olá Mundo";
 
 # DocBlocks
 
-* Usado para documentar o código em comentários de bloco padronizado
-* O DockBlock começa com /** , eles tem origem no javadoc e podem (ou não) ter uma infinidades de tags que começam com @
-* Ferramentas como PHPDoc e ApiGen usam esses comentários para gerar documentação automaticamente
+- Usado para documentar o código em comentários de bloco padronizado
+- O DockBlock começa com /\*\* , eles tem origem no javadoc e podem (ou não) ter uma infinidades de tags que começam com @
+- Ferramentas como PHPDoc e ApiGen usam esses comentários para gerar documentação automaticamente
 
 ---
 
 # Exemplo DocBlocks
 
-```php 
+```php
 <?php
-/** 
+/**
  * Esta é a classe de produtos ...
  * @author Vicente Calfo <vicentecalfo@gmail.com>
  * @version 1.0
@@ -103,7 +127,7 @@ echo "Olá Mundo";
 
 class Produto {
     /**
-     * @access private 
+     * @access private
      * @var Number $codigo
      * @var String $nome
      */
@@ -111,8 +135,8 @@ class Produto {
     private $nome;
 
      /**
-     * Usado para atribuir o nome de um produto 
-     * @access public 
+     * Usado para atribuir o nome de um produto
+     * @access public
      * @param String $nome
      */
     function setNome($nome){
@@ -134,9 +158,10 @@ class Produto {
 
 1. Precisamos usar o símbolo **\$** seguido do nome da variável: <code>$variavel;</code>
 1. Para atribuir um valor à varipavel usamos o operador **=**: <code>$idade = 40;</code>
-1. Todas as variáveis são *case-sensitive*: <code>$idade != $Idade</code>
+1. Todas as variáveis são _case-sensitive_: <code>$idade != $Idade</code>
+
 ```php
-<?php 
+<?php
 // variavel.php
 $idade = 40;
 echo $idade;
@@ -144,6 +169,29 @@ echo $idade;
 $nome = "Vicente Calfo";
 echo $nome;
 ```
+---
+
+# Código Limpo
+
+Os nomes das variáveis devem ter significado, e que possam ser pronunciados.
+
+```php
+
+    $ymdstr = $momento->format('y-m-d');
+
+    $dataAtual = $momento->format('y-m-d');
+
+```
+
+---
+
+# Convenções - PSR
+
+## PHP Standard Recommendation
+
+- Nome de variável em <code>camelCase</code>: Ex.: <code>$nomeDoUsuario</code>
+- Devemos usar somente as tags de abertura de código PHP <code><?php</code> ou <code><?=</code>
+
 ---
 
 # Escopo
@@ -157,9 +205,9 @@ echo $nome;
 
 No PHP nós temos 3 diferentes tipos de escopo de varíaveis:
 
-* local
-* global
-* static
+- local
+- global
+- static
 
 ---
 
@@ -168,7 +216,7 @@ No PHP nós temos 3 diferentes tipos de escopo de varíaveis:
 Variáveis definidas em uma função em PHP são locais e têm escopo limitado à própria função.
 
 ```php
-<?php 
+<?php
 // var-local.php
 function varLocal() {
     $var_local = "Essa é uma variável local.";
@@ -178,7 +226,7 @@ function varLocal() {
 varLocal();
 
 echo "\n---->";
-echo $var_local;
+echo $var_local; // Está vazio -> fora do escopo
 ```
 
 ---
@@ -191,7 +239,7 @@ Para fazer isso, use a palavra-chave <code>static</code> ao declarar a variável
 
 ---
 
-O nosso *output* sempre será 0 (zero).
+O nosso _output_ sempre será 0 (zero).
 
 ```php
 // var-local-static.php
@@ -208,9 +256,10 @@ local();
 local();
 
 ```
+
 ---
 
-O *output* será incrementado mostrando 0,1 e 2. Porque usando <code>static</code> nós "guardamos" o valor de <code>\$x</code>:
+O _output_ será incrementado mostrando 0,1 e 2. Porque usando <code>static</code> nós "guardamos" o valor de <code>\$x</code>:
 
 ```php
 // var-local-static.php
@@ -254,8 +303,9 @@ function varGlobal()
 varGlobal();
 
 echo "\n---->";
-echo $var_global;
+echo $var_global; // Mesmo valor por global "não respeita o escopo"
 ```
+
 ---
 
 As variáveis globais em PHP são armazenadas em um array chamado $GLOBALS, acessível em todo o código e capaz de atualizar as variáveis globais diretamente.
@@ -275,25 +325,29 @@ varGlobal2();
 echo "\n---->";
 echo $var_global;
 ```
----
-
-# Data Types
-O PHP suporta nativamente diversos tipos de dados (datatypes), incluindo: 
-* String
-* Integer
-* Float (Números de ponto flutuante - também chamados de *double*.)
-* Boolean
-* Array
-* Object
-* NULL
 
 ---
 
 # Data Types
+
+O PHP suporta nativamente diversos tipos de dados (datatypes), incluindo:
+
+- String
+- Integer
+- Float (Números de ponto flutuante - também chamados de _double_.)
+- Boolean
+- Array
+- Object
+- NULL
+
+---
+
+# Data Types
+
 ## String
 
-* Uma string é uma sequência de caracteres, como "Olá mundo!".
-* Uma string pode ser qualquer texto entre aspas. Você pode usar aspas simples ou duplas:
+- Uma string é uma sequência de caracteres, como "Olá mundo!".
+- Uma string pode ser qualquer texto entre aspas. Você pode usar aspas simples ou duplas:
 
 ```php
 <?php
@@ -304,7 +358,9 @@ echo "\n"; // sou apenas para quebrar a linha no terminal
 ```
 
 ---
+
 # Data Types
+
 ## Integer (Inteiro)
 
 - Integer é um tipo de dado em PHP que representa um número inteiro sem ponto decimal;
@@ -314,7 +370,9 @@ echo "\n"; // sou apenas para quebrar a linha no terminal
 - É frequentemente usado para contar ou para representar quantidades inteiras.
 
 ---
+
 # Data Types
+
 ## Integer (Inteiro)
 
 A função <code>var_dump()</code> do PHP retorna o tipo de dado e o valor.
@@ -326,9 +384,11 @@ A função <code>var_dump()</code> do PHP retorna o tipo de dado e o valor.
 $int = 2023;
 var_dump($int);
 ```
+
 ---
 
 # Data Types
+
 ## Float
 
 Um float (número de ponto flutuante) é um número com um ponto decimal ou um número em forma exponencial.
@@ -340,9 +400,11 @@ Um float (número de ponto flutuante) é um número com um ponto decimal ou um n
 $float = 150.980;
 var_dump($float);
 ```
+
 ---
 
 # Data Types
+
 ## Boolean
 
 Um Boolean representa dois estados possíveis: **VERDADEIRO** ou **FALSO**.
@@ -357,9 +419,11 @@ var_dump($verdadeiro);
 $falso = false;
 var_dump($falso);
 ```
+
 ---
 
 # Data Types
+
 ## Array
 
 Um array armazena múltiplos valores em uma única variável.
@@ -371,22 +435,25 @@ Um array armazena múltiplos valores em uma única variável.
 $nomes = array("Vicente", "Austeclynio", "Fernando");
 var_dump($nomes);
 ```
+
 ---
 
 # Data Types
+
 ## Object
 
-* Classes e objetos são os dois principais aspectos da **programação orientada a objetos**.
-* Uma classe é um modelo para objetos, e um objeto é uma instância de uma classe.
-* Quando os objetos individuais são criados, eles herdam todas as propriedades e comportamentos da classe, mas cada objeto terá valores diferentes para as propriedades.
+- Classes e objetos são os dois principais aspectos da **programação orientada a objetos**.
+- Uma classe é um modelo para objetos, e um objeto é uma instância de uma classe.
+- Quando os objetos individuais são criados, eles herdam todas as propriedades e comportamentos da classe, mas cada objeto terá valores diferentes para as propriedades.
 
 ---
 
 # Orientação a Objetos
+
 A orientação a objetos é um paradigma de programação que organiza o código em torno de "objetos" que possuem propriedades e métodos.
 
-* Imagine que um objeto seja como uma pessoa, que tem **características** (**propriedades**) como nome, idade e altura, e **comportamentos** (**métodos**) como andar, falar e comer.
-* Com a orientação a objetos, escrevemos código de forma mais organizada, agrupando funções em objetos e utilizando-os como unidades no programa.
+- Imagine que um objeto seja como uma pessoa, que tem **características** (**propriedades**) como nome, idade e altura, e **comportamentos** (**métodos**) como andar, falar e comer.
+- Com a orientação a objetos, escrevemos código de forma mais organizada, agrupando funções em objetos e utilizando-os como unidades no programa.
 
 ---
 
@@ -407,16 +474,18 @@ class Pessoa {
       return "Seja bem-vindo, " . $this->nome . "! Nunca é tarde para aprender PHP, mesmo aos " . $this->idade . " anos.";
     }
   }
-  
+
   $pessoa = new Pessoa("Vicente", 40);
   echo $pessoa -> boasVindas();
   echo "\n";
   var_dump($pessoa);
   echo $pessoa->nome;
 ```
+
 ---
 
 # Data Types
+
 ## NULL
 
 - NULL é um tipo de dados especial que pode ter apenas um valor: NULL.
@@ -425,7 +494,9 @@ class Pessoa {
 - Variáveis também podem ser esvaziadas atribuindo o valor NULL.
 
 ---
+
 # Exemplo NULL
+
 ```php
 <?php
 // data-types.php
@@ -438,6 +509,7 @@ var_dump($tenhoValorMasVouFicarNulo);
 $soDeclarei;
 var_dump($soDeclarei);
 ```
+
 ---
 
 # Tipagem Estática
@@ -446,20 +518,24 @@ var_dump($soDeclarei);
 - Ajuda a prevenir erros de tipo em tempo de execução, o que pode levar a uma maior estabilidade e segurança do código.
 
 # Tipagem Dinâmica
+
 - As variáveis podem ter seu tipo alterado em tempo de execução.
 - A flexibilidade na mudança de tipos de dados pode permitir uma programação mais ágil e rápida.
 
 ---
 
 # Tipagem Fraca
+
 - A tipagem fraca está ligada a característica da linguagem de realizar conversões automaticamente entre tipos diferentes de dados.
 
 # Tipagem Forte
+
 - Linguagens fortemente tipadas não realizam conversões automaticamente.
 
 ---
 
 # Exemplo
+
 ## Tipagem Fraca
 
 ```php
@@ -480,10 +556,10 @@ var_dump($num === $numFake);
 
 ```
 
-
 ---
 
 # Operações Matemáticas: Soma <code>+</code>
+
 ```php
 <?php
 // operacoes.php
@@ -505,10 +581,11 @@ echo "Total da compra é de R$ " . $totalCompra;
 echo "\n";
 
 ```
+
 ---
 
-
 # Operações Matemáticas: Subtração <code>-</code>
+
 ```php
 <?php
 // operacoes.php
@@ -522,9 +599,8 @@ echo "\n";
 
 ---
 
+# Operações Matemáticas: Multiplicação <code>\*</code>
 
-
-# Operações Matemáticas: Multiplicação <code>*</code>
 ```php
 <?php
 // operacoes.php
@@ -533,18 +609,18 @@ echo "\n";
 
 $totalComprandoProdutoAXUnidades = $precoProdutoA * $totalUnidadesCompradas + $frete;
 
-echo "Você comprou " . $totalUnidadesCompradas . 
-" unidades do produto A (R$" . $precoProdutoA . "). 
-Valor final de R$ " . $totalComprandoProdutoAXUnidades . 
-" (R$ " .  $precoProdutoA . " x " . $totalUnidadesCompradas . 
+echo "Você comprou " . $totalUnidadesCompradas .
+" unidades do produto A (R$" . $precoProdutoA . ").
+Valor final de R$ " . $totalComprandoProdutoAXUnidades .
+" (R$ " .  $precoProdutoA . " x " . $totalUnidadesCompradas .
 " + frete de R$ " . $frete . ")";
 echo "\n";
 ```
 
 ---
 
-
 # Operações Matemáticas: Divisão <code>/</code>
+
 ```php
 <?php
 // operacoes.php
@@ -553,8 +629,8 @@ echo "\n";
 
 $dividindoTotalEm2Cartoes = $totalCompra / $qtdCartao;
 
-echo "Você dividiu sua compra de R$ " . $totalCompra .  
-" em " . $qtdCartao . " cartões. Será debitado R$" . $dividindoTotalEm2Cartoes . 
+echo "Você dividiu sua compra de R$ " . $totalCompra .
+" em " . $qtdCartao . " cartões. Será debitado R$" . $dividindoTotalEm2Cartoes .
 " em cada cartão.";
 
 echo "\n";
@@ -562,7 +638,8 @@ echo "\n";
 
 ---
 
-# Operações Matemáticas: Potência <code>**</code>
+# Operações Matemáticas: Potência <code>\*\*</code>
+
 ```php
 <?php
 // operacoes.php
@@ -581,13 +658,14 @@ echo "Volume usando operador de potência: " . $volumeCuboOperadorPotencia;
 ---
 
 # Operações Matemáticas: Modulus <code>%</code>
+
 ```php
 <?php
 // operacoes.php
 
 // ...
 
-$restoDaDivisao = 15 % 2; 
+$restoDaDivisao = 15 % 2;
 
 echo "Resto da divisão: " . $restoDaDivisao;
 echo "\n";
@@ -596,10 +674,11 @@ echo "\n";
 ---
 
 # Interpolação e concatenação de string
-* Usando <code>aspas simples</code> precisamos <code>concatenar</code> os blocos usando <code>.</code> (ponto).
-* Usando <code>aspas dupla</code>s é possível realizar a <code>interpolação</code> de <code>strings</code>.
 
- ```php
+- Usando <code>aspas simples</code> precisamos <code>concatenar</code> os blocos usando <code>.</code> (ponto).
+- Usando <code>aspas dupla</code>s é possível realizar a <code>interpolação</code> de <code>strings</code>.
+
+```php
 // interpolacao-string.php
 $idade = 40;
 $nome = "Vicente Calfo";
@@ -614,5 +693,134 @@ echo "\n";
 echo $msg3;
 echo "\n";
 echo $msg4;
+```
+
+---
+
+# Quebras de Linha - EOL
+
+## END OF LINE
+
+```php
+
+// \n
+// \r\n -> quebras de linha arquivo texto windows
+
+// EOL -> End Of Line -> já resolve a quebra de linha com base no sistema operacional
+
+echo "Olá Você!" . PHP_EOL;
+
+echo "Viu! Quebrou a linha...";
+echo "Viu! Quebrou a linha...";
+echo "Se não indicar quebra de linha FICA TUDO JUNTO!";
+
+
+
+```
+
+
+---
+
+# Operadores de Comparação
+# == e ===
+
+- <code>==</code> é igual -> Retorna *true* ou *false* se for igual
+- <code>===</code> é idêntico -> Retorna  *true* ou *false* se for igual e do mesmo tipo
+
+```php
+
+$testEq = 12 == '12' ? 'SIM' : 'NÃO' ;
+$testIdt = 12 === '12' ? 'SIM' : 'NÃO';
+
+echo $testEq;
+echo PHP_EOL;
+echo $testIdt;
+
+```
+
+--- 
+
+
+# Tomando Decisões - IF/ELSE
+
+```php
+
+//if.php
+
+ $hora = 17;
+
+ if($hora < 17){
+    echo "Tenha um bom dia.";
+ }
+
+ $isEqual = $hora === 17;
+
+ echo $isEqual; // não vai imprimir nada
+ echo PHP_EOL;
+ var_dump($isEqual);
+
+ if($isEqual){
+   echo "Sou idêntico.";
+ }else{
+   echo "Não sou idêntico.";
+ }
+
+```
+
+--- 
+
+# Código Limpo
+
+Colocar as condições em variáveis com nomes que façam sentido.
+
+```php
+
+$saldo = 10;
+$preco = 5;
+$temSaldo = $saldo >= $preco;
+
+if ($temSaldo) {
+   echo "Posso comprar.";
+} else {
+   echo "Não posso comprar.";
+}
+
+```
+
+---
+
+# Operador Ternário
+
+<code>(condição) ? (declaração 1) : (declaração 2)</code>
+
+```php
+
+$testEq = 12 == '12' ? 'SIM' : 'NÃO' ;
+
+```
+- Código mais curto
+- Código mais legível
+- Mais fácil de ler
+
+
+---
+
+# Loops
+
+```php
+
+$colors = array("red", "green", "blue", "yellow");
+foreach ($colors as $value) {
+  echo "$value <br>";
+}
+
+$x = 1;
+
+while($x <= 5) {
+  echo "The number is: $x <br>";
+  $x++;
+} 
+
+
 ```
 
