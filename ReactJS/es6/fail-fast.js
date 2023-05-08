@@ -1,5 +1,5 @@
 const data = {
-  valor: 170,
+  valor: 20,
   prime: true,
 };
 
@@ -13,6 +13,7 @@ const cobraFrete = () => console.log('Cobra frete')
 
 const verificaFrete = ({ valor, prime }) => {
   const valorInvalido = !(typeof valor === "number");
+
   if (valorInvalido) {
     console.log("Valor inválido.");
     return;

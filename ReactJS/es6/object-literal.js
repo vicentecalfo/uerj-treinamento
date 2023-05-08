@@ -25,7 +25,7 @@ const pegarNomeDoPapelDoUsuario2 = (codigoDoPapel) => {
 
 const papelDoUsuario = pegarNomeDoPapelDoUsuario(7)
 
-const papelDoUsuario2 = pegarNomeDoPapelDoUsuario2(2)
+const papelDoUsuario2 = pegarNomeDoPapelDoUsuario2(1)
 
 console.log(papelDoUsuario)
 
