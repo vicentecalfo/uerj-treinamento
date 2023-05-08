@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<!--[if lt IE 7]>      <html class="no-js lt-ie9 lt-ie8 lt-ie7"> <![endif]-->
+<!--[if IE 7]>         <html class="no-js lt-ie9 lt-ie8"> <![endif]-->
+<!--[if IE 8]>         <html class="no-js lt-ie9"> <![endif]-->
+<!--[if gt IE 8]>      <html class="no-js"> <!--<![endif]-->
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title></title>
+    <meta name="description" content="">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="">
+    <style>
+        #square{
+            display: block;
+            width: 40px;
+            height: 40px;
+            background-color: red;
+            position: absolute;
+        }
+    </style>
+</head>
+
+<body>
+    <div id="square"></div>
+
+
+    <script>
+
+        // document.addEventListener('keydown', (event) => {
+        //     var name = event.key;
+        //     var code = event.code;
+        //     console.log(` ${name} \r\n ${code}`);
+        // }, false);
+
+        const square = document.getElementById("square")
+
+
+        //IF
+
+        // document.addEventListener('keydown', ({key, code}) => {
+        //     const position = square.getBoundingClientRect()
+        //     if(code === 'ArrowUp'){
+        //         square.style.top = position.top - 5 +'px'
+        //     }
+        //     if(code === 'ArrowDown'){
+        //         square.style.top = position.top + 5 +'px'
+        //     }
+        //     if(code === 'ArrowLeft'){
+        //         square.style.left = position.left - 5 +'px'
+        //     }
+        //     if(code === 'ArrowRight'){
+        //         square.style.left = position.left + 5 +'px'
+        //     }
+        //     if(code === 'Space'){
+        //         square.style.background = 'yellow'
+        //         setTimeout(()=> square.style.background = 'red' , 50)
+        //     }
+        // }, false)
+
+
+
+
+        const actions = {
+            ArrowUp: ({top}) => square.style.top = top - 5 +'px',
+            ArrowDown: ({top}) => square.style.top = top + 5 +'px',
+            ArrowLeft: ({left}) => square.style.left = left - 5 +'px',
+            ArrowRight: ({left}) => square.style.left = left + 5 +'px',
+            Space:() => {
+                square.style.background = 'yellow';
+                setTimeout(()=> square.style.background = 'red' , 50)
+            }
+        }
+        document.addEventListener('keydown', ({key, code}) => actions[code](square.getBoundingClientRect()), false);
+
+    </script>
+</body>
+
+</html>
