@@ -169,6 +169,7 @@ echo $idade;
 $nome = "Vicente Calfo";
 echo $nome;
 ```
+
 ---
 
 # Código Limpo
@@ -718,14 +719,14 @@ echo "Se não indicar quebra de linha FICA TUDO JUNTO!";
 
 ```
 
-
 ---
 
 # Operadores de Comparação
+
 # == e ===
 
-- <code>==</code> é igual -> Retorna *true* ou *false* se for igual
-- <code>===</code> é idêntico -> Retorna  *true* ou *false* se for igual e do mesmo tipo
+- <code>==</code> é igual -> Retorna _true_ ou _false_ se for igual
+- <code>===</code> é idêntico -> Retorna _true_ ou _false_ se for igual e do mesmo tipo
 
 ```php
 
@@ -738,8 +739,7 @@ echo $testIdt;
 
 ```
 
---- 
-
+---
 
 # Tomando Decisões - IF/ELSE
 
@@ -767,7 +767,7 @@ echo $testIdt;
 
 ```
 
---- 
+---
 
 # Código Limpo
 
@@ -798,10 +798,10 @@ if ($temSaldo) {
 $testEq = 12 == '12' ? 'SIM' : 'NÃO' ;
 
 ```
+
 - Código mais curto
 - Código mais legível
 - Mais fácil de ler
-
 
 ---
 
@@ -819,10 +819,10 @@ array(
     ...
 )
 ```
+
 ---
 
 # Formas de criação de um array
-
 
 ```php
 //Declarando um array vazio
@@ -846,7 +846,6 @@ $array = [
 
 # Formas de criação de um array
 
-
 ```php
 // A chave do array é opcional, e torna-se um índice.
 $array = array('a', 'b', 25, 49);
@@ -860,6 +859,7 @@ $array = [
 ```
 
 - Observação: Não existe problema em misturar tipos diferentes de dados
+
 ---
 
 # Formas de acesso a um array
@@ -890,10 +890,13 @@ var_dump($array["nome"]); // será exibida Luciana
 var_dump($array["idade"]); // será exibido o valor 50
 
 ```
+
 ---
 
-#  Criando arrays multidimensionais
+# Criando arrays multidimensionais
+
 ## Exemplo 1
+
 ```php
 // array com chave / valor
 $array = [
@@ -905,9 +908,13 @@ $array = [
 $lista[] = $array;
 
 ```
+
 ---
-#  Criando arrays multidimensionais
+
+# Criando arrays multidimensionais
+
 ## Exemplo 2
+
 ```php
 // acrescimo de dois registros
 $lista = [
@@ -923,8 +930,10 @@ $lista = [
 ];
 
 ```
+
 ---
-#  Acessando arrays multidimensionais
+
+# Acessando arrays multidimensionais
 
 ```php
 // Acessando dois registros
@@ -945,16 +954,22 @@ var_dump($lista[1]['nome']); // exibe o nome Luiz
 var_dump($lista[1]['idade']); // exibe a idade do Luiz = 40
 
 ```
+
 ---
+
 # Loops
+
 São estruturas que permitem repetir um bloco de código. Existem 4 tipos de estruturas de repetição:
+
 - While (Enquanto)
 - Do While (Repita até que)
 - for (Para)
 - foreach (Para cada elemento)
 
 ---
+
 # Loops
+
 ## While (Enquanto)
 
 ```php
@@ -966,11 +981,15 @@ while($x < count($colors) ) {
   echo "<p>O indice é: $x </p>";
   echo "<p>O Valor é:".$colors[$x]." </p>";
   $x++;
-} 
+}
 ```
+
 - Observação: Utiliza-se a função count() para arrays e strlen() para strings
+
 ---
+
 # Loops
+
 ## Do While (Repita até que)
 
 ```php
@@ -984,8 +1003,11 @@ do{
 } while($x < count($colors) );
 
 ```
+
 ---
+
 # Loops
+
 ## For (Para)
 
 ```php
@@ -995,11 +1017,14 @@ $colors = array("red", "green", "blue", "yellow");
 for($x=0; $x< count($colors); $x++ ) {
   echo "<p>O indice é: $x </p>";
   echo "<p>O Valor é:".$colors[$x]." </p>";
-} 
+}
 
 ```
+
 ---
+
 # Loops
+
 ## ForEach (Para cada elemento)
 
 ```php
@@ -1010,10 +1035,13 @@ foreach ($colors as $key=>$value) {
 }
 
 ```
+
 - Observação: O foreach é indicado para arrays pois não há necessidade de controlar o loop.
 
 ---
+
 # Percorrendo um array multidimensional com _chave_ / _valor_
+
 ## ForEach (Para cada elemento)
 
 ```php
@@ -1035,7 +1063,9 @@ foreach ($registros as $value) {
 ```
 
 ---
+
 # Funções
+
 ## Definidas pelo usuário
 
 ```php
@@ -1047,7 +1077,9 @@ function foo($arg_1, $arg_2, /* ..., */ $arg_n)
 }
 
 ```
+
 ---
+
 # Funções com argumentos obrigatórios
 
 ```php
@@ -1062,7 +1094,9 @@ function media($nota1, $nota2) {
 media(5,7);
 
 ```
+
 ---
+
 # Funções com argumentos variáveis
 
 ```php
@@ -1077,8 +1111,10 @@ soma(8,10);
 soma(8,10, 21);
 
 ```
+
 ---
-# Retorno de Funções 
+
+# Retorno de Funções
 
 ```php
 
@@ -1090,7 +1126,9 @@ function exibe($colors, $indice) {
 exibe($colors, 0); // exibe red
 exibe($colors, 2); // exibe blue
 ```
+
 ---
+
 # Desconstruindo uma array com uma função
 
 ```php
@@ -1103,7 +1141,9 @@ function primeiros_numeros()
 [$zero, $um, $dois] = primeiros_numeros();
 
 ```
+
 ---
+
 # Desconstruindo um array multidimensional com uma função
 
 ```php
@@ -1129,7 +1169,24 @@ var_dump($vetor1['nome']);
 
 ```
 ---
+
+# Ordenação
+
+Crescente - <code>sort()</code>
+Decrecente - <code>rsort()</code>
+
+```php
+
+$nomes = array("Vicente", "Beltrão", "André", "Fernando");
+sort($nomes);
+var_dump($nomes);
+
+```
+
+---
+
 # Arrow function
+
 Exemplo utilizando função. É necessário passar dois parâmetros.
 
 ```php
@@ -1143,11 +1200,14 @@ function calcularJuros($emprestimo, $taxa) {
 var_dump(calcularJuros($valorDoEmprestimo, $taxaDeJuros));
 
 ```
+
 Referência: https://dev.to/lucascavalcante/facilitando-o-entendimento-da-arrow-function-no-php-9a2
 
 ---
+
 # Arrow function
-Exemplo herdando a variável $taxaDeJuros do escopo global. 
+
+Exemplo herdando a variável $taxaDeJuros do escopo global.
 
 ```php
 $valorDoEmprestimo = 30000;
@@ -1160,11 +1220,14 @@ $jurosCalculados = function ($emprestimo) use ($taxaDeJuros) {
 var_dump($jurosCalculados($valorDoEmprestimo));
 
 ```
+
 Referência: https://dev.to/lucascavalcante/facilitando-o-entendimento-da-arrow-function-no-php-9a2
 
 ---
+
 # Arrow function
-Exemplo utilizando arrow function 
+
+Exemplo utilizando arrow function
 
 ```php
 
@@ -1176,10 +1239,123 @@ $jurosCalculados = fn ($emprestimo) => $emprestimo * ($taxaDeJuros/100);
 var_dump($jurosCalculados($valorDoEmprestimo));
 
 ```
+
 Referência: https://dev.to/lucascavalcante/facilitando-o-entendimento-da-arrow-function-no-php-9a2
 
 ---
+
+# JSON
+
+<code>json_encode()</code>
+
+```json
+{
+  "success": true,
+  "payload": "payload"
+}
+```
+
+```php
+<?php
+$token = array("success"=>true, "payload"=>'payload');
+echo json_encode($token);
+```
+
+---
+
+# JSON
+
+Objetos Complexos
+
+```json
+{
+  "success": true,
+  "payload": {
+    "user": {
+      "id": 12,
+      "name": "Vicente Calfo"
+    },
+    "roles": ["view", "editor"]
+  }
+}
+```
+
+---
+
+# JSON
+
+<code>json_encode()</code>
+
+```php
+<?php
+$token = array(
+    "success" => true,
+    "payload" => array(
+        "userInfo" => array(
+            "id" => 12,
+            "name" => "Vicente Calfo"
+        ),
+        "roles" => array("view", "editor")
+    )
+);
+
+echo json_encode($token);
+```
+---
+
+# JSON
+
+<code>json_encode()</code>
+
+```json
+["Vicente", "Matheus", "Alexandre"]
+```
+
+```php
+$pessoas = array("Vicente","Matheus","Alexandre");
+echo json_encode($pessoas);
+
+```
+
+---
+
+# JSON
+
+<code>json_decode()</code>
+
+```php
+$token = '{
+  "success": true,
+  "payload": "payload"
+}';
+
+var_dump(json_decode($token));
+
+```
+
+---
+
+# JSON
+
+<code>json_decode()</code>
+
+```php
+$token = '{
+  "success": true,
+  "payload": "payload"
+}';
+
+$tokenObj = json_decode($token);
+
+echo $tokenObj->success;
+echo $tokenObj->payload;
+
+```
+
+---
+
 # Orientação a Objetos
+
 Exemplo de uma simples classe
 
 ```php
@@ -1200,8 +1376,11 @@ class SimpleClass
 $classe = new SimpleClass();
 
 ```
+
 ---
+
 # Orientação a Objetos
+
 Exemplo de uma classe com construtor
 
 ```php
@@ -1232,8 +1411,11 @@ $classe = new Pessoa('Joao',23);
 $classe->show();
 
 ```
+
 ---
+
 # Orientação a Objetos
+
 Visibilidade das propriedades
 
 ```php
@@ -1261,14 +1443,16 @@ echo $classe->salario;//erro
 ```
 
 ---
+
 # Orientação a Objetos
+
 Herança
 
 ```php
 class Pessoas
 {
     // declaração de propriedade
-    protected  $nome, $idade, $salario; 
+    protected  $nome, $idade, $salario;
     protected  function getNome() {
       echo " Nome:".$this->nome;
     }
@@ -1289,18 +1473,20 @@ $aluno->show();
 ```
 
 ---
+
 # Orientação a Objetos
+
 Sobrescrevendo métodos
 
 ```php
 class Pessoas
-{ 
+{
   public function fala() {
     echo "Oi pessoas";
   }
 }
 class aluno extends Pessoas { //Aluno herda métodos de Pessoas
-  
+
   public function fala() {
     echo "Oi Alunos";
     echo parent::fala(); //executa fala de Pessoas
@@ -1313,19 +1499,22 @@ $aluno->fala();//exibe oi alunos e oi pessoas
 ```
 
 ---
+
 # Orientação a Objetos
+
 Classes abstratas
+
 - Não podem ser referenciadas, pois são um "modelo" para as classes que as herdam.
 
 ```php
 abstract class Pessoas
-{ 
+{
   public function fala() {
     echo "Oi pessoas";
   }
 }
 class aluno extends Pessoas { //Aluno herda métodos de Pessoas
-  
+
   public function fala() {
     echo "Oi Alunos";
     echo parent::fala(); //executa fala de Pessoas
