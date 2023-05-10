@@ -805,22 +805,533 @@ $testEq = 12 == '12' ? 'SIM' : 'NÃO' ;
 
 ---
 
+# Arrays
+
+Um array é definido como um mapa ordanado que relaciona _chave_ e _valor_. Um array pode ser tratado como uma fila, um hashtable, um dicionário, coleção, etc.
+
+Exemplo:
+
+```php
+array(
+    chave  => valor,
+    chave2 => valor2,
+    chave3 => valor3,
+    ...
+)
+```
+---
+
+# Formas de criação de um array
+
+
+```php
+//Declarando um array vazio
+$array = [];
+
+// Função array()
+$array = array(
+    "nome" => "Luiz",
+    "idade" => 40,
+);
+
+// Utilizando a sintaxe curta
+$array = [
+    "nome" => "Luciana",
+    "idade" => 50,
+];
+
+```
+
+---
+
+# Formas de criação de um array
+
+
+```php
+// A chave do array é opcional, e torna-se um índice.
+$array = array('a', 'b', 25, 49);
+
+// Utilizando a sintaxe curta
+$array = [
+    "Luciana",
+    50,
+];
+
+```
+
+- Observação: Não existe problema em misturar tipos diferentes de dados
+---
+
+# Formas de acesso a um array
+
+```php
+// A chave do array é opcional, e torna-se um índice.
+$array = array('a', 'b', 25, 49);
+
+var_dump($array[0]); // será exibida a letra a
+var_dump($array[1]); // será exibida a letra b
+var_dump($array[2]); // será exibida o valor 25
+var_dump($array[3]); // será exibida o valor 49
+
+```
+
+---
+
+# Formas de acesso a um array
+
+```php
+// array com chave / valor
+$array = [
+    "nome" => "Luciana",
+    "idade" => 50,
+];
+
+var_dump($array["nome"]); // será exibida Luciana
+var_dump($array["idade"]); // será exibido o valor 50
+
+```
+---
+
+#  Criando arrays multidimensionais
+## Exemplo 1
+```php
+// array com chave / valor
+$array = [
+    "nome" => "Luciana",
+    "idade" => 50,
+];
+
+// acrescimo de um registro
+$lista[] = $array;
+
+```
+---
+#  Criando arrays multidimensionais
+## Exemplo 2
+```php
+// acrescimo de dois registros
+$lista = [
+  [
+    "nome" => "Luciana",
+    "idade" => 50,
+  ],
+  [
+     "nome" => "Luiz",
+    "idade" => 40,
+  ]
+
+];
+
+```
+---
+#  Acessando arrays multidimensionais
+
+```php
+// Acessando dois registros
+$lista = [
+  [
+    "nome" => "Luciana",
+    "idade" => 50,
+  ],
+  [
+     "nome" => "Luiz",
+    "idade" => 40,
+  ]
+
+];
+
+var_dump($lista[0]['nome']); // exibe o nome Luciana
+var_dump($lista[1]['nome']); // exibe o nome Luiz
+var_dump($lista[1]['idade']); // exibe a idade do Luiz = 40
+
+```
+---
 # Loops
+São estruturas que permitem repetir um bloco de código. Existem 4 tipos de estruturas de repetição:
+- While (Enquanto)
+- Do While (Repita até que)
+- for (Para)
+- foreach (Para cada elemento)
+
+---
+# Loops
+## While (Enquanto)
+
+```php
+//atribuindo valores a uma lista $colors
+$colors = array("red", "green", "blue", "yellow");
+$x = 0;
+// enquanto x é menor que a contagem total de índices em colors
+while($x < count($colors) ) {
+  echo "<p>O indice é: $x </p>";
+  echo "<p>O Valor é:".$colors[$x]." </p>";
+  $x++;
+} 
+```
+- Observação: Utiliza-se a função count() para arrays e strlen() para strings
+---
+# Loops
+## Do While (Repita até que)
 
 ```php
 
 $colors = array("red", "green", "blue", "yellow");
-foreach ($colors as $value) {
-  echo "$value <br>";
-}
-
-$x = 1;
-
-while($x <= 5) {
-  echo "The number is: $x <br>";
+$x=0;
+do{
+  echo "<p>O indice é: $x </p>";
+  echo "<p>O Valor é:".$colors[$x]." </p>";
   $x++;
+} while($x < count($colors) );
+
+```
+---
+# Loops
+## For (Para)
+
+```php
+
+$colors = array("red", "green", "blue", "yellow");
+
+for($x=0; $x< count($colors); $x++ ) {
+  echo "<p>O indice é: $x </p>";
+  echo "<p>O Valor é:".$colors[$x]." </p>";
 } 
 
+```
+---
+# Loops
+## ForEach (Para cada elemento)
+
+```php
+
+$colors = array("red", "green", "blue", "yellow");
+foreach ($colors as $key=>$value) {
+  echo "$key => $value <br>";
+}
+
+```
+- Observação: O foreach é indicado para arrays pois não há necessidade de controlar o loop.
+
+---
+# Percorrendo um array multidimensional com _chave_ / _valor_
+## ForEach (Para cada elemento)
+
+```php
+$registros = [
+  [
+    "nome" => "Luciana",
+    "idade" => 50,
+  ],
+  [
+     "nome" => "Luiz",
+    "idade" => 40,
+  ]
+];
+
+foreach ($registros as $value) {
+  echo "<br>Nome:".$value['nome']."- Idade:".$value['idade'];
+}
 
 ```
 
+---
+# Funções
+## Definidas pelo usuário
+
+```php
+
+function foo($arg_1, $arg_2, /* ..., */ $arg_n)
+{
+    echo "Exemplo de função.\n";
+    return $valor_retornado;
+}
+
+```
+---
+# Funções com argumentos obrigatórios
+
+```php
+
+// criar uma função para calcular a média de 2 números
+
+function media($nota1, $nota2) {
+    return ($nota1+$nota2) / 2;
+}
+
+//executando
+media(5,7);
+
+```
+---
+# Funções com argumentos variáveis
+
+```php
+// criar uma função para somar 3 números
+// valor 1 e valor 2 são obrigatórios
+function soma($valor1, $valor2, $valor3=0) {
+    return $valor1+ $valor2 + $valor3;
+}
+
+//executando
+soma(8,10);
+soma(8,10, 21);
+
+```
+---
+# Retorno de Funções 
+
+```php
+
+$colors = array("red", "green", "blue", "yellow");
+function exibe($colors, $indice) {
+    return $colors[$indice];//retorna o conteúdo do array
+}
+//executando
+exibe($colors, 0); // exibe red
+exibe($colors, 2); // exibe blue
+```
+---
+# Desconstruindo uma array com uma função
+
+```php
+
+function primeiros_numeros()
+{
+    return [0, 1, 2];
+}
+// Desconstruir o array coleta cada item individualmente
+[$zero, $um, $dois] = primeiros_numeros();
+
+```
+---
+# Desconstruindo um array multidimensional com uma função
+
+```php
+function primeiros_objetos()
+{
+   $registros = [
+     [
+       "nome" => "Luciana",
+       "idade" => 50,
+     ],
+     [
+       "nome" => "Luiz",
+       "idade" => 40,
+     ]
+   ];
+
+    return $registros;
+}
+// Desconstruir o array coleta cada item individualmente
+[$vetor1, $vetor2 ] = primeiros_objetos();
+
+var_dump($vetor1['nome']);
+
+```
+---
+# Arrow function
+Exemplo utilizando função. É necessário passar dois parâmetros.
+
+```php
+$valorDoEmprestimo = 30000;
+$taxaDeJuros = 18.63;
+
+function calcularJuros($emprestimo, $taxa) {
+    return $emprestimo * ($taxa/100);
+}
+
+var_dump(calcularJuros($valorDoEmprestimo, $taxaDeJuros));
+
+```
+Referência: https://dev.to/lucascavalcante/facilitando-o-entendimento-da-arrow-function-no-php-9a2
+
+---
+# Arrow function
+Exemplo herdando a variável $taxaDeJuros do escopo global. 
+
+```php
+$valorDoEmprestimo = 30000;
+$taxaDeJuros = 18.63;
+
+$jurosCalculados = function ($emprestimo) use ($taxaDeJuros) {
+    return $emprestimo * ($taxaDeJuros/100);
+};
+
+var_dump($jurosCalculados($valorDoEmprestimo));
+
+```
+Referência: https://dev.to/lucascavalcante/facilitando-o-entendimento-da-arrow-function-no-php-9a2
+
+---
+# Arrow function
+Exemplo utilizando arrow function 
+
+```php
+
+$valorDoEmprestimo = 30000;
+$taxaDeJuros = 18.63;
+
+$jurosCalculados = fn ($emprestimo) => $emprestimo * ($taxaDeJuros/100);
+
+var_dump($jurosCalculados($valorDoEmprestimo));
+
+```
+Referência: https://dev.to/lucascavalcante/facilitando-o-entendimento-da-arrow-function-no-php-9a2
+
+---
+# Orientação a Objetos
+Exemplo de uma simples classe
+
+```php
+
+class SimpleClass
+{
+    // declaração de propriedade
+    public $var = 'um valor padrão';
+
+    // declaração de método
+    public function displayVar() {
+      // $this acessa uma propriedade da classe
+        echo $this->var;
+    }
+}
+
+//declarando o objeto
+$classe = new SimpleClass();
+
+```
+---
+# Orientação a Objetos
+Exemplo de uma classe com construtor
+
+```php
+
+class Pessoa
+{
+    // declaração de propriedade
+    public $nome;
+    public $idade;
+
+    //construtor da classe
+    function __construct($nome, $idade) {
+       $this->nome = $nome;
+       $this->idade = $idade;
+    }
+
+    // declaração de método
+    public function show() {
+      // $this acessa uma propriedade da classe
+        echo "<br>Nome: ".$this->nome;
+        echo "<br>Idade: ".$this->idade;
+    }
+}
+
+//declarando o objeto passando valores
+$classe = new Pessoa('Joao',23);
+// executando um método
+$classe->show();
+
+```
+---
+# Orientação a Objetos
+Visibilidade das propriedades
+
+```php
+
+class Pessoa
+{
+    // declaração de propriedade
+    private $nome; //privada, só pode ser acessada pela classe
+    public $idade; // publica, pode ser acessa externamente
+    protected $salario; // protegida, pode ser acessada pela classe e suas classes "herdadas"
+
+    function __construct($nome, $idade, $salario) {
+       $this->nome = $nome;
+       $this->idade = $idade;
+       $this->salario = $salario;
+    }
+}
+
+//declarando o objeto passando valores
+$classe = new Pessoa('Joao',23, 1500);
+echo $classe->nome; //erro
+echo $classe->idade; //23
+echo $classe->salario;//erro
+
+```
+
+---
+# Orientação a Objetos
+Herança
+
+```php
+class Pessoas
+{
+    // declaração de propriedade
+    protected  $nome, $idade, $salario; 
+    protected  function getNome() {
+      echo " Nome:".$this->nome;
+    }
+}
+class aluno extends Pessoas { //Aluno herda métodos de Pessoas
+  private $matricula, $nota;
+  function __construct($nome, $idade, $nota) {
+    $this->nome = $nome;
+    $this->idade = $idade;
+    $this->nota = $nota;
+  }
+  public function show() {
+    echo "Nome:".$this->nome. " - Idade: ".$this->idade." - Nota:".$this->nota;
+  }
+}
+$aluno = new Aluno("Andre", 48, 8.7);
+$aluno->show();
+```
+
+---
+# Orientação a Objetos
+Sobrescrevendo métodos
+
+```php
+class Pessoas
+{ 
+  public function fala() {
+    echo "Oi pessoas";
+  }
+}
+class aluno extends Pessoas { //Aluno herda métodos de Pessoas
+  
+  public function fala() {
+    echo "Oi Alunos";
+    echo parent::fala(); //executa fala de Pessoas
+  }
+}
+$pessoas = new Pessoas();
+$pessoas->fala(); //exibe oi pessoas
+$aluno = new Aluno();
+$aluno->fala();//exibe oi alunos e oi pessoas
+```
+
+---
+# Orientação a Objetos
+Classes abstratas
+- Não podem ser referenciadas
+
+```php
+abstract class Pessoas
+{ 
+  public function fala() {
+    echo "Oi pessoas";
+  }
+}
+class aluno extends Pessoas { //Aluno herda métodos de Pessoas
+  
+  public function fala() {
+    echo "Oi Alunos";
+    echo parent::fala(); //executa fala de Pessoas
+  }
+}
+$pessoas = new Pessoas(); // ERRO
+$aluno = new Aluno();
+$aluno->fala();//exibe oi alunos e oi pessoas
+```
