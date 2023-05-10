@@ -1315,7 +1315,7 @@ $aluno->fala();//exibe oi alunos e oi pessoas
 ---
 # Orientação a Objetos
 Classes abstratas
-- Não podem ser referenciadas
+- Não podem ser referenciadas, pois são um "modelo" para as classes que as herdam.
 
 ```php
 abstract class Pessoas
