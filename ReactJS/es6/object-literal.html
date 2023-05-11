@@ -40,40 +40,40 @@
 
         //IF
 
-        document.addEventListener('keydown', ({key, code}) => {
-            const position = square.getBoundingClientRect()
-            if(code === 'ArrowUp'){
-                square.style.top = position.top - 5 +'px'
-            }
-            if(code === 'ArrowDown'){
-                square.style.top = position.top + 5 +'px'
-            }
-            if(code === 'ArrowLeft'){
-                square.style.left = position.left - 5 +'px'
-            }
-            if(code === 'ArrowRight'){
-                square.style.left = position.left + 5 +'px'
-            }
-            if(code === 'Space'){
-                square.style.background = 'yellow'
-                setTimeout(()=> square.style.background = 'red' , 50)
-            }
-        }, false)
-
-
-
-
-        // const actions = {
-        //     ArrowUp: ({top}) => square.style.top = top - 5 +'px',
-        //     ArrowDown: ({top}) => square.style.top = top + 5 +'px',
-        //     ArrowLeft: ({left}) => square.style.left = left - 5 +'px',
-        //     ArrowRight: ({left}) => square.style.left = left + 5 +'px',
-        //     Space:() => {
-        //         square.style.background = 'yellow';
+        // document.addEventListener('keydown', ({key, code}) => {
+        //     const position = square.getBoundingClientRect()
+        //     if(code === 'ArrowUp'){
+        //         square.style.top = position.top - 5 +'px'
+        //     }
+        //     if(code === 'ArrowDown'){
+        //         square.style.top = position.top + 5 +'px'
+        //     }
+        //     if(code === 'ArrowLeft'){
+        //         square.style.left = position.left - 5 +'px'
+        //     }
+        //     if(code === 'ArrowRight'){
+        //         square.style.left = position.left + 5 +'px'
+        //     }
+        //     if(code === 'Space'){
+        //         square.style.background = 'yellow'
         //         setTimeout(()=> square.style.background = 'red' , 50)
         //     }
-        // }
-        // document.addEventListener('keydown', ({key, code}) => actions[code](square.getBoundingClientRect()), false);
+        // }, false)
+
+
+
+
+        const actions = {
+            ArrowUp: ({top}) => square.style.top = top - 5 +'px',
+            ArrowDown: ({top}) => square.style.top = top + 5 +'px',
+            ArrowLeft: ({left}) => square.style.left = left - 5 +'px',
+            ArrowRight: ({left}) => square.style.left = left + 5 +'px',
+            Space:() => {
+                square.style.background = 'yellow';
+                setTimeout(()=> square.style.background = 'red' , 50)
+            }
+        }
+        document.addEventListener('keydown', ({key, code}) => actions[code](square.getBoundingClientRect()), false);
 
     </script>
 </body>

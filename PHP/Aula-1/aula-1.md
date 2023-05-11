@@ -1042,7 +1042,7 @@ foreach ($colors as $key=>$value) {
 
 # Percorrendo um array multidimensional com _chave_ / _valor_
 
-## ForEach (Para cada elemento)
+ForEach (Para cada elemento)
 
 ```php
 $registros = [
@@ -1066,7 +1066,7 @@ foreach ($registros as $value) {
 
 # Funções
 
-## Definidas pelo usuário
+Definidas pelo usuário
 
 ```php
 
@@ -1114,6 +1114,26 @@ soma(8,10, 21);
 
 ---
 
+# Funções com parâmetros nomeados
+
+```php
+function salvarCookie(
+    $name,
+    $value = "",
+    $expires = 0,
+    $path = "",
+    $domain = "",
+    $secure = false,
+    $httponly = false,
+) {
+    echo $name;
+    // outros echo $value, $expires , $path ....
+}
+
+```
+
+---
+
 # Retorno de Funções
 
 ```php
@@ -1129,22 +1149,181 @@ exibe($colors, 2); // exibe blue
 
 ---
 
-# Desconstruindo uma array com uma função
+# Código Limpo - Funções, KISS e DRY - 1/5
+
+<img src="kiss.png" style="width:40%; display:block; margin:0 auto;"/>
+
+---
+
+# Código Limpo - Funções, KISS e DRY - 2/2
+
+## KISS (Keep it simple, stupid) -> "Deixa simples, ô animal!"
+
+## DRY (Don´t Repeat Yourself) -> "O miserável, arranhou o disco..."
+
+Abrir o arquivo <code>clean-code-less-if.php</code>
+
+---
+
+# Código Limpo - Funções, KISS e DRY - 3/5
+
+<img src="cocodigo.png" style="position:absolute; width:300px; right:0; bottom:0;">
 
 ```php
 
-function primeiros_numeros()
+function mapOrderStatusToLabel($order)
 {
-    return [0, 1, 2];
+    $label = 'Desconhecido';
+
+    if ('complete' === $order->getStatus()) {
+        $label = 'Pedido Entregue';
+    }
+
+    if ('pending' === $order->getStatus()) {
+        $label = 'Aguardando pagamento';
+    }
+
+    if ('in_transport' === $order->getStatus()) {
+        $label = 'Em transporte';
+    }
+
+    if ('new' === $order->getStatus()) {
+        $label = 'Pedido aceito';
+    }
+
+    return $label;
 }
-// Desconstruir o array coleta cada item individualmente
-[$zero, $um, $dois] = primeiros_numeros();
 
 ```
 
 ---
 
-# Desconstruindo um array multidimensional com uma função
+# Código Limpo - Funções, KISS e DRY - 4/5
+
+<img src="cocodigo.png" style="position:absolute; width:300px; right:0; bottom:0;">
+
+```php
+
+function mapOrderStatusToLabel2($order)
+{
+    switch ($order->getStatus()) {
+        case 'complete':
+            return 'Pedido Entregue';
+
+        case 'pending':
+            return 'Aguardando pagamento';
+
+        case 'in_transport':
+            return 'Em transporte';
+
+        case 'new':
+            return 'Pedido aceito';
+
+        default:
+            return 'Desconhecido';
+    }
+}
+
+```
+
+---
+
+# Código Limpo - Funções, KISS e DRY - 5/5
+
+```php
+
+function mapOrderStatusToLabel3($status)
+{
+    $labels = [
+        'complete' => 'Pedido Entregue',
+        'pending' => 'Aguardando pagamento',
+        'in_transport' => 'Em transporte',
+        'new' => 'Pedido aceito',
+        'unknown' => 'Desconhecido'
+    ];
+    return $labels[$status] ?? $labels['unknown'];
+}
+
+```
+
+
+---
+
+# Ordenação
+
+Crescente - <code>sort()</code>
+Decrecente - <code>rsort()</code>
+
+```php
+
+$nomes = array("Vicente", "Beltrão", "André", "Fernando");
+sort($nomes);
+var_dump($nomes);
+
+```
+
+---
+
+# Ordenação (pela chave - $key)
+
+Crescente - <code>ksort()</code>
+Decrecente - <code>krsort()</code>
+
+```php
+
+$idades = array("Vicente" => 40, "Beltrão" => 39, "André" => 48, "Fernando" => 50);
+ksort($idades);
+echo join(", ", $idades); // 48, 39, 50, 40
+
+echo PHP_EOL;
+
+$idades2 = array("Vicente" => 40, "Beltrão" => 39, "André" => 48, "Fernando" => 50);
+krsort($idades2);
+echo join(", ", $idades2); // 40, 50, 39, 48
+
+```
+
+---
+
+# Ordenação (pela valor - $value)
+
+Crescente - <code>asort()</code>
+Decrecente - <code>arsort()</code>
+
+```php
+
+$idades3 = array("Vicente" => 40, "Beltrão" => 39, "André" => 48, "Fernando" => 50);
+asort($idades3);
+echo join(", ", $idades3); // 39, 40, 48, 50
+
+echo PHP_EOL;
+
+$idades4 = array("Vicente" => 40, "Beltrão" => 39, "André" => 48, "Fernando" => 50);
+arsort($idades4);
+echo join(", ", $idades4); // 50, 48, 40, 39
+
+```
+
+---
+
+# Desestruturação de array
+
+```php
+
+$primeirosNumeros = array(0,1,2);
+[$zero, $um, $dois] = $primeirosNumeros;
+
+echo $zero;
+echo PHP_EOL;
+echo $um;
+echo PHP_EOL;
+echo $dois;
+
+```
+
+---
+
+# Desestruturação de array multidimensional
 
 ```php
 function primeiros_objetos()
@@ -1162,24 +1341,50 @@ function primeiros_objetos()
 
     return $registros;
 }
-// Desconstruir o array coleta cada item individualmente
 [$vetor1, $vetor2 ] = primeiros_objetos();
-
 var_dump($vetor1['nome']);
 
 ```
+
 ---
 
-# Ordenação
-
-Crescente - <code>sort()</code>
-Decrecente - <code>rsort()</code>
+# Desestruturação de array associativo - <code>extract</code>
 
 ```php
 
-$nomes = array("Vicente", "Beltrão", "André", "Fernando");
-sort($nomes);
-var_dump($nomes);
+$array = [
+    "nome" => "Luciana",
+    "idade" => 50,
+];
+
+extract($array);
+
+echo PHP_EOL;
+echo $nome;
+echo PHP_EOL;
+echo $idade;
+
+```
+
+---
+
+# Desestruturação de array associativo - <code>list</code>
+
+```php
+
+$array2 = [
+    "nome" => "José",
+    "idade" => 26,
+];
+
+list('nome' => $nome, 'idade' => $idade) = $array2; // versão verbosa
+
+['nome' => $nome, 'idade' => $idade] = $array2; // versão curta
+
+echo PHP_EOL;
+echo $nome;
+echo PHP_EOL;
+echo $idade;
 
 ```
 
@@ -1244,6 +1449,111 @@ Referência: https://dev.to/lucascavalcante/facilitando-o-entendimento-da-arrow-
 
 ---
 
+# Clean Code - <code>early return</code>
+<img src="cocodigo.png" style="position:absolute; width:300px; right:0; bottom:0;">
+
+Abrir arquivo early-return.php
+
+```php
+function bad($x, $y, $z)
+{
+    if ($x && is_numeric($x)) {
+        if ($y && is_numeric($y)) {
+            if ($z && is_numeric($z)) {
+                return $x + $y + $z;
+            } else {
+                return 'Erro';
+            }
+        } else {
+            return 'Erro';
+        }
+    } else {
+        return 'Erro';
+    }
+}
+```
+
+---
+
+# Clean Code - <code>early return</code>
+
+```php
+
+function better($x, $y, $z)
+{
+    if (!($x && is_numeric($x))) return 'Erro';
+    if (!($y && is_numeric($y))) return 'Erro';
+    if (!($z && is_numeric($z))) return 'Erro';
+    return $x + $y + $z;
+}
+
+```
+---
+
+# Clean Code - <code>early return</code>
+
+```php
+function bestVersion($x, $y, $z)
+{
+
+    $isInvalid = fn ($value) => !($value && is_numeric($value));
+    if ($isInvalid($x) || $isInvalid($y) || $isInvalid($z)) return 'Erro';
+    return $x + $y + $z;
+}
+
+```
+
+---
+
+# Iniciando a exceção através de uma função
+
+```php
+
+<?php
+function dividir($x, $y) {
+    if ($y == 0) throw new Exception('Não é possível realizar uma divisão por zero');
+    $resultado = $x / $y;
+    return $resultado;
+};
+
+```
+
+---
+
+# Tratando exceção
+
+```php
+
+<?php
+try{
+    $out = dividir(24,0);
+    echo $out;
+}catch(Exception $error){
+    echo $error->getMessage();
+}
+
+```
+
+---
+
+# Tratando exceção - Finally
+
+```php
+try {
+    $out = dividir(24,2);
+    echo $out . "\n"; 
+    $out2 = dividir(24,0);
+    echo $out2 . "\n"; 
+} catch (Exception $error) {
+    echo $error->getMessage()."\n";
+}finally{
+    echo 'Finalizado';
+}
+```
+
+
+---
+
 # JSON
 
 <code>json_encode()</code>
@@ -1301,6 +1611,7 @@ $token = array(
 
 echo json_encode($token);
 ```
+
 ---
 
 # JSON
@@ -1350,6 +1661,55 @@ $tokenObj = json_decode($token);
 echo $tokenObj->success;
 echo $tokenObj->payload;
 
+```
+
+---
+
+# Funções de _string_ - PHP String
+
+<code>echo</code>
+
+```php
+<?php
+
+  echo "Olá Mundo!";
+
+```
+
+---
+
+# Funções de _string_ - PHP String
+
+<code>explode(separador, array)</code>
+
+```php
+<?php
+  $nomeCientifico = "Malus domestica";
+  [$genero, $epiteto] = explode(" ", $nomeCientifico);
+  echo $genero;
+  echo PHP_EOL;
+  echo $epiteto;
+
+```
+
+---
+
+# Funções de _string_ - PHP String
+
+<code>strlen(string)</code>
+<code>str_word_count(string)</code>
+<code>strrev(string)</code>
+<code>strpos(string, searchTerm)</code> <small style="font-size:18px;">Retorna false se não encontrar, se encontrar retorna a posição do primeiro caracter do *match*.</small>
+<code>str_replace(searchTerm, newTerm, string)</code>
+
+```php
+<?php
+
+echo strlen("Hello world!"); // 12
+echo str_word_count("Hello world!"); // 2
+echo strrev("Hello world!"); // !dlrow olleH
+echo strpos("Hello world!", "world"); // 6
+echo str_replace("Viente", "André", "Olá Vicente!"); // Olá André!
 ```
 
 ---
