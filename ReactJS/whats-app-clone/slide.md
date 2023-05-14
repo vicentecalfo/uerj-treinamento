@@ -7,8 +7,6 @@ paginate: true
 
 ## Projeto WhatsApp Clone
 
-### Aula 1
-
 Repositório projeto: https://github.com/vicentecalfo/react-fire-chat
 
 Vicente Calfo
