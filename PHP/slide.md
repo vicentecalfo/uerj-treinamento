@@ -1246,7 +1246,6 @@ function mapOrderStatusToLabel3($status)
 
 ```
 
-
 ---
 
 # Ordenação
@@ -1450,6 +1449,7 @@ Referência: https://dev.to/lucascavalcante/facilitando-o-entendimento-da-arrow-
 ---
 
 # Clean Code - <code>early return</code>
+
 <img src="cocodigo.png" style="position:absolute; width:300px; right:0; bottom:0;">
 
 Abrir arquivo early-return.php
@@ -1488,6 +1488,7 @@ function better($x, $y, $z)
 }
 
 ```
+
 ---
 
 # Clean Code - <code>early return</code>
@@ -1541,9 +1542,9 @@ try{
 ```php
 try {
     $out = dividir(24,2);
-    echo $out . "\n"; 
+    echo $out . "\n";
     $out2 = dividir(24,0);
-    echo $out2 . "\n"; 
+    echo $out2 . "\n";
 } catch (Exception $error) {
     echo $error->getMessage()."\n";
 }finally{
@@ -1551,6 +1552,65 @@ try {
 }
 ```
 
+---
+
+# As consequências de ignorar erros
+
+1. **Aplicativos que travam ou fecham inesperadamente:** Assim como um castelo de cartas, erros não tratados podem fazer com que todo o seu aplicativo desmorone;
+1. **Vulnerabilidades de segurança:** Ignorar erros pode expor seu aplicativo a ameaças de segurança;
+1. **Experiência ruim para o usuário:** Erros na aplicação geram frustração e podem levar ao abandono da aplicação.
+
+---
+
+# Customizando erros
+
+```php
+
+function dividir($dividend, $divisor) {
+    if ($divisor == 0) {
+        throw new InvalidArgumentException("Divisão por zero não é possível.\n");
+    }
+    return $dividend / $divisor;
+}
+
+```
+
+---
+
+# Lista de alguns erros disponíveis
+
+**Lista completa:** https://www.php.net/manual/en/spl.exceptions.php
+
+- BadFunctionCallException
+- BadMethodCallException
+- DomainException
+- InvalidArgumentException
+- LengthException
+- LogicException
+- OutOfBoundsException
+- OutOfRangeException
+
+---
+
+# Capturando vários tipos de exceção
+
+```php
+
+try {
+    // Código que pode lançar diferentes exceções.
+    $result = performComplexOperation();
+} catch (InvalidArgumentException $e) {
+    // InvalidArgumentException
+    echo "Error: " . $e->getMessage();
+} catch (OutOfBoundsException $e) {
+    // OutOfBoundsException
+    echo "Error: " . $e->getMessage();
+} catch (Exception $e) {
+    // Tratar todos os outros tipos de exceção.
+    echo "Error: " . $e->getMessage();
+}
+
+```
 
 ---
 
@@ -1697,9 +1757,9 @@ echo $tokenObj->payload;
 # Funções de _string_ - PHP String
 
 <code>strlen(string)</code>
-<code>str_word_count(string)</code>
+<code>str*word_count(string)</code>
 <code>strrev(string)</code>
-<code>strpos(string, searchTerm)</code> <small style="font-size:18px;">Retorna false se não encontrar, se encontrar retorna a posição do primeiro caracter do *match*.</small>
+<code>strpos(string, searchTerm)</code> <small style="font-size:18px;">Retorna false se não encontrar, se encontrar retorna a posição do primeiro caracter do \_match*.</small>
 <code>str_replace(searchTerm, newTerm, string)</code>
 
 ```php
@@ -1710,6 +1770,81 @@ echo str_word_count("Hello world!"); // 2
 echo strrev("Hello world!"); // !dlrow olleH
 echo strpos("Hello world!", "world"); // 6
 echo str_replace("Viente", "André", "Olá Vicente!"); // Olá André!
+```
+
+---
+
+# Expressão Regular - <code>preg_match()</code>
+
+A função <code>preg_match()</code> informará se uma string contém correspondências de um padrão.
+
+- 1 : Quando encontrar;
+- 0: Quando **não** encontrar;
+
+```php
+
+$str = "Vicente Calfo";
+$pattern = "/calfo/i";
+echo preg_match($pattern, $str); // 1
+
+```
+
+---
+
+# Expressão Regular - <code>preg_match_all()</code>
+
+A função<code>preg_match_all()</code> informará quantas correspondências foram encontradas para um padrão em uma string.
+
+```php
+
+$str = "Vicente Calfo";
+$pattern2 = "/e/i";
+echo preg_match_all($pattern2, $str); // 2
+```
+
+---
+
+# Expressão Regular - <code>preg_replace()</code>
+
+A função <code>preg_replace()</code> substituirá todas as correspondências do padrão em uma string por outra string.
+
+```php
+
+$str = "Vicente Calfo";
+$pattern = "/calfo/i";
+echo preg_replace($pattern, "Araujo", $str); // Vicente Araujo
+```
+
+---
+
+# Acesso a Banco (MySQL)
+
+1. Renomear o arquivo <code>php.init-production</code> > <code>php.init</code>
+2. Na linha 770 "descomentar" > <code>extension_dir = "ext"</code>
+3. Na linha 947 > <code>extension=php_pdo_mysql.dll</code>
+
+O <code>PDO (PHP Data Objects)</code> é uma extensão do PHP que fornece uma interface consistente e orientada a objetos para acessar diferentes bancos de dados.
+
+---
+
+# Connectando ao Banco de Dados (MySQL)
+
+```php
+$db = array(
+    "host" => "sql10.freesqldatabase.com",
+    "name" => "sql10618492",
+    "username" => "XXXXX",
+    "password" => "XXXXX"
+);
+
+$pdo = new PDO("mysql:host={$db['host']};dbname={$db['name']}",$db['username'], $db['password']);
+
+$unbufferedResult = $pdo->query("SELECT Name, URL FROM avengers");
+foreach ($unbufferedResult as $row) {
+    echo "{$row['Name']} ({$row['URL']})";
+    echo PHP_EOL;
+}
+
 ```
 
 ---
