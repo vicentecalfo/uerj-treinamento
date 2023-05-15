@@ -242,3 +242,214 @@ function App() {
   };
 }
 ```
+
+---
+
+# Recuperando os valores do campos
+
+<code>App.jsx</code>
+
+```jsx
+function App() {
+  const enviarFormulario = (event) => {
+    event.preventDefault();
+    const form = event.target; //<- Pega os elementos do formulário
+    const formData = new FormData(form); // <- Pega os dados do formulário
+    const formJson = Object.fromEntries(formData); // Transforma em um objeto json os dado
+    // const formData = Object.fromEntries(new FormData(form)); <- refatoração
+    console.log(formData);
+  };
+}
+```
+
+---
+
+# Fromulário controlado
+
+1. Vamos agora determinar um valor padrão para o campo "nomeCompleto":
+   <code>App.jsx</code>
+
+```jsx
+<input
+  className="input"
+  name="nomeCompleto"
+  type="text"
+  placeholder="Nome Completo"
+  value="Vicente Calfo"
+/>
+```
+
+2. Perceba que não conseguimos mais digitar outro valor;
+3. O React trabalha renderizando os componentes e SEMPRE terá o valor que foi inicialmente renderizado, a não ser que controlemos o estado do componente;
+4. Para ajustar isso, vamos precisar "escutar" as mudanças de cada campo.
+
+---
+
+# Escutando o campo
+
+Embora o _console_ mostre os dados na interface (HTML) o valor ainda **não** atualiza.
+<code>App.jsx</code>
+
+```jsx
+const escutandoCampo = (event) => {
+  const value = event.target.value;
+  console.log(value);
+};
+//....
+<input
+  className="input"
+  name="nomeCompleto"
+  type="text"
+  placeholder="Nome Completo"
+  value="Vicente Calfo"
+  onChange={escutandoCampo}
+/>;
+```
+
+---
+
+# Controlando o estado dos valores
+
+1. React Hook <code>useState</code>;
+   <code>App.jsx</code>
+
+```jsx
+import { useState } from "react";
+function App() {
+  const [valor, setValor] = useState("Vicente Calfo");
+  // outros códgios
+  const escutandoCampo = (event) => {
+    setValor(event.target.value);
+    console.log(valor);
+  };
+  // outros códigos
+  <input
+    className="input"
+    name="nomeCompleto"
+    type="text"
+    placeholder="Nome Completo"
+    value={valor}
+    onChange={escutandoCampo}
+  />;
+}
+```
+
+---
+
+# Controlando outros campos
+
+<img src="./cocodigo.png" style="position:absolute; right:0; bottom:0; width:200px;">
+<code>App.jsx</code>
+
+```jsx
+const [valorNome, setValorNome] = useState("");
+const [valorEmail, setValoEmail] = useState("");
+
+const escutandoCampoDeNome = (event) => {
+  setValorNome(event.target.value);
+  console.log(valorNome);
+};
+
+const escutandoCampoDeEmail = (event) => {
+  setValoEmail(event.target.value);
+  console.log(valorEmail);
+};
+```
+
+---
+
+# Controlando de maneira elegante outros campos
+
+<code>App.jsx</code>
+
+```jsx
+const [formValores, setFormValores] = useState({});
+const escutandoValorDosCampos = (event) => {
+const { name, value } = event.target;
+    setFormValores({...formValores, [name]: value})
+    console.log(formValores);
+};
+// .....
+ <input className="input" name="nomeCompleto" type="text"
+    placeholder="Nome Completo" onChange={escutandoValorDosCampos}
+    value={formValores.nomeCompleto}/>
+<input className="input" name="email" type="email"
+    placeholder="Seu melhor e-mail" onChange={escutandoValorDosCampos}
+    value={formValores.email}/>
+
+```
+
+---
+
+# Valores padrão
+
+<code>App.jsx</code>
+
+```jsx
+const [formValores, setFormValores] = useState({
+  nomeCompleto: "Vicente Calfo",
+  email: "vicentecalfo@uerj.br",
+});
+```
+
+---
+
+# Valores padrão - Estado Inicial
+
+<code>App.jsx</code>
+
+```jsx
+const [formValores, setFormValores] = useState({
+  nomeCompleto: "",
+  email: "",
+});
+
+// ou
+
+const [formValores, setFormValores] = useState({});
+<input
+  className="input"
+  name="nomeCompleto"
+  type="text"
+  placeholder="Nome Completo"
+  onChange={escutandoValorDosCampos}
+  value={formValores.nomeCompleto || ""}
+/>;
+```
+
+---
+
+# Incluindo o campo <code>select</code>
+
+```jsx
+import { estadosBrasileiroSigla } from "./estados";
+
+<div className="columns">
+  <div className="column">
+    <div className="select">
+      <select>
+        <option>Escolha o Estado</option>
+        {estadosBrasileiroSigla.map((estado, estadoIndex) => (
+          <option value={estado.nome} key={estadoIndex}>
+            {estado.nome}
+          </option>
+        ))}
+      </select>
+    </div>
+  </div>
+</div>;
+```
+---
+
+# Ordenado as opções do <code>select</code>
+
+1. <code>npm install underscore</code> 
+2. <code>import sortBy from 'underscore/modules/sortBy.js'</code>
+3. 
+```jsx 
+  const estadosBrasileiroOpcoes = sortBy(estadosBrasileiroSigla, 'nome');
+```
+4.
+```jsx
+ {estadosBrasileiroOpcoes.map((estado, estadoIndex) => ( // ....
+```
