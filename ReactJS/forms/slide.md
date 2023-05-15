@@ -311,7 +311,7 @@ const escutandoCampo = (event) => {
 # Controlando o estado dos valores
 
 1. React Hook <code>useState</code>;
-   <code>App.jsx</code>
+  <code>App.jsx</code>
 
 ```jsx
 import { useState } from "react";
@@ -320,7 +320,6 @@ function App() {
   // outros códgios
   const escutandoCampo = (event) => {
     setValor(event.target.value);
-    console.log(valor);
   };
   // outros códigos
   <input
@@ -338,7 +337,8 @@ function App() {
 
 # Controlando outros campos
 
-<img src="./cocodigo.png" style="position:absolute; right:0; bottom:0; width:200px;">
+<img src="./cocodigo.png" style="position:absolute; right:0; bottom:0; width:200px;" />
+
 <code>App.jsx</code>
 
 ```jsx
@@ -347,12 +347,10 @@ const [valorEmail, setValoEmail] = useState("");
 
 const escutandoCampoDeNome = (event) => {
   setValorNome(event.target.value);
-  console.log(valorNome);
 };
 
 const escutandoCampoDeEmail = (event) => {
   setValoEmail(event.target.value);
-  console.log(valorEmail);
 };
 ```
 
@@ -367,7 +365,6 @@ const [formValores, setFormValores] = useState({});
 const escutandoValorDosCampos = (event) => {
 const { name, value } = event.target;
     setFormValores({...formValores, [name]: value})
-    console.log(formValores);
 };
 // .....
  <input className="input" name="nomeCompleto" type="text"
@@ -421,6 +418,8 @@ const [formValores, setFormValores] = useState({});
 
 # Incluindo o campo <code>select</code>
 
+<code>App.jsx</code>
+
 ```jsx
 import { estadosBrasileiroSigla } from "./estados";
 
@@ -439,17 +438,61 @@ import { estadosBrasileiroSigla } from "./estados";
   </div>
 </div>;
 ```
+
 ---
 
 # Ordenado as opções do <code>select</code>
 
-1. <code>npm install underscore</code> 
+<code>App.jsx</code>
+
+1. <code>npm install underscore</code>
 2. <code>import sortBy from 'underscore/modules/sortBy.js'</code>
-3. 
-```jsx 
-  const estadosBrasileiroOpcoes = sortBy(estadosBrasileiroSigla, 'nome');
+3.
+
+```jsx
+const estadosBrasileiroOpcoes = sortBy(estadosBrasileiroSigla, "nome");
 ```
+
 4.
+
 ```jsx
  {estadosBrasileiroOpcoes.map((estado, estadoIndex) => ( // ....
+```
+
+---
+
+# Capturando valores de <code>select</code>
+
+<code>App.jsx</code>
+
+```jsx
+<select
+  name="estado"
+  onChange={escutandoValorDosCampos}
+  value={formValores.estado}
+>
+  <option value="">Escolha o Estado</option>
+  {estadosBrasileiroOpcoes.map((estado, estadoIndex) => (
+    <option value={estado.nome} key={estadoIndex}>
+      {estado.nome}
+    </option>
+  ))}
+</select>
+```
+
+---
+
+# Determinando um valor padrão para o <code>select</code>
+
+<code>App.jsx</code>
+
+
+```jsx
+
+const valoresIniciaisDoFormulario = {
+  nomeCompleto: "",
+  email: "",
+  estado: "RJ"
+};
+
 ```
