@@ -1895,8 +1895,8 @@ class Pessoa
     // declaração de método
     public function show() {
       // $this acessa uma propriedade da classe
-        echo "<br>Nome: ".$this->nome;
-        echo "<br>Idade: ".$this->idade;
+        echo "Nome: ".$this->nome;
+        echo "Idade: ".$this->idade;
     }
 }
 
