@@ -4,10 +4,13 @@
 class ToDo
 {
     public $tasks;
+    // private $messages = array(
+    //     'taskNotFound' => "Esta tarefa não existe\n"
+    // );
 
     function __construct($tasks = [])
     {
-        //$this->tasks = $tasks;
+        $this->tasks = $tasks;
         //-----------------------------------
         //  if(gettype($tasks) === 'array'){
         //     $this->tasks = $tasks;
@@ -72,7 +75,47 @@ class ToDo
 
     public function removeTask($index)
     {
+        // $taskDontExists = !array_key_exists($index, $this->tasks);
+        // if ($taskDontExists) echo "Esta tarefa não existe em sua lista." . PHP_EOL;
+        // unset($this->tasks[$index]);
+
+        // if($this->checkIfTaskDontExists($index)) exit("Esta tarefa não existe em sua lista". PHP_EOL);
+
+        //    $taskDontExist = $this->checkIfTaskDontExists($index);
+        //    if($taskDontExist['status']){
+        //     echo $taskDontExist['message'];
+        //     return;
+        //    }
+        if ($this->checkIfTaskDontExists($index)) echo $this->messages['taskNotFound']; return;
         unset($this->tasks[$index]);
+    }
+
+    public function editTask($index, $task)
+    {
+        //  $taskDontExists = !array_key_exists($index, $this->tasks);
+        // if ($taskDontExists) echo "Esta tarefa não existe em sua lista." . PHP_EOL;
+         //$this->tasks[$index] = $task;
+
+        //if($this->checkIfTaskDontExists($index)) die("Esta tarefa não existe em sua lista". PHP_EOL);
+
+        // $taskDontExist = $this->checkIfTaskDontExists($index);
+        // if ($taskDontExist['status']) {
+        //     echo $taskDontExist['message'];
+        //     return;
+        // }
+
+        if ($this->checkIfTaskDontExists($index)) echo $this->messages['taskNotFound']; return;
+        $this->tasks[$index] = $task;
+    }
+
+    private function checkIfTaskDontExists($index)
+    {
+        return !array_key_exists($index, $this->tasks);
+        // return array(
+        //     'status' => !array_key_exists($index, $this->tasks),
+        //     'message' => "Esta tarefa não existe em sua lista". PHP_EOL
+        // );
+
     }
 }
 
@@ -119,14 +162,37 @@ echo "--------------------------" .  PHP_EOL;
 
 // echo "--------------------------" .  PHP_EOL;
 
+// $todo->checkIfTaskDontExists($index);
+
+$todo->editTask(
+    index: 1,
+    task: 'Buscar o Tobias no petshop'
+);
+
+$todo->listTasks();
+
+echo "--------------------------" .  PHP_EOL;
+
+$todo->removeTask(null);
+
+echo "--------------------------" .  PHP_EOL;
+
+$todo->listTasks();
 
 
+echo "--------------------------" .  PHP_EOL;
 
-// function get_user_input($prompt = null)
-// {
-//     $line = readline($prompt);
-//     return $line;
-// }
+$todo->removeTask('122');
 
-// $line = get_user_input("enter something: ");
-// print $line . PHP_EOL;
+$todo->listTasks();
+
+echo "--------------------------" .  PHP_EOL;
+
+$todo->editTask(
+    index: "456",
+    task: 'Buscar o Tobias no petshop'
+);
+
+$todo->listTasks();
+
+echo "--------------------------" .  PHP_EOL;

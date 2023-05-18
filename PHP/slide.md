@@ -1995,11 +1995,9 @@ $aluno->fala();//exibe oi alunos e oi pessoas
 
 ---
 
-# Orientação a Objetos
+# Orientação a Objetos - Classes abstratas
 
-Classes abstratas
-
-- Não podem ser referenciadas, pois são um "modelo" para as classes que as herdam.
+Não podem ser instanciadas, pois são um "modelo" para as classes que as herdam.
 
 ```php
 abstract class Pessoas
@@ -2019,3 +2017,156 @@ $pessoas = new Pessoas(); // ERRO
 $aluno = new Aluno();
 $aluno->fala();//exibe oi alunos e oi pessoas
 ```
+
+---
+
+# Classes - Boas práticas
+
+```php
+<?php
+class ToDo
+{
+    public $tasks;
+    function __construct($tasks = []){
+      $this->tasks = $tasks;
+    }
+
+    public function addTask($task){
+        array_unshift($this->tasks, $task);
+        //array_push($this->tasks,  $task);
+    }
+}
+//-----
+
+$todo = new ToDo();
+$todo->addTask("Lavar Roupa");
+echo $todo->tasks;
+
+```
+
+---
+
+# Classes - Boas práticas
+
+1. <code>$tasks</code> - está público;
+2. Não existe um método para listar as tarefas (não devemos acessar a propriedade da classe diretamente);
+
+```php
+
+ public function listTasks(){
+  foreach ($this->tasks as $key => $value) {
+    echo "$key : $value ";
+    echo PHP_EOL;
+  }
+}
+
+```
+
+---
+
+# Classes - Boas práticas
+
+1. Tornar <code>$tasks</code> privado (<code>private</code>) para que só a classe possa acessar (manipular);
+
+```php
+
+$todo->tasks = array(); // erro
+
+unset($todo->tasks[1]); // erro
+
+```
+
+---
+
+# Classes - Boas práticas
+
+Exercício: Tratar erros
+
+```php
+  public function removeTask($index){
+    unset($this->tasks[$index]);
+  }
+
+  public function editTask($index,$task){
+    $this->tasks[$index] = $task;
+  }
+  //
+  $todo->editTask(
+    index: 1,
+    task: 'Buscar o Tobias no petshop'
+  );
+
+  $todo->removeTask(1);
+
+```
+
+---
+
+# Classes - Refatorar
+
+Exercício: Melhorar o código
+
+<img src="./refatorar-gato.gif" style="width:800px; display:block; margin:0 auto;"/>
+
+---
+
+# Formulários
+
+1. Baixar o <code>XAMPP</code>
+2. Inicial o serviços do <code>APACHE</code>
+3. No navegador: <code>localhost:80</code> -> <code>Dashboard</code>
+4. <code>C:\xampp\htdocs\php_curso</code> <- criar a pasta <code>php_curso</code>
+5. <code>http://localhost/php_curso/</code>
+
+
+---
+
+# Data
+
+- d - Representa o dia do mês (01 a 31)
+- m - Representa um mês (01 a 12)
+- Y - Representa um ano (em quatro dígitos)
+- l (minúsculo 'L') - Representa o dia da semana
+
+```php
+
+echo "Hoje -> " . date("Y/m/d") . PHP_EOL;
+echo "Hoje -> " . date("Y.m.d") . PHP_EOL;
+echo "Hoje -> " . date("Y-m-d") . PHP_EOL;
+echo "Hoje -> " . date("l"); // dia da semana por extenso
+
+```
+
+---
+
+# Hora
+
+Aqui estão alguns caracteres comumente usados para horários:
+
+- H - Formato de 24 horas de uma hora (00 a 23)
+- h - Formato de 12 horas de uma hora com zeros à esquerda (01 a 12)
+- i - Minutos com zeros à esquerda (00 a 59)
+- s - Segundos com zeros à esquerda (00 a 59)
+- a - (am ou pm)
+
+
+```php
+
+<?php
+echo date("h:i:sa");
+
+```
+
+---
+
+# Include x Require
+
+```php
+<?php include 'footer.php'; ?> // se não encontrar segue o script
+
+<?php require 'footer.php'; ?> // se não encontrar para a execução
+
+```
+
+
+

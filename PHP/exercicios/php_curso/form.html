@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Hello Bulma!</title>
+    <link
+      rel="stylesheet"
+      href="https://cdn.jsdelivr.net/npm/bulma@0.9.4/css/bulma.min.css"
+    />
+  </head>
+  <body>
+    <section class="section">
+      <div class="container">
+        <h1 class="title">Curso PHP InovUERJ</h1>
+        <p class="subtitle">Formulários!</p>
+      </div>
+    </section>
+    <section class="section">
+      <div class="container">
+        <form action="form_get.php" method="get">
+          <div class="columns">
+            <div class="column">
+              <div class="field">
+                <label class="label">Nome</label>
+                <div class="control">
+                  <input type="text" name="nome" class="input" />
+                </div>
+              </div>
+            </div>
+            <div class="column">
+              <div class="field">
+                <label class="label">E-mail</label>
+                <div class="control">
+                  <input type="text" name="email" class="input" />
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="columns">
+            <div class="column">
+              <div class="field">
+                <label class="label">Período</label>
+                <div class="control">
+                  <div class="select">
+                    <select name="periodo">
+                      <option>Escolha ...</option>
+                      <option value="Manhã (9h/12h)">Manhã (9h/12h)</option>
+                      <option value="Tarde (13h/16h)">Tarde (13h/16h)</option>
+                      <option value="Noite (17h/20h)">Noite (17h/20h)</option>
+                    </select>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="column">
+              <div class="field">
+                <label class="label">Assuntos de interesse:</label>
+                <div class="control">
+                  <ul>
+                    <li>
+                      <input
+                        type="checkbox"
+                        name="extras[]"
+                        value="Código Limpo"
+                      />
+                      Código Limpo
+                    </li>
+                    <li>
+                      <input
+                        type="checkbox"
+                        name="extras[]"
+                        value="Metodologia Ágil"
+                      />
+                      Metodologia Ágil
+                    </li>
+                    <li>
+                      <input
+                        type="checkbox"
+                        name="extras[]"
+                        value="Refatoração"
+                      />
+                      Refatoração
+                    </li>
+                  </ul>
+                </div>
+              </div>
+            </div>
+            <div class="column">
+              <div class="field">
+                <label class="label">Qual sistema operacional de preferência:</label>
+                <div class="control">
+                    <ul>
+                        <li><input type="radio" name="sistema" value="Windows"> Windows</li>
+                        <li><input type="radio" name="sistema" value="Apple"> Apple</li>
+                        <li><input type="radio" name="sistema" value="Linux"> Linux</li>
+                    </ul>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="columns">
+            <div class="column">
+              <input type="checkbox" name="newsletter" value="Sim" />
+              Você deseja assinar a nossa newsletter?
+            </div>
+          </div>
+
+          <div class="columns">
+            <div class="column">
+              <button type="submit" class="button is-primary">Enviar</button>
+              <button type="reset" class="button">Limpar Dados</button>
+            </div>
+          </div>
+        </form>
+      </div>
+    </section>
+  </body>
+</html>
