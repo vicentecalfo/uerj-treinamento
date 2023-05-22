@@ -311,7 +311,7 @@ const escutandoCampo = (event) => {
 # Controlando o estado dos valores
 
 1. React Hook <code>useState</code>;
-  <code>App.jsx</code>
+   <code>App.jsx</code>
 
 ```jsx
 import { useState } from "react";
@@ -486,13 +486,167 @@ const estadosBrasileiroOpcoes = sortBy(estadosBrasileiroSigla, "nome");
 
 <code>App.jsx</code>
 
+```jsx
+const valoresIniciaisDoFormulario = {
+  nomeCompleto: "",
+  email: "",
+  estado: "RJ",
+};
+```
+
+---
+
+# Limpando dados do formulário (reset)
+
+<code>App.jsx</code>
 
 ```jsx
+
+<div className="column">
+    <button className="button" type="submit">
+       Enviar
+    </button>
+</div>
+<div className="column">
+    <button className="button" type="reset">
+      Limpar Formulário
+    </button>
+</div>
+
+```
+
+---
+
+# Limpando dados do formulário (reset)
+
+```jsx
+const limparFormulario = (event) => {
+  event.preventDefault();
+  setFormValores({ ...valoresIniciaisDoFormulario });
+};
+
+// ----
+<div className="column">
+  <button className="button" type="reset" onClick={limparFormulario}>
+    Limpar Formulário
+  </button>
+</div>;
+```
+
+---
+
+# Campos Condicionais -> <code>select</code> "Estado"
+
+```jsx
+import estados from "./estados.json";
+
+//-----------------
+
+<select
+  name="estado"
+  onChange={escutandoValorDosCampos}
+  value={formValores.estado}
+>
+  <option value="">Escolha o Estado</option>
+  {estados.map((estado) => (
+    <option value={estado.id} key={estado.id}>
+      {estado.nome} ({estado.sigla})
+    </option>
+  ))}
+</select>;
+```
+
+---
+
+# Campos Condicionais -> <code>select</code> "Municipio"
+
+```jsx
+import municipios from "./municipios.json";
 
 const valoresIniciaisDoFormulario = {
   nomeCompleto: "",
   email: "",
-  estado: "RJ"
+  estado: "",
+  municipio: "", // <-- acrescentar
 };
 
+const buscarMunicipiosFiltradosPorEstado = () => {
+  const filtrados = municipios.filter(
+    (item) => item.microrregiao.mesorregiao.UF.id === Number(formValores.estado)
+  );
+  return filtrados;
+};
+
+const [municipioFiltrado, setMunicipioFiltrado] = useState(
+  buscarMunicipiosFiltradosPorEstado()
+);
+```
+
+---
+
+# Campos Condicionais -> <code>select</code> "Municipio"
+
+- Será executada quando o estado do componente for atualizado;
+- Podemos controlar quando a função dentro do <code>useEffect()</code> será execuutada;
+- O segundo parâmetro controla, qual condição de mudança de variável dá gatilho ára execução (se for um array vazio, ela só carregará um vez, quando o componente for inserido em tela);
+
+```jsx
+import { useState, useEffect } from "react";
+//-----
+useEffect(() => {
+  setMunicipioFiltrado(buscarMunicipiosFiltradosPorEstado());
+}, [formValores.estado]);
+```
+
+---
+
+# Campos Condicionais -> <code>select</code> "Municipio"
+
+Desabilitando o campo quando não tiver **estado** selecionado.
+
+```jsx
+<select
+  name="municipio"
+  onChange={escutandoValorDosCampos}
+  value={formValores.municipio}
+  disabled={!formValores?.estado}
+>
+  <option value="">Escolha o Município ({municipioFiltrado.length})</option>
+  {municipioFiltrado.map((municipio) => (
+    <option value={municipio.id} key={municipio.id}>
+      {municipio.nome}
+    </option>
+  ))}
+</select>
+```
+
+---
+
+# Controlando o estado do botão de envio
+
+```jsx
+const botaoDesabilitado = () => {
+  const campos = Object.keys(formValores);
+  const camposPreenchidos = campos.filter((campo) => formValores[campo] !== "");
+  return campos.length > camposPreenchidos.length;
+};
+
+const [desabilitaBotao, setDesabilitaBotao] = useState(botaoDesabilitado());
+
+//
+
+useEffect(() => {
+  setMunicipioFiltrado(buscarMunicipiosFiltradosPorEstado());
+  setDesabilitaBotao(botaoDesabilitado());
+}, [formValores]);
+```
+
+---
+
+# Controlando o estado do botão de envio
+
+```jsx
+<button className="button" type="submit" disabled={desabilitaBotao}>
+  Enviar
+</button>
 ```
