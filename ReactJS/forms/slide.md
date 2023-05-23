@@ -796,10 +796,47 @@ useEffect(() => {
   );
 }, [formValores.estado]);
 ```
+
 ---
 
 # Controlando o botão de envio
 
 ```jsx
 useEffect(() => setDesabilitaBotao(botaoDesabilitado()), [formValores]);
+```
+
+---
+
+# Refatorando para ASYNC/AWAIT
+
+```js
+useEffect(() => {
+  const fetchData = async () => {
+    const response = await fetch(
+      "https://servicodados.ibge.gov.br/api/v1/localidades/regioes?orderBy=nome"
+    );
+    const data = await response.json();
+    setRegioes(data);
+  };
+  fetchData();
+}, []);
+```
+
+---
+
+# Refatorando para ASYNC/AWAIT -> IIEF
+
+*Immediately-Invoked Function Expression*
+Função Auto-Invocável
+
+```js
+useEffect(() => {
+  (async () => {
+    const response = await fetch(
+      "https://servicodados.ibge.gov.br/api/v1/localidades/regioes?orderBy=nome"
+    );
+    const data = await response.json();
+    setRegioes(data);
+  })();
+}, []);
 ```
