@@ -650,3 +650,156 @@ useEffect(() => {
   Enviar
 </button>
 ```
+
+---
+
+# Refatorando usando API nas opções
+
+```jsx
+const [regioes, setRegioes] = useState([]);
+const [estadoFiltrado, setEstadoFiltrado] = useState([]);
+const [municipioFiltrado, setMunicipioFiltrado] = useState([]);
+
+//---------------
+
+useEffect(() => {
+  fetch(
+    "https://servicodados.ibge.gov.br/api/v1/localidades/regioes?orderBy=nome"
+  )
+    .then((response) => response.json())
+    .then((data) => {
+      setRegioes(data);
+    });
+}, []);
+```
+
+---
+
+# Refatorando usando API nas opções - <code>select</code> - Regiões
+
+```jsx
+<select
+  name="regiao"
+  onChange={escutandoValorDosCampos}
+  value={formValores.regiao}
+>
+  <option value="">Escolha a Região</option>
+  {regioes.map((regiao) => (
+    <option value={regiao.id} key={regiao.id}>
+      {regiao.nome}
+    </option>
+  ))}
+</select>
+```
+
+---
+
+# Refatorando usando API nas opções - <code>select</code> - Estados
+
+```jsx
+<select
+  name="estado"
+  onChange={escutandoValorDosCampos}
+  value={formValores.estado}
+  disabled={estadoFiltrado.length === 0}
+>
+  <option value="">Escolha o Estado ({estadoFiltrado.length})</option>
+  {estadoFiltrado.map((estado) => (
+    <option value={estado.id} key={estado.id}>
+      {estado.nome} ({estado.sigla})
+    </option>
+  ))}
+</select>
+```
+
+---
+
+# Refatorando usando API nas opções - <code>select</code> - Municípios
+
+```jsx
+<select
+  name="municipio"
+  onChange={escutandoValorDosCampos}
+  value={formValores.municipio}
+  disabled={municipioFiltrado.length === 0}
+>
+  <option value="">Escolha o Município ({municipioFiltrado.length})</option>
+  {municipioFiltrado.map((municipio) => (
+    <option value={municipio.id} key={municipio.id}>
+      {municipio.nome}
+    </option>
+  ))}
+</select>
+```
+
+---
+
+# Refatorando usando API nas opções - Buscando os Estados
+
+```jsx
+const bucarEstadosFiltradosPorRegiao = () => {
+  return new Promise((resolve, reject) => {
+    if (formValores.regiao === "") resolve([]);
+    fetch(
+      `https://servicodados.ibge.gov.br/api/v1/localidades/regioes/${formValores.regiao}/estados`
+    )
+      .then((response) => response.json())
+      .then((data) => {
+        console.log(data);
+        resolve(data);
+      });
+  });
+};
+```
+
+---
+
+# Refatorando usando API nas opções - Buscando os Municípios
+
+```jsx
+const buscarMunicipiosFiltradosPorEstado = () => {
+  return new Promise((resolve, reject) => {
+    if (formValores.regiao === "") resolve([]);
+    fetch(
+      `https://servicodados.ibge.gov.br/api/v1/localidades/estados/${formValores.estado}/municipios`
+    )
+      .then((response) => response.json())
+      .then((data) => {
+        console.log(data);
+        resolve(data);
+      });
+  });
+};
+```
+
+---
+
+# Controlando os efeitos colaterais -> Região/Estado
+
+```jsx
+useEffect(() => {
+  bucarEstadosFiltradosPorRegiao().then((estados) => {
+    setEstadoFiltrado(estados);
+    setMunicipioFiltrado([]);
+  });
+}, [formValores.regiao]);
+```
+
+---
+
+# Controlando os efeitos colaterais -> Esatdo/Municípios
+
+```jsx
+useEffect(() => {
+  buscarMunicipiosFiltradosPorEstado().then((municipios) =>
+    setMunicipioFiltrado(municipios)
+  );
+}, [formValores.estado]);
+```
+---
+
+# Controlando o botão de envio
+
+```jsx
+useEffect(() => setDesabilitaBotao(botaoDesabilitado()), [formValores]);
+```
