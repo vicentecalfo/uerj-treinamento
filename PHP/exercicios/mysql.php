@@ -3,8 +3,8 @@
 $db = array(
     "host" => "sql10.freesqldatabase.com",
     "name" => "sql10618492",
-    "username" => "",
-    "password" => ""
+    "username" => "sql10618492",
+    "password" => "xbd9FpxEFT"
 );
 
 $pdo = new PDO("mysql:host={$db['host']};dbname={$db['name']}",$db['username'], $db['password']);
