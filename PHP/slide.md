@@ -2169,8 +2169,7 @@ echo date("h:i:sa");
 ```
 
 ---
+# Arquitetura Limpa
 
-
-
-
+<img src="https://blog.cleancoder.com/uncle-bob/images/2012-08-13-the-clean-architecture/CleanArchitecture.jpg" style="width:800px; display:block; margin:0 auto;">
 

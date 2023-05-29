@@ -826,7 +826,7 @@ useEffect(() => {
 
 # Refatorando para ASYNC/AWAIT -> IIEF
 
-*Immediately-Invoked Function Expression*
+_Immediately-Invoked Function Expression_
 Função Auto-Invocável
 
 ```js
@@ -840,3 +840,151 @@ useEffect(() => {
   })();
 }, []);
 ```
+
+---
+
+# Validação de Campos
+
+```jsx
+  const verificaValidacao = () => {
+    const erroDosCampos = {
+      nomeCompleto: {
+        min: {
+          check: (value) => value.length >= 6,
+          message: "O nome está muito curto",
+        },
+        max: {
+          check: (value) => value.length <= 12,
+          message: "O nome está muito longo",
+        },
+      },
+      email: {
+        valido: {
+          check: (value) => value.match(/^([\w.%+-]+)@([\w-]+\.)+([\w]{2,})$/i),
+          message: "Não parece um e-mail válido",
+        },
+      },
+      regiao: {
+        valido: {
+          check: (value) => value !== "",
+          message: "Campo obrigatório.",
+        },
+      },
+      estado: {
+        valido: {
+          check: (value) => value !== "",
+          message: "Campo obrigatório.",
+        },
+      },
+      municipio: {
+        valido: {
+          check: (value) => value !== "",
+          message: "Campo obrigatório.",
+        },
+      },
+    };
+// continua
+  };
+
+  ---
+```
+
+---
+
+# Validação de Campos
+
+```jsx
+const verificaValidacao = () => {
+  // codigo anterior
+  const out = {};
+  const campos = Object.keys(erroDosCampos);
+  campos.forEach((campo) => {
+    const validacoes = Object.keys(erroDosCampos[campo]);
+    for (let i = 0; i < validacoes.length; i++) {
+      const naoValido = !erroDosCampos[campo][validacoes[i]].check(
+        formValores[campo]
+      );
+      if (naoValido) {
+        out[campo] = erroDosCampos[campo][validacoes[i]].message;
+        break;
+      }
+    }
+  });
+  out.submitDisabled = Object.keys(out).length > 0;
+  return out;
+};
+```
+
+---
+
+# Validação de Campos
+
+```jsx
+useEffect(() => {
+  //setDesabilitaBotao(botaoDesabilitado());
+  setvalidacaoForm(verificaValidacao());
+}, [formValores]);
+
+function CampoErro({ campo }) {
+  const hasError = validacaoForm.hasOwnProperty(campo);
+  if (!hasError) return "";
+  return (
+    <span className="has-text-danger is-size-7 p-2">
+      {validacaoForm[campo]}
+    </span>
+  );
+}
+```
+
+---
+
+# Validação de Campos
+
+```jsx
+//...
+<input
+  className="input"
+  name="nomeCompleto"
+  type="text"
+  placeholder="Nome Completo"
+  onChange={escutandoValorDosCampos}
+  value={formValores.nomeCompleto}/>
+
+
+  <CampoErro campo="nomeCompleto"/>
+//...
+```
+
+---
+
+# Validação de Campos
+
+```jsx
+//const [desabilitaBotao, setDesabilitaBotao] = useState(botaoDesabilitado());
+const [camposMexidos, setCamposMexidos] = useState({
+  nomeCompleto: false,
+  email: false,
+  regiao: false,
+  estado: false,
+  municipio: false,
+});
+```
+
+---
+
+# Validação de Campos
+
+```jsx
+
+  function CampoErro({campo}) {
+    const hasError = validacaoForm.hasOwnProperty(campo);
+    const naoFoiMexido = !camposMexidos[campo];
+    if (!hasError || naoFoiMexido) return "";
+    return (
+      <span className="has-text-danger is-size-7 p-2">{validacaoForm[campo]}</span>
+    );
+  }
+
+
+```
+
