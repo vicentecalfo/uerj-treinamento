@@ -975,16 +975,631 @@ const [camposMexidos, setCamposMexidos] = useState({
 # Validação de Campos
 
 ```jsx
+function CampoErro({ campo }) {
+  const hasError = validacaoForm.hasOwnProperty(campo);
+  const naoFoiMexido = !camposMexidos[campo];
+  if (!hasError || naoFoiMexido) return "";
+  return (
+    <span className="has-text-danger is-size-7 p-2">
+      {validacaoForm[campo]}
+    </span>
+  );
+}
+```
 
-  function CampoErro({campo}) {
-    const hasError = validacaoForm.hasOwnProperty(campo);
-    const naoFoiMexido = !camposMexidos[campo];
-    if (!hasError || naoFoiMexido) return "";
-    return (
-      <span className="has-text-danger is-size-7 p-2">{validacaoForm[campo]}</span>
-    );
-  }
+---
 
+# Organizando as coisas
+
+Criar pastas dentro de "src":
+
+- components
+- services
+- utils
+
+---
+
+# Criando os arquivos
+
+- src -> appConfigFormValidation.js
+- src/utils -> validationFormFields.js
+- src/services -> ibge.service.js
+- src/components/form
+  - FieldError.jsx
+  - Input.jsx
+  - Select.jsx
+- src/components/layout
+  - Columns.jsx
+  - Section.jsx
+
+---
+
+# Criando os componentes de <code>layout</code>
+
+Marcação desejada
+
+```jsx
+<Section>
+  <Columns>
+    <Column>... conteudo</Column>
+  </Columns>
+</Section>
+```
+
+---
+
+# Criando os componentes de <code>layout -> Columns</code>
+
+<code>src/components/layout/Columns.jsx</code>
+
+```jsx
+function Columns({ children }) {
+  return <div className="columns">{children}</div>;
+}
+function Column({ children }) {
+  return <div className="column">{children}</div>;
+}
+export { Columns, Column };
+```
+
+---
+
+# Criando os componentes de <code>layout -> Section</code>
+
+<code>src/components/layout/Section.jsx</code>
+
+```jsx
+function Section({ children }) {
+  return (
+    <>
+      <section className="section">
+        <div className="container">{children}</div>
+      </section>
+    </>
+  );
+}
+
+export default Section;
+```
+
+---
+
+# Recomeçando o App.jsx
+
+```jsx
+import "bulma/css/bulma.min.css";
+import "./App.css";
+import { Columns, Column } from "./components/layout/Columns";
+import Section from "./components/layout/Section";
+
+function App() {
+  return (
+    <>
+      <Section>
+        <h1 className="title">Formulário de Incrição</h1>
+        <p className="subtitle">Treinamento de React</p>
+      </Section>
+      <Section>
+        <form></form>
+      </Section>
+    </>
+  );
+}
+```
+
+---
+
+# Preparando a "grid" -> <code>App.jsx</code>
+
+```jsx
+// dentro da tag form
+
+<Columns>
+  <Column> nome</Column>
+  <Column> email</Column>
+</Columns>
+<Columns>
+  <Column> região</Column>
+  <Column> estados</Column>
+  <Column> município</Column>
+</Columns>
+<Columns>
+  <Column> botões</Column>
+</Columns>
+```
+
+---
+
+# Preparando os "estados" da aplicação -> <code>App.jsx</code>
+
+```jsx
+// fora da função App
+const valoresIniciaisDoFormulario = {
+  nomeCompleto: "",
+  email: "",
+  regiao: "",
+  estado: "",
+  municipio: "",
+};
+
+// dentro da função App
+
+import { useState, useEffect, useMemo } from "react"; // mais na frente vamos usar o useEffect e o useMemo
+
+const [formValores, setFormValores] = useState(valoresIniciaisDoFormulario);
+const [regioes, setRegioes] = useState([]);
+const [estadoFiltrado, setEstadoFiltrado] = useState([]);
+const [municipioFiltrado, setMunicipioFiltrado] = useState([]);
+```
+
+---
+
+# Controlando os campos -> <code>App.jsx</code>
+
+```jsx
+// dentro da função App
+
+const enviarFormulario = (event) => {
+  event.preventDefault();
+  const form = event.target;
+  const formData = Object.fromEntries(new FormData(form));
+  console.log(formData);
+};
+
+const limparFormulario = (event) => {
+  event.preventDefault();
+  setFormValores({ ...valoresIniciaisDoFormulario });
+};
+
+const escutandoValorDosCampos = (event) => {
+  const { name, value } = event.target;
+  setFormValores({ ...formValores, [name]: value });
+};
+
+// Na marcação HTML atualizar o form
+<form onSubmit={enviarFormulario}>...as colunas (columns)</form>;
+```
+
+---
+
+# Incluindo os botões do formulário -> <code>App.jsx</code>
+
+```jsx
+
+// dentro da função App no HTML na coluna dos botões
+
+<button
+  className="button mr-4 is-primary"
+  type="submit">
+  Enviar
+</button>
+<button
+  className="button"
+  type="reset"
+  onClick={limparFormulario}>
+  Limpar Formulário
+</button>
 
 ```
 
+---
+
+# Criando o acesso a API -> services/ibge.service.js
+
+```js
+class IBGEService {
+  #baseURL;
+  #orderBy;
+  constructor() {
+    this.#baseURL = "https://servicodados.ibge.gov.br/api/v1/localidades";
+    this.#orderBy = "nome";
+  }
+  async regioes() {
+    const response = await fetch(
+      `${this.#baseURL}/regioes?orderBy=${this.#orderBy}`
+    );
+    const data = await response.json();
+    return data;
+  }
+  async estadosPorRegioes(regiaoId) {
+    if (regiaoId === "") return [];
+    const response = await fetch(
+      `${this.#baseURL}/regioes/${regiaoId}/estados?orderBy=${this.#orderBy}`
+    );
+    const data = await response.json();
+    return data;
+  }
+  async municipiosPorEstados(estadoId) {
+    if (estadoId === "") return [];
+    const response = await fetch(
+      `${this.#baseURL}/estados/${estadoId}/municipios?orderBy=${this.#orderBy}`
+    );
+    const data = await response.json();
+    return data;
+  }
+}
+export default IBGEService;
+```
+
+---
+
+# Usando o IBGE service -> <code>App.jsx</code>
+
+```jsx
+// dentro da função App
+
+const ibgeService = useMemo(() => new IBGEService(), []);
+```
+
+O useMemo é um hook do React que otimiza o desempenho de componentes funcionais, evitando recálculos desnecessários. Ele memoriza o resultado de uma função e retorna o valor memorizado quando as dependências especificadas permanecem as mesmas. Isso ajuda a evitar a execução repetida de cálculos e a melhorar a eficiência do componente.
+
+---
+
+# Usando o IBGE service -> <code>App.jsx</code>
+
+```jsx
+// dentro da função App
+
+useEffect(() => {
+  (async () => {
+    const data = await ibgeService.regioes();
+    setRegioes(data);
+  })();
+}, [ibgeService]);
+```
+
+---
+
+# Usando o IBGE service -> <code>App.jsx</code>
+
+```jsx
+// dentro da função App
+
+useEffect(() => {
+  (async () => {
+    setEstadoFiltrado(await ibgeService.estadosPorRegioes(formValores.regiao));
+    setMunicipioFiltrado([]);
+  })();
+}, [formValores.regiao, ibgeService]);
+
+useEffect(() => {
+  (async () => {
+    setMunicipioFiltrado(
+      await ibgeService.municipiosPorEstados(formValores.estado)
+    );
+  })();
+}, [formValores.estado, ibgeService]);
+```
+
+---
+
+# Criando as validações de campo
+
+src/util/validationFormFields.js
+
+```js
+function validationFormFields(config, formValues) {
+  const out = {};
+  Object.keys(config).forEach((field) => {
+    const validators = Object.keys(config[field]);
+    for (let i = 0; i < validators.length; i++) {
+      const notValid = !config[field][validators[i]].check(formValues[field]);
+      if (notValid) {
+        out[field] = config[field][validators[i]].message;
+        break;
+      }
+    }
+  });
+  out.submitDisabled = Object.keys(out).length > 0;
+  return out;
+}
+
+export default validationFormFields;
+```
+
+---
+
+# Criando o arquivo de configuração do formulário
+
+src/appConfigFormValidation.js
+
+```js
+const config = {
+  nomeCompleto: {
+    min: {
+      check: (value) => value.length >= 6,
+      message: "O nome está muito curto",
+    },
+    max: {
+      check: (value) => value.length <= 12,
+      message: "O nome está muito longo",
+    },
+  },
+  email: {
+    valido: {
+      check: (value) => value.match(/^([\w.%+-]+)@([\w-]+\.)+([\w]{2,})$/i),
+      message: "Não parece um e-mail válido",
+    },
+  },
+  regiao: {
+    valido: {
+      check: (value) => value !== "",
+      message: "Campo obrigatório.",
+    },
+  },
+  estado: {
+    valido: {
+      check: (value) => value !== "",
+      message: "Campo obrigatório.",
+    },
+  },
+  municipio: {
+    valido: {
+      check: (value) => value !== "",
+      message: "Campo obrigatório.",
+    },
+  },
+};
+export default config;
+```
+
+---
+
+# Atualizando o App.jsx
+
+```jsx
+//fora da função App
+import config from "./appConfigFormValidation";
+
+//dentro da função App
+
+const [validacaoForm, setvalidacaoForm] = useState(
+  validationFormFields(config, formValores)
+);
+
+useEffect(
+  () => setvalidacaoForm(validationFormFields(config, formValores)),
+  [formValores]
+);
+```
+
+---
+
+# Criando os componentes do formulário -> FieldError.jsx
+
+```jsx
+function FieldError({ fieldName, validation, untouched }) {
+  const hasError = validation.hasOwnProperty(fieldName);
+  if (!hasError || untouched) return "";
+  return (
+    <span className="has-text-danger is-size-7 p-2">
+      {validation[fieldName]}
+    </span>
+  );
+}
+
+export default FieldError;
+```
+
+---
+
+# Criando os componentes do formulário -> Input.jsx
+
+```jsx
+import { useState } from "react";
+import FieldError from "./FieldError";
+
+function Input({
+  name,
+  type = "text",
+  placeholder = "",
+  onChange,
+  value,
+  label,
+  validation,
+}) {
+  const [untouched, setUntouched] = useState(true);
+  const handleOnChange = (event) => {
+    setUntouched(false);
+    onChange(event);
+  };
+  return (
+    <>
+      <label>{label}</label>
+      <input
+        className="input"
+        name={name}
+        type={type}
+        placeholder={placeholder}
+        onChange={handleOnChange}
+        value={value}
+      />
+      <FieldError
+        fieldName={name}
+        validation={validation}
+        untouched={untouched}
+      />
+    </>
+  );
+}
+
+export default Input;
+```
+
+---
+
+# Criando os componentes do formulário -> Select.jsx
+
+```jsx
+import { useState } from "react";
+import FieldError from "./FieldError";
+
+function Select({
+  name,
+  onChange,
+  value,
+  label,
+  validation,
+  disabled = false,
+  options = [],
+  optionMap,
+  counter = true,
+}) {
+  const [untouched, setUntouched] = useState(true);
+  const handleOnChange = (event) => {
+    setUntouched(false);
+    onChange(event);
+  };
+  return (
+    <>
+      <div className="select is-fullwidth">
+        <select
+          name={name}
+          onChange={handleOnChange}
+          value={value}
+          disabled={disabled}
+        >
+          <option value="">
+            {label} {counter ? `(${options.length})` : ""}
+          </option>
+          {options.map((option, index) => (
+            <option value={option[optionMap.value]} key={index}>
+              {option[optionMap.label]}
+            </option>
+          ))}
+        </select>
+        <FieldError
+          fieldName={name}
+          validation={validation}
+          untouched={untouched}
+        />
+      </div>
+    </>
+  );
+}
+
+export default Select;
+```
+
+---
+
+# Usando os componentes de formulário -> App.jsx
+
+```jsx
+//fora da função App
+import Input from "./components/form/Input";
+import Select from "./components/form/Select";
+```
+
+---
+
+# Usando os componentes de formulário -> App.jsx -> Input -> nomeCompleto
+
+```jsx
+<Input
+  name="nomeCompleto"
+  label="Nome Completo"
+  placeholder="Nome Completo"
+  onChange={escutandoValorDosCampos}
+  value={formValores.nomeCompleto}
+  validation={validacaoForm}
+/>
+```
+
+---
+
+# Usando os componentes de formulário -> App.jsx -> Input -> email
+
+```jsx
+<Input
+  name="email"
+  label="E-mail"
+  placeholder="Informe seu melhor e-mail"
+  onChange={escutandoValorDosCampos}
+  value={formValores.email}
+  validation={validacaoForm}
+/>
+```
+
+---
+
+# Usando os componentes de formulário -> App.jsx -> Select -> regiao
+
+```jsx
+<Select
+  name="regiao"
+  label="Escolha uma região"
+  onChange={escutandoValorDosCampos}
+  value={formValores.regiao}
+  validation={validacaoForm}
+  options={regioes}
+  optionMap={{
+    value: "id",
+    label: "nome",
+  }}
+/>
+```
+
+---
+
+# Usando os componentes de formulário -> App.jsx -> Select -> estado
+
+```jsx
+<Select
+  name="estado"
+  label="Escolha um estado"
+  onChange={escutandoValorDosCampos}
+  value={formValores.estado}
+  validation={validacaoForm}
+  options={estadoFiltrado}
+  optionMap={{
+    value: "id",
+    label: "nome",
+  }}
+  disabled={estadoFiltrado.length === 0}
+/>
+```
+
+---
+
+# Usando os componentes de formulário -> App.jsx -> Select -> municipio
+
+```jsx
+<Select
+  name="municipio"
+  label="Escolha um município"
+  onChange={escutandoValorDosCampos}
+  value={formValores.municipio}
+  validation={validacaoForm}
+  options={municipioFiltrado}
+  optionMap={{
+    value: "id",
+    label: "nome",
+  }}
+  disabled={municipioFiltrado.length === 0}
+/>
+```
+
+---
+
+# Controlando o visual do botão submit
+
+```jsx
+<button
+  className="button mr-4 is-primary"
+  type="submit"
+  disabled={validacaoForm.submitDisabled} // incluir
+>
+  Enviar
+</button>
+```
+
+---
+
+# Fazendo a "limpa"
+
+Remover os arquivos:
+
+* estados.js
+* esatdos.json
+* municipios.json 
