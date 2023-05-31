@@ -1,0 +1,6 @@
+.extrato{
+    display: grid;
+    grid-template-columns: 1fr auto;
+    gap: 20px;
+    align-items: center;
+}

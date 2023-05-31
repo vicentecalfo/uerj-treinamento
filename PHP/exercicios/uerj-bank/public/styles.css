@@ -1,0 +1,29 @@
+*{
+    box-sizing: border-box !important;
+}
+html{
+    overflow: hidden;
+}
+.app{
+    width: 100vw;
+    height: 100vh;
+    background-color: #fff;
+    display: grid;
+    grid-template-columns: 240px 1fr;
+    gap: 10px;
+    overflow: hidden !important;
+}
+
+.app aside,
+.app main{
+    padding: 40px 40px;
+}
+
+.app aside .logo{
+    display: block;
+    margin: 0 auto;
+}
+
+.app main{
+    background-color: #F2F2F2;
+}
