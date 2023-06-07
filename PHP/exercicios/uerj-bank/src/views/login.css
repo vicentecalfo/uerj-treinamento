@@ -1,0 +1,17 @@
+.login{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 100vh;
+    background-image: url('images/bg-login.jpg');
+    background-size: cover;
+}
+
+.login .logo{
+    display: block;
+    margin: 0 auto;
+}
+
+.login .card{
+    width: 25vw;
+}

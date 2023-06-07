@@ -1,0 +1,22 @@
+.open-account{
+    display: grid;
+    grid-template-columns: 60% 1fr;
+    height: 100vh;
+    gap:40px;
+}
+
+.open-account .logo{
+    margin: 0 auto;
+    display: block;
+}
+
+.open-account .photo{
+    background-image: url('images/open-account.jpg');
+    background-size: cover;
+}
+
+.open-account .form-holder{
+    display: grid;
+    align-items: center;
+    justify-content: center;
+}
