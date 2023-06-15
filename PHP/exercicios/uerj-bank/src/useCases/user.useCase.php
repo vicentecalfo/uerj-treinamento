@@ -58,7 +58,6 @@ class UserUseCase
     }
 
     function create($firstName, $lastName, $email, $password){
-        $password = md5($password);
         $this->dependencies['userRepository']->create($firstName, $lastName, $email, $password);
     }
 }
