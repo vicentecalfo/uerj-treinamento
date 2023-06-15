@@ -29,4 +29,18 @@ class UserRepository
         ]);
         return is_null($result) || count($result) === 0 ? null : $result[0];
     }
+
+    function findAll(){
+        return $this->db->query("SELECT * FROM user");
+    }
+
+    function create($firstName, $lastName, $email, $password){
+        $newUser = $this->db->query("INSERT INTO user (firstName, lastName, email, password) VALUES (:firstName, :lastName, :email, :password)",[
+            "firstName" => $firstName,
+            "lastName" => $lastName,
+            "email" => $email,
+            "password" => $password
+        ]);
+        return $newUser;
+    }
 }

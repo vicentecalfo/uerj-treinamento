@@ -27,6 +27,7 @@
     * criar a guarda das rotas
     * no bootstrap abrir a sessoes
 7. proteger todas as rotas (que precisam ser restritas)
+7. Habilitar dll -> extension=php_intl.dll (php.ini)
 8. Mudar o dashboard para pegar o nome da sessão
 8. criar caso de uso e repositorio para buscar dados de uma conta
 9. criando a camada de DTO

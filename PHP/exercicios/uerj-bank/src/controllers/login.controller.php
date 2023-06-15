@@ -13,7 +13,7 @@ class LoginController
     function __construct()
     {
         $this->useCases = [
-            'user' => new UserUseCase()
+            'userUseCase' => new UserUseCase()
         ];
     }
 
@@ -21,10 +21,20 @@ class LoginController
     {
         router(
             'GET',
+            '^/',
+            function () {
+                if(hasUserLogged()) redirect('dashboard');
+                redirect('entrar');
+            } ,
+            false
+        );
+
+        router(
+            'GET',
             '^/entrar',
             fn () => render(
                 template: "login",
-                data: array('title' => 'Dashboard'),
+                data: array('title' => 'Entrar'),
                 noWrapper: true
             ),
             false
@@ -35,8 +45,8 @@ class LoginController
             '^/entrar',
             function () {
                 try {
-                    extract($_POST);
-                    $this->useCases['user']->autenticate($email, $password);
+                    extract(inputUserDTO($_POST));
+                    $this->useCases['userUseCase']->autenticate($email, $password);
                     redirect('dashboard');
                 } catch (Exception $error) {
                     render(

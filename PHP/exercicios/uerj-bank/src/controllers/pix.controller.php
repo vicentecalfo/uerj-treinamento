@@ -3,6 +3,7 @@
 registerPackages([
     "useCase" => [
         "account.useCase.php",
+        "user.useCase.php"
     ],
     "dto" => [
         "account.dto.php",
@@ -17,7 +18,8 @@ class PixController
     function __construct()
     {
         $this->useCases = [
-            'account' => new AccountUseCase()
+            'account' => new AccountUseCase(),
+            'user' => new UserUseCase()
         ];
     }
 
@@ -26,10 +28,13 @@ class PixController
         router(
             'GET',
             '^/pix/pagar',
-            fn () => render(
-                template: "pix/pagar",
-                data: array('title' => 'Dashboard')
-            ),
+            function () {
+                $allUsers = $this->useCases['user']->getAll();
+                render(
+                    template: "pix/pagar",
+                    data: array('users' => $allUsers, 'me' => $_SESSION[APP_CONFIG['userSessionKey']])
+                );
+            },
             true
         );
 
@@ -47,13 +52,22 @@ class PixController
             'POST',
             '^/pix/pagar',
             function () {
-                extract(inputPixDTO($_POST));
-                $user = $_SESSION[APP_CONFIG['userSessionKey']];
-                $accountData = $this->useCases['account']->debit($user['id'],  $recipientId, $amount);
-                render(
-                    template: "pix/pagar",
-                    data: array('title' => 'Dashboard')
-                );
+                $error = null;
+                $allUsers = null;
+                try{
+                    $allUsers = $this->useCases['user']->getAll();
+                    extract(inputPixDTO($_POST));
+                    $user = $_SESSION[APP_CONFIG['userSessionKey']];
+                    $debitTransactionData = $this->useCases['account']->debit($user['id'],  $recipientId, $amount, 'OUTCOME_PIX');
+                    $creditTransactionData = $this->useCases['account']->credit($recipientId, $user['id'], $amount, 'INCOME_PIX');
+                }catch(Exception $error){
+                    $error = $error->getMessage();
+                }finally{
+                    render(
+                        template: "pix/pagar",
+                        data: array('error' => $error, 'users' => $allUsers, 'me' => $_SESSION[APP_CONFIG['userSessionKey']])
+                    );
+                }
             },
             true
         );

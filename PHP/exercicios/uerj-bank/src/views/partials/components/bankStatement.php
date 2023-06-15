@@ -5,7 +5,7 @@ function bankStatementTable($data)
 {
     $header = [
         "type" => "Transação",
-        "source" => "Estabelecimento",
+        "source" => "Origem",
         "amount" => "Valor",
         "date" => "Data"
     ];

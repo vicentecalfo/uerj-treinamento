@@ -1,8 +1,5 @@
 <?php
 include(__DIR__ . "/partials/components/title.php");
-// $formatBalance = "R$ " . number_format($account['balance'], 2, ",", ".");
-// $formatLimit = "R$ " . number_format($account['accountLimit'], 2, ",", ".");
-// $userName = $user['firstName'] . " " . $user['lastName'];
 ?>
 
 <div class="columns">

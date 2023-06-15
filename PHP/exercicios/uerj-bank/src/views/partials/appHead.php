@@ -10,8 +10,7 @@ $menu = [
     array(
         "title" => "Área do PIX",
         "items" => array(
-            "pix/pagar" => "Pagar",
-            "pix/favoritos" => "Lista de favoritos"
+            "pix/pagar" => "Pagar"
         )
     ),
     array(

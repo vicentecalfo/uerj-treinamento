@@ -26,13 +26,13 @@ class UserUseCase
 
     function getById($id)
     {
-        return $this->dependencies['userRepository']->findById($id);
+        return outputUserDTO($this->dependencies['userRepository']->findById($id));
     }
 
     function autenticate($email, $password)
     {
         $email = empty($email) ? false : addslashes((trim($email)));
-        $password = empty($password) ? false : md5(trim($password));
+        $password = empty($password) ? false : $password;
         $emptyEmailOrPassword = !$email || !$password;
         if ($emptyEmailOrPassword) throw new Exception('errorEmptyField');
 
@@ -48,6 +48,17 @@ class UserUseCase
     }
 
     function getByEmail($email){
-        return $this->dependencies['userRepository']->findByEmail($email);
+        return outputUserDTO($this->dependencies['userRepository']->findByEmail($email));
+    }
+
+    function getAll(){
+        $allUsers = $this->dependencies['userRepository']->findAll();
+        $allUsers = array_map('outputUserDTO', $allUsers);
+        return $allUsers;
+    }
+
+    function create($firstName, $lastName, $email, $password){
+        $password = md5($password);
+        $this->dependencies['userRepository']->create($firstName, $lastName, $email, $password);
     }
 }

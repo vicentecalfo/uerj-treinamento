@@ -1,6 +1,26 @@
 <?php
+registerPackages([
+    "dto" =>[
+        "user.dto.php"
+    ],
+    "useCase" => [
+        "user.useCase.php",
+        'account.useCase.php'
+    ]
+]);
+
 class OpenAccountController
 {
+    private $useCases;
+
+    function __construct()
+    {
+        $this->useCases = [
+            'userUseCase' => new UserUseCase(),
+            'accountUseCase' => new AccountUseCase()
+        ];
+    }
+
     function init()
     {
         router(
@@ -17,11 +37,19 @@ class OpenAccountController
             'POST',
             '^/abrir-conta',
             function(){
+                extract(inputUserDTO($_POST));
+                $this->useCases['userUseCase']->create(
+                    $firstName,
+                    $lastName,
+                    $email,
+                    $password
+                );
+                $newUser =  $this->useCases['userUseCase']->getByEmail($email);
+                $this->useCases['accountUseCase']->create($newUser['id']);
                 render(
                     template: "accountOpened",
                     data: array(
-                        'firstName' => $_POST["firstName"],
-                        'lastName' => $_POST["lastName"],
+                        'user' => $newUser
                     ),
                     noWrapper:true
                 );
