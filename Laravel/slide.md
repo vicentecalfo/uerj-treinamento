@@ -696,3 +696,39 @@ Fazer essa atualização no **layout-raw.blade.php** e no **layout-sidebar.blade
       </div>
 @endcomponent
 ```
+
+---
+
+# Teste DB
+
+* Atualizar o .env com os dados de acesso do banco de dados.
+
+```
+DB_CONNECTION=mysql
+DB_HOST=vicenteblog.mysql.dbaas.com.br
+DB_PORT=3306
+DB_DATABASE=vicenteblog
+DB_USERNAME=vicenteblog
+DB_PASSWORD=EeMeV280618@5e
+
+```
+---
+# Acessando o Banco
+
+```php
+
+use Illuminate\Support\Facades\DB;
+
+class DashboardController extends Controller
+{
+
+    public function testDB(Request $request){
+        $data = DB::select('select * from user');
+        //$data = DB::select('select * from user where id = :id', ['id' => 1]);
+        //var_dump($data);
+        return $data;
+    }
+}
+
+
+```
