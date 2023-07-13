@@ -732,3 +732,569 @@ class DashboardController extends Controller
 
 
 ```
+---
+
+# Criando *casos de uso* e respositórios
+
+Criar pastas **UseCases** e **Repositories** dentro da pasta **app**
+
+Criar um arquivo chamado AccountUseCase.php dentro da pasta UseCases
+
+```php
+
+<?php
+
+namespace App\UseCases;
+
+use Illuminate\Support\Facades\DB;
+
+class AccountUseCase
+{
+    public function getByUserId($userId){
+       $data = DB::select('select * from account where userId = :userId', ['userId' => $userId]);
+       return $data[0];
+    }
+
+}
+
+```
+
+---
+
+# Testando o UseCase -> DashboardController.php
+
+```php
+<?php
+
+namespace App\Http\Controllers;
+use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
+use App\UseCases\AccountUseCase;
+
+class DashboardController extends Controller
+{
+
+    public function __construct(
+        private AccountUseCase $accountUseCase,
+    ){}
+
+    public function index(Request $request){
+        $title = "Dashboard";
+        $account = $this->accountUseCase->getByUserId(1); //1 vicente, 15 alexandre, 17 pedro, 19 matheus, 16 paulo
+        return view('dashboard/index',  array(
+            'activePath' => $request->path(),
+            'account' => $account
+        ));
+    }
+
+}
+```
+
+---
+
+# Template
+
+dashboard/index.blade.php
+
+```php
+@component('layouts/layout-sidebar')
+    @slot('activePath') {{ $activePath }} @endslot
+    <div class="columns">
+        <div class="column">
+            <h2 class="title">Painel Inicial</h2>
+        </div>
+      </div>
+      <div class="columns">
+        <div class="column">
+          <div class="card">
+            <div class="card-content">
+              <div class="extrato">
+                <span>
+                  <h3 class="title is-3">{{ $account->balance }}</h3>
+                  <small>Seu limite atual é de {{ $account->accountLimit }}.</small>
+                </span>
+                <span>
+                  <a href="extrato" class="button is-link">Ver extrato</a>
+                </span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+@endcomponent
+
+```
+
+---
+# Caso de uso de Usuário - UserUseCase.php
+```php
+<?php
+
+namespace App\UseCases;
+
+use Illuminate\Support\Facades\DB;
+
+class UserUseCase
+{
+    public function getById($id){
+       $data = DB::select('select * from user where id = :id', ['id' => $id]);
+       return $data[0];
+    }
+
+}
+```
+
+---
+
+# Criando Repositório - UserRepository.php
+
+```php
+<?php
+
+namespace App\Repositories;
+
+use Illuminate\Support\Facades\DB;
+
+class UserRepository{
+
+    public function getById($id){
+       $data = DB::select('select * from user where id = :id', ['id' => $id]);
+       return $data[0];
+    }
+
+}
+
+```
+
+--- 
+
+# Refatorando caso de uso - UserUseCase.php
+
+```php
+
+<?php
+
+namespace App\UseCases;
+use App\Repositories\UserRepository;
+
+class UserUseCase{
+
+public function __construct(
+    private UserRepository $userRepository
+){}
+
+
+    public function getById($id){
+       $user = $this->userRepository->getById($id);
+       return $user;
+    }
+
+}
+
+```
+
+---
+
+# Refatorando controller
+
+```php
+
+<?php
+
+namespace App\Http\Controllers;
+
+use Illuminate\Http\Request;
+use App\UseCases\AccountUseCase;
+use App\UseCases\UserUseCase;
+
+class DashboardController extends Controller
+{
+
+    public function __construct(
+        private AccountUseCase $accountUseCase,
+        private UserUseCase $userUseCase
+    ){}
+
+    public function index(Request $request){
+        $title = "Dashboard";
+        $account = $this->accountUseCase->getByUserId(1);
+        $user = $this->userUseCase->getById(1);
+        return view('dashboard/index',  array(
+            'activePath' => $request->path(),
+            'account' => $account,
+            'user' => $user
+        ));
+    }
+
+}
+
+
+```
+---
+# Refatorando visão (template) - dashboard/index
+
+```php
+
+@component('layouts/layout-sidebar')
+    @slot('activePath') {{ $activePath }} @endslot
+    <div class="columns">
+        <div class="column">
+            <h2 class="title">Olá, {{$user->firstName}} {{ $user->lastName }}</h2>
+        </div>
+      </div>
+      <div class="columns">
+        <div class="column">
+          <div class="card">
+            <div class="card-content">
+              <div class="extrato">
+                <span>
+                  <h3 class="title is-3">{{ $account->balance }}</h3>
+                  <small>Seu limite atual é de {{ $account->accountLimit }}.</small>
+                </span>
+                <span>
+                  <a href="extrato" class="button is-link">Ver extrato</a>
+                </span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+@endcomponent
+
+```
+
+---
+
+# Ajustando o caso de uso de "conta"
+Criar repositório de conta -> AccountRepository.php
+
+```php
+<?php
+
+namespace App\Repositories;
+
+use Illuminate\Support\Facades\DB;
+
+class AccountRepository{
+
+    public function getByUserId($userId){
+       $data = DB::select('select * from account where userId = :userId', ['userId' => $userId]);
+       return $data[0];
+    }
+
+}
+```
+---
+
+# Refatorando caso de uso de conta -> AccountUseCase.php
+
+```php
+<?php
+
+namespace App\UseCases;
+use App\Repositories\AccountRepository;
+
+class AccountUseCase
+{
+
+    public function __construct(
+        private AccountRepository $accountRepository
+    ){}
+
+    public function getByUserId($userId){
+        $account = $this->accountRepository->getByUserId($userId);
+        return $account;
+    }
+
+}
+```
+
+---
+
+# Melhorando a visão (dashboard/index)
+```php
+@component('layouts/layout-sidebar')
+    @slot('activePath') {{ $activePath }} @endslot
+    <div class="columns">
+        <div class="column">
+            <h2 class="title">Olá, {{$user->firstName}} {{ $user->lastName }}</h2>
+        </div>
+      </div>
+      <div class="columns">
+        <div class="column">
+          <div class="card">
+            <div class="card-content">
+              <div class="extrato">
+                <span>
+                  <h3 class="title is-3">{{ $account->balance }} <small class="has-text-grey">VCC</small></h3>
+                  <small>Seu limite atual é de {{ $account->accountLimit }} <small class="has-text-grey">VCC</small>.</small>
+                  <br />
+                  <small class="has-text-grey is-size-7">* VCC (Vicente Calfo Coins)</small>
+                </span>
+                <span>
+                  <a href="extrato" class="button is-link">Ver extrato</a>
+                </span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+@endcomponent
+```
+---
+# Criando caso de uso e repositório de extrato
+
+Criar o arquivo de repositório
+
+```php
+<?php
+
+namespace App\Repositories;
+
+use Illuminate\Support\Facades\DB;
+
+class BankStatementRepository{
+
+    public function getByUserId($userId){
+       $data = DB::select('select * from transaction where userId = :userId', ['userId' => $userId]);
+       return $data;
+    }
+
+}
+```
+
+---
+
+# Criando o caso de uso -> BankStatementUseCase.php
+
+```php
+
+<?php
+
+namespace App\UseCases;
+use App\Repositories\BankStatementRepository;
+
+class BankStatementUseCase
+{
+
+
+    public function __construct(
+        private BankStatementRepository $bankStatementRepository
+    ){}
+
+    public function getByUserId($userId){
+       $bankStatement = $this->bankStatementRepository->getByUserId($userId);
+       return $bankStatement;
+    }
+
+}
+```
+---
+
+# Testando a consulta
+
+BankStatementController.php
+
+```php
+<?php
+
+namespace App\Http\Controllers;
+
+use Illuminate\Http\Request;
+use App\UseCases\BankStatementUseCase;
+
+class BankStatementController extends Controller
+{
+
+
+    public function __construct(
+        private BankStatementUseCase $bankStatementUseCase,
+    ){}
+
+    public function index(Request $request){
+        $title = "Extrato";
+        $bankStatement = $this->bankStatementUseCase->getByUserId(1);
+        var_dump($bankStatement); 
+        return view('bankStatement/index',[
+            'activePath' => $request->path()
+        ]);
+    }
+}
+
+```
+---
+# Criando um componente para o Extrato
+
+```
+php artisan make:component BankStatementTable 
+ ```
+
+Serão criados 2 arquivos:
+* app\View\Components\BankStatementTable.php
+* resources\views\components\bank-statement-table.blade.php
+
+---
+
+# Usando o component
+bank-statement-table.blade.php
+```php
+
+<div>
+    Tabela de extrato
+</div>
+```
+bankStatement/index.blade.php
+
+```php
+@component('layouts/layout-sidebar')
+    @slot('activePath') {{ $activePath }} @endslot
+    <x-bank-statement-table />
+@endcomponent
+```
+
+--- 
+
+# Passando os dados para o componente
+
+App/View/Components/BankStatementTable.php
+
+```php
+<?php
+
+namespace App\View\Components;
+
+use Closure;
+use Illuminate\Contracts\View\View;
+use Illuminate\View\Component;
+
+class BankStatementTable extends Component
+{
+    public $bankStatement;
+    /**
+     * Create a new component instance.
+     */
+    public function __construct($bankStatement)
+    {
+        $this->bankStatement = $bankStatement;
+    }
+
+    /**
+     * Get the view / contents that represent the component.
+     */
+    public function render(): View|Closure|string
+    {
+        return view('components.bank-statement-table');
+    }
+}
+
+```
+
+---
+
+# Enviando pro template os dados
+BankStatementController.php
+
+```php
+<?php
+
+namespace App\Http\Controllers;
+
+use Illuminate\Http\Request;
+use App\UseCases\BankStatementUseCase;
+
+class BankStatementController extends Controller
+{
+
+
+    public function __construct(
+        private BankStatementUseCase $bankStatementUseCase,
+    ){}
+
+    public function index(Request $request){
+        $title = "Extrato";
+        $bankStatement = $this->bankStatementUseCase->getByUserId(1);
+        return view('bankStatement/index',[
+            'activePath' => $request->path(),
+            'bankStatement' => $bankStatement
+        ]);
+    }
+}
+
+```
+---
+
+# Atualizando o template do extrato
+
+bankStatement/index.blade.php
+
+```php
+@component('layouts/layout-sidebar')
+    @slot('activePath') {{ $activePath }} @endslot
+        <h2 class="title">Últimas 10 Transações</h2>
+    <x-bank-statement-table :bankStatement="$bankStatement"/>
+@endcomponent
+```
+
+---
+
+# Testando a passagem dos dados para o componente
+components/bank-statement-table.blade.php
+```php
+<div>
+    @foreach ($bankStatement as $transaction)
+        <p>{{ $transaction->source }}</p>
+    @endforeach
+</div>
+
+```
+
+---
+
+# Construindo a tabela base
+components/bank-statement-table.blade.php
+```php
+<?php
+
+$typeTags = [
+    'OUTCOME_PIX' => [
+        'class' => 'tag is-danger is-light',
+        'label' => 'PIX Enviado',
+    ],
+    'INCOME_PIX' => [
+        'class' => 'tag is-success is-light',
+        'label' => 'PIX Recebido',
+    ],
+];
+
+?>
+
+<table class="table is-striped is-fullwidth">
+    <thead>
+        <tr>
+            <th>Data</th>
+            <th>Valor (VCC)</th>
+            <th>Fonte</th>
+            <th>Transação</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach ($bankStatement as $transaction)
+            <tr>
+                <td>{{ date("d/m/Y", $transaction->date) }}</td>
+                <td>{{ $transaction->amount }}</td>
+                <td>{{ $transaction->source }}</td>
+                <td>
+                    <span class="{{ $typeTags[$transaction->type]["class"] }}">
+                        {{ $typeTags[$transaction->type]["label"] }}
+                    </span>
+                </td>
+            </tr>
+        @endforeach
+    </tbody>
+</table>
+
+```
+---
+
+
+
