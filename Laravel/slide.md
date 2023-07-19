@@ -352,11 +352,11 @@ html {
 .app main {
   background-color: #f2f2f2;
 }
-.extrato{
-    display: grid;
-    grid-template-columns: 1fr auto;
-    gap: 20px;
-    align-items: center;
+.extrato {
+  display: grid;
+  grid-template-columns: 1fr auto;
+  gap: 20px;
+  align-items: center;
 }
 ```
 
@@ -579,6 +579,7 @@ Copiar e colar o código abaixo nos arquivos de views: pix, bankStatement e logi
 ---
 
 # Criando um layout sem nenhuma marcação
+
 ## layout-raw.php
 
 ```php
@@ -586,6 +587,7 @@ Copiar e colar o código abaixo nos arquivos de views: pix, bankStatement e logi
 {{ $slot }}
 @include('layouts/footer')
 ```
+
 ---
 
 # Criando o arquivo de login e permitindo CSS customizado
@@ -627,7 +629,9 @@ Copiar e colar o código abaixo nos arquivos de views: pix, bankStatement e logi
 </div>
 @endcomponent
 ```
+
 ---
+
 # Atualizando os arquivos de layout para permitir CSS customizados
 
 Fazer essa atualização no **layout-raw.blade.php** e no **layout-sidebar.blade.php**.
@@ -637,7 +641,7 @@ Fazer essa atualização no **layout-raw.blade.php** e no **layout-sidebar.blade
 // mudar o @include('layouts/head') pelo código abaixo:
 
 @if (isset($customCss))
-    @include('layouts/head', ['customCss' => $customCss] )    
+    @include('layouts/head', ['customCss' => $customCss] )
 @else
     @include('layouts/head')
 @endif
@@ -656,15 +660,16 @@ Fazer essa atualização no **layout-raw.blade.php** e no **layout-sidebar.blade
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>{{ $title ?? "UERJ Bank" }}</title>
     <link rel="stylesheet" href="./css/app.css">
-    @if(isset($customCss)) 
+    @if(isset($customCss))
     <link rel="stylesheet" href="./css/{{$customCss}}.css">
     @endif
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@0.9.4/css/bulma.min.css">
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.0/jquery.min.js"></script>
-    <script src="https://igorescobar.github.io/jQuery-Mask-Plugin/js/jquery.mask.min.js"></script>  
+    <script src="https://igorescobar.github.io/jQuery-Mask-Plugin/js/jquery.mask.min.js"></script>
 </head>
 <body>
 ```
+
 ---
 
 # Preparando outros templates - Dashboard
@@ -701,7 +706,7 @@ Fazer essa atualização no **layout-raw.blade.php** e no **layout-sidebar.blade
 
 # Teste DB
 
-* Atualizar o .env com os dados de acesso do banco de dados.
+- Atualizar o .env com os dados de acesso do banco de dados.
 
 ```
 DB_CONNECTION=mysql
@@ -712,7 +717,9 @@ DB_USERNAME=vicenteblog
 DB_PASSWORD=EeMeV280618@5e
 
 ```
+
 ---
+
 # Acessando o Banco
 
 ```php
@@ -732,9 +739,10 @@ class DashboardController extends Controller
 
 
 ```
+
 ---
 
-# Criando *casos de uso* e respositórios
+# Criando _casos de uso_ e respositórios
 
 Criar pastas **UseCases** e **Repositories** dentro da pasta **app**
 
@@ -826,7 +834,9 @@ dashboard/index.blade.php
 ```
 
 ---
+
 # Caso de uso de Usuário - UserUseCase.php
+
 ```php
 <?php
 
@@ -866,7 +876,7 @@ class UserRepository{
 
 ```
 
---- 
+---
 
 # Refatorando caso de uso - UserUseCase.php
 
@@ -930,7 +940,9 @@ class DashboardController extends Controller
 
 
 ```
+
 ---
+
 # Refatorando visão (template) - dashboard/index
 
 ```php
@@ -966,6 +978,7 @@ class DashboardController extends Controller
 ---
 
 # Ajustando o caso de uso de "conta"
+
 Criar repositório de conta -> AccountRepository.php
 
 ```php
@@ -984,6 +997,7 @@ class AccountRepository{
 
 }
 ```
+
 ---
 
 # Refatorando caso de uso de conta -> AccountUseCase.php
@@ -1012,6 +1026,7 @@ class AccountUseCase
 ---
 
 # Melhorando a visão (dashboard/index)
+
 ```php
 @component('layouts/layout-sidebar')
     @slot('activePath') {{ $activePath }} @endslot
@@ -1041,7 +1056,9 @@ class AccountUseCase
       </div>
 @endcomponent
 ```
+
 ---
+
 # Criando caso de uso e repositório de extrato
 
 Criar o arquivo de repositório
@@ -1089,6 +1106,7 @@ class BankStatementUseCase
 
 }
 ```
+
 ---
 
 # Testando a consulta
@@ -1114,7 +1132,7 @@ class BankStatementController extends Controller
     public function index(Request $request){
         $title = "Extrato";
         $bankStatement = $this->bankStatementUseCase->getByUserId(1);
-        var_dump($bankStatement); 
+        var_dump($bankStatement);
         return view('bankStatement/index',[
             'activePath' => $request->path()
         ]);
@@ -1122,27 +1140,33 @@ class BankStatementController extends Controller
 }
 
 ```
+
 ---
+
 # Criando um componente para o Extrato
 
 ```
-php artisan make:component BankStatementTable 
- ```
+php artisan make:component BankStatementTable
+```
 
 Serão criados 2 arquivos:
-* app\View\Components\BankStatementTable.php
-* resources\views\components\bank-statement-table.blade.php
+
+- app\View\Components\BankStatementTable.php
+- resources\views\components\bank-statement-table.blade.php
 
 ---
 
 # Usando o component
+
 bank-statement-table.blade.php
+
 ```php
 
 <div>
     Tabela de extrato
 </div>
 ```
+
 bankStatement/index.blade.php
 
 ```php
@@ -1152,7 +1176,7 @@ bankStatement/index.blade.php
 @endcomponent
 ```
 
---- 
+---
 
 # Passando os dados para o componente
 
@@ -1192,6 +1216,7 @@ class BankStatementTable extends Component
 ---
 
 # Enviando pro template os dados
+
 BankStatementController.php
 
 ```php
@@ -1221,6 +1246,7 @@ class BankStatementController extends Controller
 }
 
 ```
+
 ---
 
 # Atualizando o template do extrato
@@ -1238,7 +1264,9 @@ bankStatement/index.blade.php
 ---
 
 # Testando a passagem dos dados para o componente
+
 components/bank-statement-table.blade.php
+
 ```php
 <div>
     @foreach ($bankStatement as $transaction)
@@ -1251,7 +1279,9 @@ components/bank-statement-table.blade.php
 ---
 
 # Construindo a tabela base
+
 components/bank-statement-table.blade.php
+
 ```php
 <?php
 
@@ -1294,7 +1324,187 @@ $typeTags = [
 </table>
 
 ```
+
 ---
 
+# Redirecionando rotas
 
+routes/web.php
+
+```php
+
+Route::redirect('/', '/dashboard');
+
+```
+
+---
+
+# Passando paramêtros
+
+routes/web.php
+
+```php
+
+Route::get('/pix/{name}', [PixController::class, 'index']);
+
+```
+
+PixController.php
+
+```php
+<?php
+{
+    public function index(Request $request, string $name){
+        $title = "PIX";
+        return view('pix/index',[
+            'activePath' => $request->path(),
+            'name' => $name
+        ]);
+    }
+}
+```
+
+---
+
+# Template PIX
+
+pix/index.blade.php
+
+```php
+    @component('layouts/layout-sidebar')
+        @slot('activePath') {{ $activePath }} @endslot
+        <h1>Pix</h1>
+        <h2>{{ $name }}</h2>
+    @endcomponent
+```
+
+---
+
+# Atual erro 404
+
+Tornando opcional o parâmetro.
+
+```php
+Route::get('/pix/{name?}', [PixController::class, 'index']);
+```
+
+---
+
+# Ajustando a quebra de layout
+
+head.blade.php
+
+```php
+<!DOCTYPE html>
+<html>
+<head>
+    <base href="/">
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>{{ $title ?? "UERJ Bank" }}</title>
+    <link rel="stylesheet" href="./css/app.css">
+    @if(isset($customCss))
+    <link rel="stylesheet" href="./css/{{$customCss}}.css">
+    @endif
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@0.9.4/css/bulma.min.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.0/jquery.min.js"></script>
+    <script src="https://igorescobar.github.io/jQuery-Mask-Plugin/js/jquery.mask.min.js"></script>
+</head>
+<body>
+```
+
+---
+
+# Autenticação - LoginController.php
+
+```php
+    public function auth(Request $request){
+        $credentials = $request->validate([
+            'email' => ['required','email'],
+            'password' => ['required'],
+        ],
+        [
+            'email.required' => 'O e-mail é obrigatório.',
+            'email.email' => 'O e-mail não é válido.',
+            'password.required' => 'A senha é obrigatória.'
+        ]
+    );
+        if(Auth::attempt($credentials)){
+            $request->session()->regenerate();
+            return redirect('/dashboard');
+        }else{
+            return redirect()->back()->with('error', 'Credenciais inválidas');
+        }
+    }
+```
+
+---
+
+# Autenticação (sair) - LoginController.php
+
+```php
+    public function logout(Request $request){
+        Auth::logout();
+        $request->session()->invalidate();
+        $request->session()->regenerateToken();
+        return redirect('/login');
+    }
+```
+
+---
+
+# Template Login - login/index.blade.php
+
+```php
+
+<h1 class="title is-4 has-text-centered">Acesse sua conta!</h1>
+                @if($error = Session::get('error') )
+                    {{$error}}
+                @endif
+                @if($errors->any())
+                    @foreach ( $errors->all() as $error )
+                        {{ $error }}
+                    @endforeach
+                @endif
+                <form action="{{ route('login.auth') }}" method="post">
+                    @csrf
+
+```
+---
+
+# Criando nomes para as rotas e protegendo
+
+```php
+
+Route::redirect('/', '/login');
+Route::get('/dashboard', [DashboardController::class, 'index'])->middleware('auth');
+Route::get('/pix/{name?}', [PixController::class, 'index'])->middleware('auth');
+
+Route::get('/login', [LoginController::class, 'index'])->name('login');
+Route::post('/auth', [LoginController::class, 'auth'])->name('login.auth');
+Route::get('/sair', [LoginController::class, 'logout']);
+
+Route::get('/extrato', [BankStatementController::class, 'index'])->middleware('auth');
+
+```
+
+---
+
+# Pegando parâmetros com POST
+
+```php
+
+$request->post('my_param');
+
+```
+---
+
+# Publicando
+```php
+$ php composer install
+$ php composer dumpautoload -o
+$ php artisan config:cache
+$ php artisan route:cache
+```
+A partir de agora, sempre que você implantar, ou seja, atualizar o diretório do projeto, será necessário refletir todas as alterações no diretório project/public/ para o diretório www/, exceto pelo arquivo www/index.php, que já está configurado acima para incluir os caminhos corretos.
 
