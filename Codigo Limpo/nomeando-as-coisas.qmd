@@ -1,0 +1,142 @@
+---
+title: "Código limpo"
+subtitle: "Nomeando as coisas"
+author: "Vicente Calfo"
+format:
+  revealjs:
+    logo: http://www.sr2.uerj.br/inovuerj/images/logonova.gif
+    footer: "Código Limpo - Nomeando as coisas"
+---
+
+# Use nomes significativos
+
+## Legibilidade
+
+Nomes bem escolhidos tornam o código mais legível. Quando alguém lê o código, nomes descritivos facilitam a compreensão do propósito e da função das partes do código.
+
+## Compreensão rápida
+
+Nomes claros permitem que outros desenvolvedores (e até mesmo o próprio autor do código em um momento posterior) entendam rapidamente o que uma variável, função ou classe faz sem ter que examinar o código em detalhes.
+
+## Manutenção simplificada
+
+Código com nomes descritivos é mais fácil de manter e atualizar. Quando você precisa fazer alterações em um código, nomes claros ajudam a identificar as partes que precisam ser modificadas.
+
+## Comunicação eficiente
+
+Em equipes de desenvolvimento, nomes bem escolhidos facilitam a comunicação. Os desenvolvedores podem discutir o código de forma mais eficaz quando têm nomes significativos para se referir.
+
+## Evitar comentários excessivos
+
+Nomes apropriados podem reduzir a necessidade de comentários explicativos. Em vez de explicar o que uma variável faz em um comentário, você pode usar um nome que transmita essa informação de maneira mais clara.
+
+## Redução de erros
+
+Nomes ambíguos ou genéricos podem levar a erros de interpretação. Escolher nomes específicos ajuda a evitar confusões e erros decorrentes de interpretações equivocadas.
+
+## Padrões de design
+
+Ao seguir convenções de nomenclatura e padrões de design, você cria um código mais consistente e facilita a identificação de elementos comuns.
+
+## 👇
+
+```js
+function bolus(gm, ga, dtnu24) {
+    const fs = dtnu24 / 1700;
+    return (gm - ga) / fs;
+}
+```
+- Nome da função não diz o que ela faz;
+- Números "mágicos";
+- Abreviações;
+
+# Números "mágicos" 🧙‍♂️
+
+Valores literais que são usados diretamente no código, sem uma explicação ou contexto adequados.
+
+## Falta de clareza
+
+Quando um número é usado diretamente em várias partes do código, não fica claro qual é o significado desse número. Isso pode levar a confusão e interpretações erradas.
+
+## Dificuldade de manutenção
+
+Se você precisar fazer uma alteração no valor em vários lugares do código, será necessário localizar e atualizar cada ocorrência do número mágico. Isso aumenta a chance de erros e torna a manutenção mais trabalhosa.
+
+## Fragilidade
+
+Números mágicos tornam o código frágil porque, se o valor precisar ser alterado, você pode esquecer de atualizá-lo em todos os lugares apropriados. Isso pode resultar em comportamento inesperado do programa.
+
+## Falta de documentação
+
+Quando números mágicos são usados sem comentários explicativos, não há documentação adequada do que esses valores representam, o que dificulta a compreensão futura.
+
+# Abreviações
+
+Tornam o código menos legível. Quando você ou outros desenvolvedores revisarem o código, pode ser difícil entender o significado das abreviações, o que leva a confusões.
+
+- Dificulta a manutenção;
+- Atrapalha a compreensão rápida;
+- Podem não seguir padronização (abrviações podem ser ambíguas);
+- Obriga o mapeamento mental;
+
+## Vamos olhar o código novamente👇
+
+```js
+function bolus(gm, ga, dtnu24) {
+    const fs = dtnu24 / 1700;
+    return (gm - ga) / fs;
+}
+```
+
+
+```js
+gm = glicemia no momento
+ga = gicemia alvo
+dtnu24 = dose total nas última 24 horas
+fs = fator de sensibilidade
+```
+
+## Refatorando
+
+```js
+function calcularBolusDeInsulina(
+    glicemiaAtualEmMGDL,
+    glicemiaAlvoEmMGDL,
+    totalDeUnidadesNasUltimas24H) {
+    const fatorDaInsulina = 1700;
+    const fatorDeSensibilidade = totalDeUnidadesNasUltimas24H / fatorDaInsulina;
+    return (glicemiaAtualEmMGDL - glicemiaAlvoEmMGDL) / fatorDeSensibilidade;
+}
+```
+
+## Tente ser o mais claro possível
+
+Os nomes nunca devem induzir um desenvolvedor ao erro, ou seja, não devem permitir interpretações dúbias.
+
+🚨 **Atenção!**
+
+```js
+    buscarDadosDoUsuario();
+    buscarInfoDoUsuario();
+    // ou
+    getUserData();
+    getUserInfo();
+```
+
+## Escolha um idioma
+
+Escolha um e siga o projeto!
+
+- Não misture "inglês" com "português"! 🤢
+
+🥸 **Minha opinião!**
+
+Frameworks, pacotes, bibliotecas e até mesmo a linguagem de programação estão em inglês.
+Portanto, é natural manter a coerência e adotar o inglês para os nomes em nosso código, especialmente considerando a crescente internacionalização das empresas.
+
+# Nomeando classes e métodos
+
+## Nome de classes
+
+- Os nomes de classes devem refletir sua representação, em vez de suas ações.
+- É importante que esses nomes sejam substantivos e não verbos.

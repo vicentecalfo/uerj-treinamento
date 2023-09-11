@@ -1,0 +1,173 @@
+---
+title: "Código limpo"
+author: "Vicente Calfo"
+format:
+  revealjs:
+    logo: http://www.sr2.uerj.br/inovuerj/images/logonova.gif
+    footer: "Código Limpo"
+---
+
+# O que é Código limpo?
+
+## Definição
+É um conjunto de boas práticas na escrita de software que pode ser aplicado para melhorar a legibilidade e a manutenibilidade do código.
+
+## Código limpo: Habilidades práticas do Agile Software
+
+![](https://miro.medium.com/v2/resize:fit:1100/format:webp/0*JCb36x-AeqWfWges.png)
+
+# O que é Código sujo?
+
+## Falta de propósito claro
+
+Um código de qualidade inferior muitas vezes carece de uma finalidade clara. Ao lê-lo, é difícil determinar qual é a sua função e como ele se encaixa no contexto geral do projeto.
+
+## Complexidade excessiva
+
+A complexidade desnecessária, manifestada por aninhamentos excessivos e milhares de linhas, pode tornar o código difícil de entender e dar continuidade. Isso prejudica a manutenção e as atualizações futuras do produto.
+
+## Dificuldade de testagem
+
+Um código mal escrito pode ser tão complexo e confuso que torna quase impossível testá-lo de maneira eficaz. Isso pode resultar em erros que passam despercebidos e comprometem a qualidade do produto final.
+
+# Consequências do código sujo
+
+##
+- **Complexidade**: Código sujo aumenta a complexidade, tornando-o difícil de entender.
+- **Dificuldade de manutenção**: Manter código sujo é demorado e propenso a erros.
+- **Problemas de colaboração**: Dificuldade de colaboração entre membros da equipe.
+- **Custos a longo prazo**: Aumenta os custos de desenvolvimento e manutenção.
+
+## Ponto comportamentais sobre o código limpo
+
+- **Compreendendo o código limpo**: Entender e aplicar as boas práticas que melhoram a legibilidade e manutenibilidade do código.
+- **A mentalidade do desenvolvedor**: Requer esforço, dedicação e uma mentalidade de refatoração contínua. Código limpo é hábito.
+- **Lidando com a gestão e prazos irreais**: Concentre-se em resultados tangíveis que possam ser compreendidos pela gestão.
+
+## Dívida técnica
+
+Compromissos assumidos no desenvolvimento de software que priorizam a entrega rápida em detrimento da qualidade, criando custos futuros devido a problemas de código, falta de testes e decisões técnicas inadequadas.
+
+## Tipos de dívida técnica
+
+- **Sem intenção**: A primeira classificação de dívida técnica se refere a um tipo que ocorre sem intenção. Por exemplo, quando uma companhia contrata outra que já tem histórico de dívida técnicas, e só identifica isso posteriormente.
+- **Intencional**: O segundo tipo é aquele que ocorre intencionalmente. Realizado, normalmente, quando uma empresa toma uma decisão de maneira consciente, a fim de otimizar uma entrega no presente e não no futuro, mesmo que isso ocorra em detrimento da qualidade.
+
+# Consequências da dívida técnica
+
+## Aumento de custo de manutenção
+   - A dívida técnica resulta em código de baixa qualidade que é mais difícil de entender e modificar.
+   - Isso leva a um aumento significativo nos custos de manutenção à medida que os desenvolvedores gastam mais tempo corrigindo bugs e fazendo alterações.
+
+## Redução da produtividade da equipe
+   - A complexidade do código devido à dívida técnica dificulta a colaboração eficaz entre os membros da equipe.
+   - Os desenvolvedores enfrentam desafios adicionais ao trabalhar em um código mal estruturado, o que diminui a produtividade geral da equipe.
+
+## Riscos de qualidade e segurança
+   - A dívida técnica pode resultar em software com mais bugs e vulnerabilidades de segurança.
+   - Isso aumenta o risco de problemas graves, incluindo falhas no sistema e violações de segurança.
+
+## Dificuldade de escala e inovação
+   - À medida que a dívida técnica se acumula, a capacidade de escalar o software e adicionar novos recursos é comprometida.
+   - A inovação é dificultada, uma vez que os recursos da equipe são frequentemente alocados para resolver problemas existentes em vez de criar novas funcionalidades.
+
+# Código legado
+
+## O que é código legado?
+
+Software mais antigo que é complexo de manter e atualizar devido à obsolescência tecnológica, histórico de desenvolvimento por equipes diferentes e a falta de aderência às melhores práticas. 
+
+Geralmente, esses sistemas são críticos para as operações da organização, tornando a substituição cara e arriscada, e é comum que os desenvolvedores trabalhem em manutenções e atualizações em vez de projetos totalmente novos.
+
+## Greenfield projects
+
+Projetos de desenvolvimento de software iniciados a partir do zero, sem restrições de sistemas ou tecnologias existentes. Esses projetos oferecem a oportunidade de criar sistemas totalmente novos, geralmente adotando as mais recentes melhores práticas e tecnologias, sem a complexidade de lidar com código legado ou sistemas preexistentes.
+
+## Brownfield projects
+
+Projetos de desenvolvimento de software que envolvem a expansão, manutenção ou atualização de sistemas existentes. Diferentemente dos projetos "Greenfield," os "Brownfield" enfrentam restrições e desafios decorrentes da integração com sistemas legados ou preexistentes, exigindo frequentemente a adaptação às tecnologias e estruturas já em uso.
+
+## Trabalho Eficaz com Código Legado
+
+![](https://m.media-amazon.com/images/I/81o47aSPi2L._SY522_.jpg)
+
+# A dura realidade
+
+## Quase nunca vamos escrever coisas zero
+
+Nós passamos mais tempo consertando códigos já existentes do que criando "coisas" do zero.
+
+## O conhecimento do domínio é mais importante do que suas habilidades de codificação
+
+Entenda de fato a área e os problemas que você está tentando resolver através das linhas de código.
+
+## Escrever documentação não é tudo
+
+Priorizem a escrita de código limpo, bem documentado e de fácil manutenção.
+
+## O código é secundário. O valor do negócio está em primeiro lugar.
+
+A gestão (principalmente a não técnica) não liga para o seu código, mas sim o valor agregado da sua implementação.
+
+## Você precisará lidar com a incompetência
+
+Procure focar na produtividade e busque solucções alternativas que não dependam da participação do incompetente.
+
+Documente tudo que puder caso seja necessário fornecer evidências dos problemas e dificuldades que possam surgir no processo.
+
+## Você vai trabalhar com incerteza na maior parte do tempo
+
+O gerente de projeto não fornecerá instruções simples e estruturadas sobre o que precisa ser feito. 
+
+Você precisará se "virar". Isso não é a parte mais divertida mas precisará ser feita.
+
+## TUDO TEM BUG
+
+- Seu código tem;
+- A biblioteca de terceiros tem;
+- O sistema operacional tem;
+- O hardware tem;
+
+Nunca acredite 100% no seu código: TESTA, TESTA e TESTA de novo.
+
+Só isso pode garantir a confiabilidade e a estabilidade dos nossos sistemas.
+
+## Cuide da estética do seu código
+
+- Código agradável de ler e limpo;
+- Organizado e seguindo padrões lógicos;
+
+Isso só é aprendido de verdade através da experiência e da leitura de muitos códigos bons, bem como da manutenção de códigos ruins.
+
+## Você precisa dar estimativas
+
+- A gestão NÃO vai aceitar coisas do tipo: "não sei quando vamos terminar";
+
+## Nem todas as reuniões são ruins
+
+- As reuniões existem para garantir que tudo corra bem e dentro do cronograma;
+- Compartilhar informações nas reuniões é fundamental;
+
+## Não existe emprego dos sonhos
+
+- Trabalho duro, ler linhas e linhas de código, pressão, demandas;
+- Vida pessoal e trabalho se misturam;
+- Você vai construir coisas que não gosta;
+- O ambiente pode ser estressante;
+- Necessidade de constante atualização profissional em alta velocidade;
+
+## Código Limpo no Dia a Dia
+
+- **Nomes Descritivos**: Escolha nomes significativos para variáveis, funções e classes.
+- **Funções Pequenas e Específicas**: Mantenha funções curtas e com uma única responsabilidade.
+- **Evite Comentários Excessivos**: Priorize código autoexplicativo em vez de comentários.
+- **Testes Automatizados**: Escreva testes unitários para validar o comportamento do código.
+- **Refatoração Constante**: Melhore o código continuamente, removendo duplicações e melhorando a estrutura.
+
+## Conclusão
+
+- O código limpo é essencial para criar software de qualidade.
+- Praticar código limpo melhora a produtividade e a satisfação da equipe de desenvolvimento.
+- Invista tempo em melhorar o código e reduza os custos a longo prazo.
+
+
