@@ -410,6 +410,15 @@ Vicente Calfo
 <section id="legibilidade" class="slide level2">
 <h2>Legibilidade</h2>
 <p>Nomes bem escolhidos tornam o código mais legível. Quando alguém lê o código, nomes descritivos facilitam a compreensão do propósito e da função das partes do código.</p>
+<div class="sourceCode" id="cb1"><pre class="sourceCode numberSource js number-lines code-with-copy"><code class="sourceCode javascript"><span id="cb1-1"><a href="#cb1-1"></a></span>
+<span id="cb1-2"><a href="#cb1-2"></a><span class="co">// Evite</span></span>
+<span id="cb1-3"><a href="#cb1-3"></a><span class="kw">var</span> x <span class="op">=</span> <span class="dv">256</span><span class="op">;</span></span>
+<span id="cb1-4"><a href="#cb1-4"></a></span>
+<span id="cb1-5"><a href="#cb1-5"></a><span class="co">// Duração do que? Qual a métrica?</span></span>
+<span id="cb1-6"><a href="#cb1-6"></a>int duration <span class="op">=</span> <span class="dv">25</span><span class="op">;</span></span>
+<span id="cb1-7"><a href="#cb1-7"></a></span>
+<span id="cb1-8"><a href="#cb1-8"></a><span class="co">// Muito mais expressivo</span></span>
+<span id="cb1-9"><a href="#cb1-9"></a>int durationInMinutes <span class="op">=</span> <span class="dv">25</span><span class="op">;</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </section>
 <section id="compreensão-rápida" class="slide level2">
 <h2>Compreensão rápida</h2>
@@ -421,26 +430,87 @@ Vicente Calfo
 </section>
 <section id="comunicação-eficiente" class="slide level2">
 <h2>Comunicação eficiente</h2>
-<p>Em equipes de desenvolvimento, nomes bem escolhidos facilitam a comunicação. Os desenvolvedores podem discutir o código de forma mais eficaz quando têm nomes significativos para se referir.</p>
+<p>Em equipes de desenvolvimento, nomes bem escolhidos facilitam a comunicação. Os desenvolvedores podem discutir o código de forma mais eficaz quando têm nomes significativos para se referir.Faça distinções</p>
+<p><strong>Faça distinções significantes</strong></p>
+<div class="sourceCode" id="cb2"><pre class="sourceCode numberSource js number-lines code-with-copy"><code class="sourceCode javascript"><span id="cb2-1"><a href="#cb2-1"></a><span class="co">// Evite 💩👇</span></span>
+<span id="cb2-2"><a href="#cb2-2"></a><span class="kw">var</span> salario <span class="op">=</span> <span class="dv">7500</span><span class="op">;</span></span>
+<span id="cb2-3"><a href="#cb2-3"></a></span>
+<span id="cb2-4"><a href="#cb2-4"></a><span class="co">// Tem um significado maior</span></span>
+<span id="cb2-5"><a href="#cb2-5"></a><span class="kw">var</span> salarioEmReais <span class="op">=</span> <span class="dv">7500</span><span class="op">;</span></span>
+<span id="cb2-6"><a href="#cb2-6"></a></span>
+<span id="cb2-7"><a href="#cb2-7"></a><span class="co">// Total do que? 💩👇 </span></span>
+<span id="cb2-8"><a href="#cb2-8"></a>decimal total <span class="op">=</span> <span class="dv">0</span><span class="op">;</span></span>
+<span id="cb2-9"><a href="#cb2-9"></a></span>
+<span id="cb2-10"><a href="#cb2-10"></a><span class="co">// Total do carrinho de compras</span></span>
+<span id="cb2-11"><a href="#cb2-11"></a>decimal shoppingCartTotal <span class="op">=</span> <span class="dv">0</span><span class="op">;</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </section>
 <section id="evitar-comentários-excessivos" class="slide level2">
 <h2>Evitar comentários excessivos</h2>
 <p>Nomes apropriados podem reduzir a necessidade de comentários explicativos. Em vez de explicar o que uma variável faz em um comentário, você pode usar um nome que transmita essa informação de maneira mais clara.</p>
+</section></section>
+<section id="section" class="title-slide slide level1 center">
+<h1></h1>
+<div class="sourceCode" id="cb3"><pre class="sourceCode numberSource php number-lines code-with-copy"><code class="sourceCode php"><span id="cb3-1"><a href="#cb3-1"></a><span class="kw">&lt;?php</span></span>
+<span id="cb3-2"><a href="#cb3-2"></a></span>
+<span id="cb3-3"><a href="#cb3-3"></a><span class="co">//Autentica usuário</span></span>
+<span id="cb3-4"><a href="#cb3-4"></a><span class="va">$this</span>-&gt;autenticar(<span class="va">$usuario</span><span class="ot">,</span> <span class="va">$senha</span>)<span class="ot">;</span></span>
+<span id="cb3-5"><a href="#cb3-5"></a></span>
+<span id="cb3-6"><a href="#cb3-6"></a><span class="co">// método construtor</span></span>
+<span id="cb3-7"><a href="#cb3-7"></a><span class="kw">public</span> <span class="kw">function</span> <span class="bu">__construct</span>()</span>
+<span id="cb3-8"><a href="#cb3-8"></a>{</span>
+<span id="cb3-9"><a href="#cb3-9"></a>}</span>
+<span id="cb3-10"><a href="#cb3-10"></a></span>
+<span id="cb3-11"><a href="#cb3-11"></a><span class="cf">foreach</span>(<span class="va">$array</span> <span class="kw">as</span> <span class="va">$key</span> =&gt; <span class="va">$value</span>) {</span>
+<span id="cb3-12"><a href="#cb3-12"></a>    <span class="cf">if</span> (<span class="va">$value</span> <span class="op">===</span> <span class="kw">true</span>) {</span>
+<span id="cb3-13"><a href="#cb3-13"></a>    } <span class="co">// Fim if</span></span>
+<span id="cb3-14"><a href="#cb3-14"></a>} <span class="co">// Fim foreach</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</section>
+
+<section id="não-use-comentários-para-versionar-o-código" class="title-slide slide level1 center">
+<h1>Não use comentários para versionar o código</h1>
+<p>USA O GIT OU SVN PELO AMOR DE DEUS! 🥺</p>
+</section>
+
+<section>
+<section id="section-1" class="title-slide slide level1 center">
+<h1></h1>
+<div class="sourceCode" id="cb4"><pre class="sourceCode numberSource php number-lines code-with-copy"><code class="sourceCode php"><span id="cb4-1"><a href="#cb4-1"></a><span class="kw">&lt;?php</span></span>
+<span id="cb4-2"><a href="#cb4-2"></a><span class="kw">private</span> <span class="kw">function</span> exemplo()</span>
+<span id="cb4-3"><a href="#cb4-3"></a>{</span>
+<span id="cb4-4"><a href="#cb4-4"></a>   <span class="va">$gruposAcesso</span> <span class="op">=</span> <span class="fu">explode</span>(<span class="st">','</span><span class="ot">,</span> <span class="va">$_SESSION</span>[<span class="st">'GRUPOSACESSO'</span>])<span class="ot">;</span></span>
+<span id="cb4-5"><a href="#cb4-5"></a></span>
+<span id="cb4-6"><a href="#cb4-6"></a>   <span class="co">/* </span></span>
+<span id="cb4-7"><a href="#cb4-7"></a><span class="co">     if (in_array(self::GRUPO_ADMINISTRADOR, $gruposAcesso)) {</span></span>
+<span id="cb4-8"><a href="#cb4-8"></a><span class="co">         return true;</span></span>
+<span id="cb4-9"><a href="#cb4-9"></a><span class="co">     }</span></span>
+<span id="cb4-10"><a href="#cb4-10"></a><span class="co">     return false; </span></span>
+<span id="cb4-11"><a href="#cb4-11"></a><span class="co">   */</span></span>
+<span id="cb4-12"><a href="#cb4-12"></a></span>
+<span id="cb4-13"><a href="#cb4-13"></a>   <span class="cf">return</span> <span class="fu">in_array</span>(<span class="kw">self</span>::<span class="cn">GRUPO_ADMINISTRADOR</span><span class="ot">,</span> <span class="va">$gruposAcesso</span>)<span class="ot">;</span></span>
+<span id="cb4-14"><a href="#cb4-14"></a>}</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </section>
 <section id="redução-de-erros" class="slide level2">
 <h2>Redução de erros</h2>
-<p>Nomes ambíguos ou genéricos podem levar a erros de interpretação. Escolher nomes específicos ajuda a evitar confusões e erros decorrentes de interpretações equivocadas.</p>
+<p>Nomes ambíguos ou genéricos podem levar a erros de interpretação. Escolher nomes específicos ajuda a evitar confusões e erros decorrentes de interpretações equivocadas. <br></p>
+<p>💩👇</p>
+<div class="sourceCode" id="cb5"><pre class="sourceCode numberSource js number-lines code-with-copy"><code class="sourceCode javascript"><span id="cb5-1"><a href="#cb5-1"></a><span class="bu">console</span><span class="op">.</span><span class="fu">log</span>(listaDeEspecies)</span>
+<span id="cb5-2"><a href="#cb5-2"></a><span class="bu">console</span><span class="op">.</span><span class="fu">log</span>(<span class="kw">typeof</span> listaDeEspecies)</span>
+<span id="cb5-3"><a href="#cb5-3"></a></span>
+<span id="cb5-4"><a href="#cb5-4"></a><span class="co">// Manilkara decrescens, Parinari alvimii, Anomochloa marantoidea</span></span>
+<span id="cb5-5"><a href="#cb5-5"></a><span class="co">// string</span></span>
+<span id="cb5-6"><a href="#cb5-6"></a></span>
+<span id="cb5-7"><a href="#cb5-7"></a><span class="co">// refatorando: listaDeEspeciesSeparadasPorVirgula</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </section>
-<section id="padrões-de-design" class="slide level2">
-<h2>Padrões de design</h2>
-<p>Ao seguir convenções de nomenclatura e padrões de design, você cria um código mais consistente e facilita a identificação de elementos comuns.</p>
+<section id="corrija-quando-achar-nomes-melhores" class="slide level2">
+<h2>Corrija quando achar nomes melhores</h2>
+<p>Existe um estágio clássico de um software que é quando o desenvolvedor ainda não entendeu em detalhes o problema a ser resolvido — que basicamente é o estado inicial de qualquer código — e escolhe nomes não tão bons.</p>
 </section>
-<section id="section" class="slide level2">
-<h2>👇</h2>
-<div class="sourceCode" id="cb1"><pre class="sourceCode numberSource js number-lines code-with-copy"><code class="sourceCode javascript"><span id="cb1-1"><a href="#cb1-1"></a><span class="kw">function</span> <span class="fu">bolus</span>(gm<span class="op">,</span> ga<span class="op">,</span> dtnu24) {</span>
-<span id="cb1-2"><a href="#cb1-2"></a>    <span class="kw">const</span> fs <span class="op">=</span> dtnu24 <span class="op">/</span> <span class="dv">1700</span><span class="op">;</span></span>
-<span id="cb1-3"><a href="#cb1-3"></a>    <span class="cf">return</span> (gm <span class="op">-</span> ga) <span class="op">/</span> fs<span class="op">;</span></span>
-<span id="cb1-4"><a href="#cb1-4"></a>}</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<section id="section-2" class="slide level2">
+<h2>💩👇</h2>
+<div class="sourceCode" id="cb6"><pre class="sourceCode numberSource js number-lines code-with-copy"><code class="sourceCode javascript"><span id="cb6-1"><a href="#cb6-1"></a><span class="kw">function</span> <span class="fu">bolus</span>(gm<span class="op">,</span> ga<span class="op">,</span> dtnu24) {</span>
+<span id="cb6-2"><a href="#cb6-2"></a>    <span class="kw">const</span> fs <span class="op">=</span> dtnu24 <span class="op">/</span> <span class="dv">1700</span><span class="op">;</span></span>
+<span id="cb6-3"><a href="#cb6-3"></a>    <span class="cf">return</span> (gm <span class="op">-</span> ga) <span class="op">/</span> fs<span class="op">;</span></span>
+<span id="cb6-4"><a href="#cb6-4"></a>}</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <ul>
 <li>Nome da função não diz o que ela faz;</li>
 <li>Números “mágicos”;</li>
@@ -455,6 +525,39 @@ Vicente Calfo
 <section id="falta-de-clareza" class="slide level2">
 <h2>Falta de clareza</h2>
 <p>Quando um número é usado diretamente em várias partes do código, não fica claro qual é o significado desse número. Isso pode levar a confusão e interpretações erradas.</p>
+</section></section>
+<section id="section-3" class="title-slide slide level1 center">
+<h1></h1>
+<p>💩👇</p>
+<div class="sourceCode" id="cb7"><pre class="sourceCode numberSource php number-lines code-with-copy"><code class="sourceCode php"><span id="cb7-1"><a href="#cb7-1"></a><span class="kw">&lt;?php</span></span>
+<span id="cb7-2"><a href="#cb7-2"></a><span class="kw">private</span> <span class="kw">function</span> exemplo()</span>
+<span id="cb7-3"><a href="#cb7-3"></a>{</span>
+<span id="cb7-4"><a href="#cb7-4"></a>    <span class="va">$gruposAcesso</span> <span class="op">=</span> <span class="fu">explode</span>(<span class="st">','</span><span class="ot">,</span><span class="va">$_SESSION</span>[<span class="st">'GRUPOSACESSO'</span>])<span class="ot">;</span></span>
+<span id="cb7-5"><a href="#cb7-5"></a></span>
+<span id="cb7-6"><a href="#cb7-6"></a>    <span class="cf">if</span> (<span class="fu">in_array</span>(<span class="dv">10</span><span class="ot">,</span> <span class="va">$gruposAcesso</span>)) {</span>
+<span id="cb7-7"><a href="#cb7-7"></a>        <span class="cf">return</span> <span class="kw">true</span><span class="ot">;</span></span>
+<span id="cb7-8"><a href="#cb7-8"></a>    }</span>
+<span id="cb7-9"><a href="#cb7-9"></a></span>
+<span id="cb7-10"><a href="#cb7-10"></a>    <span class="cf">return</span> <span class="kw">false</span><span class="ot">;</span></span>
+<span id="cb7-11"><a href="#cb7-11"></a>}</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</section>
+
+<section>
+<section id="section-4" class="title-slide slide level1 center">
+<h1></h1>
+<div class="sourceCode" id="cb8"><pre class="sourceCode numberSource php number-lines code-with-copy"><code class="sourceCode php"><span id="cb8-1"><a href="#cb8-1"></a><span class="kw">&lt;?php</span></span>
+<span id="cb8-2"><a href="#cb8-2"></a><span class="kw">const</span> <span class="cn">GRUPO_ADMINISTRADOR</span> <span class="op">=</span> <span class="dv">10</span><span class="ot">;</span></span>
+<span id="cb8-3"><a href="#cb8-3"></a></span>
+<span id="cb8-4"><a href="#cb8-4"></a><span class="kw">private</span> <span class="kw">function</span> deveExecutar()</span>
+<span id="cb8-5"><a href="#cb8-5"></a>{</span>
+<span id="cb8-6"><a href="#cb8-6"></a>    <span class="va">$gruposAcesso</span> <span class="op">=</span> <span class="fu">explode</span>(<span class="st">','</span><span class="ot">,</span><span class="va">$_SESSION</span>[<span class="st">'GRUPOSACESSO'</span>])<span class="ot">;</span></span>
+<span id="cb8-7"><a href="#cb8-7"></a></span>
+<span id="cb8-8"><a href="#cb8-8"></a>    <span class="cf">if</span> (<span class="fu">in_array</span>(<span class="kw">self</span>::<span class="cn">GRUPO_ADMINISTRADOR</span><span class="ot">,</span> <span class="va">$gruposAcesso</span>)) {</span>
+<span id="cb8-9"><a href="#cb8-9"></a>        <span class="cf">return</span> <span class="kw">true</span><span class="ot">;</span></span>
+<span id="cb8-10"><a href="#cb8-10"></a>    }</span>
+<span id="cb8-11"><a href="#cb8-11"></a></span>
+<span id="cb8-12"><a href="#cb8-12"></a>    <span class="cf">return</span> <span class="kw">false</span><span class="ot">;</span></span>
+<span id="cb8-13"><a href="#cb8-13"></a>}</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </section>
 <section id="dificuldade-de-manutenção" class="slide level2">
 <h2>Dificuldade de manutenção</h2>
@@ -463,14 +566,23 @@ Vicente Calfo
 <section id="fragilidade" class="slide level2">
 <h2>Fragilidade</h2>
 <p>Números mágicos tornam o código frágil porque, se o valor precisar ser alterado, você pode esquecer de atualizá-lo em todos os lugares apropriados. Isso pode resultar em comportamento inesperado do programa.</p>
+<div class="sourceCode" id="cb9"><pre class="sourceCode numberSource js number-lines code-with-copy"><code class="sourceCode javascript"><span id="cb9-1"><a href="#cb9-1"></a></span>
+<span id="cb9-2"><a href="#cb9-2"></a><span class="co">// Evite 💩👇</span></span>
+<span id="cb9-3"><a href="#cb9-3"></a><span class="cf">if</span>(environment <span class="op">==</span> <span class="st">"PROD"</span>)</span>
+<span id="cb9-4"><a href="#cb9-4"></a>    <span class="op">...</span></span>
+<span id="cb9-5"><a href="#cb9-5"></a></span>
+<span id="cb9-6"><a href="#cb9-6"></a><span class="co">// Utilize</span></span>
+<span id="cb9-7"><a href="#cb9-7"></a><span class="kw">const</span> string ENV <span class="op">=</span> <span class="st">"PROD"</span><span class="op">;</span></span>
+<span id="cb9-8"><a href="#cb9-8"></a></span>
+<span id="cb9-9"><a href="#cb9-9"></a><span class="cf">if</span>(environment <span class="op">==</span> ENV)</span>
+<span id="cb9-10"><a href="#cb9-10"></a>    <span class="op">...</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </section>
 <section id="falta-de-documentação" class="slide level2">
 <h2>Falta de documentação</h2>
 <p>Quando números mágicos são usados sem comentários explicativos, não há documentação adequada do que esses valores representam, o que dificulta a compreensão futura.</p>
-</section></section>
-<section>
-<section id="abreviações" class="title-slide slide level1 center">
-<h1>Abreviações</h1>
+</section>
+<section id="abreviações" class="slide level2">
+<h2>Abreviações</h2>
 <p>Tornam o código menos legível. Quando você ou outros desenvolvedores revisarem o código, pode ser difícil entender o significado das abreviações, o que leva a confusões.</p>
 <ul>
 <li>Dificulta a manutenção;</li>
@@ -478,38 +590,50 @@ Vicente Calfo
 <li>Podem não seguir padronização (abrviações podem ser ambíguas);</li>
 <li>Obriga o mapeamento mental;</li>
 </ul>
+<div class="sourceCode" id="cb10"><pre class="sourceCode numberSource js number-lines code-with-copy"><code class="sourceCode javascript"><span id="cb10-1"><a href="#cb10-1"></a><span class="kw">const</span> zc <span class="op">=</span> address<span class="op">.</span><span class="at">zc</span><span class="op">;</span> <span class="co">// o que é zc??? zipcode (cep)?</span></span>
+<span id="cb10-2"><a href="#cb10-2"></a></span>
+<span id="cb10-3"><a href="#cb10-3"></a>address<span class="op">.</span><span class="at">zc</span><span class="op">;</span></span>
+<span id="cb10-4"><a href="#cb10-4"></a>address<span class="op">.</span><span class="at">zipc</span><span class="op">;</span></span>
+<span id="cb10-5"><a href="#cb10-5"></a>address<span class="op">.</span><span class="at">zcode</span><span class="op">;</span></span>
+<span id="cb10-6"><a href="#cb10-6"></a></span>
+<span id="cb10-7"><a href="#cb10-7"></a>😡☝️</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </section>
 <section id="vamos-olhar-o-código-novamente" class="slide level2">
 <h2>Vamos olhar o código novamente👇</h2>
-<div class="sourceCode" id="cb2"><pre class="sourceCode numberSource js number-lines code-with-copy"><code class="sourceCode javascript"><span id="cb2-1"><a href="#cb2-1"></a><span class="kw">function</span> <span class="fu">bolus</span>(gm<span class="op">,</span> ga<span class="op">,</span> dtnu24) {</span>
-<span id="cb2-2"><a href="#cb2-2"></a>    <span class="kw">const</span> fs <span class="op">=</span> dtnu24 <span class="op">/</span> <span class="dv">1700</span><span class="op">;</span></span>
-<span id="cb2-3"><a href="#cb2-3"></a>    <span class="cf">return</span> (gm <span class="op">-</span> ga) <span class="op">/</span> fs<span class="op">;</span></span>
-<span id="cb2-4"><a href="#cb2-4"></a>}</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="sourceCode" id="cb3"><pre class="sourceCode numberSource js number-lines code-with-copy"><code class="sourceCode javascript"><span id="cb3-1"><a href="#cb3-1"></a>gm <span class="op">=</span> glicemia no momento</span>
-<span id="cb3-2"><a href="#cb3-2"></a>ga <span class="op">=</span> gicemia alvo</span>
-<span id="cb3-3"><a href="#cb3-3"></a>dtnu24 <span class="op">=</span> dose total nas última <span class="dv">24</span> horas</span>
-<span id="cb3-4"><a href="#cb3-4"></a>fs <span class="op">=</span> fator de sensibilidade</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode" id="cb11"><pre class="sourceCode numberSource js number-lines code-with-copy"><code class="sourceCode javascript"><span id="cb11-1"><a href="#cb11-1"></a><span class="kw">function</span> <span class="fu">bolus</span>(gm<span class="op">,</span> ga<span class="op">,</span> dtnu24) {</span>
+<span id="cb11-2"><a href="#cb11-2"></a>    <span class="kw">const</span> fs <span class="op">=</span> dtnu24 <span class="op">/</span> <span class="dv">1700</span><span class="op">;</span></span>
+<span id="cb11-3"><a href="#cb11-3"></a>    <span class="cf">return</span> (gm <span class="op">-</span> ga) <span class="op">/</span> fs<span class="op">;</span></span>
+<span id="cb11-4"><a href="#cb11-4"></a>}</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode" id="cb12"><pre class="sourceCode numberSource js number-lines code-with-copy"><code class="sourceCode javascript"><span id="cb12-1"><a href="#cb12-1"></a>gm <span class="op">=</span> glicemia no momento</span>
+<span id="cb12-2"><a href="#cb12-2"></a>ga <span class="op">=</span> gicemia alvo</span>
+<span id="cb12-3"><a href="#cb12-3"></a>dtnu24 <span class="op">=</span> dose total nas última <span class="dv">24</span> horas</span>
+<span id="cb12-4"><a href="#cb12-4"></a>fs <span class="op">=</span> fator de sensibilidade</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </section>
 <section id="refatorando" class="slide level2">
 <h2>Refatorando</h2>
-<div class="sourceCode" id="cb4"><pre class="sourceCode numberSource js number-lines code-with-copy"><code class="sourceCode javascript"><span id="cb4-1"><a href="#cb4-1"></a><span class="kw">function</span> <span class="fu">calcularBolusDeInsulina</span>(</span>
-<span id="cb4-2"><a href="#cb4-2"></a>    glicemiaAtualEmMGDL<span class="op">,</span></span>
-<span id="cb4-3"><a href="#cb4-3"></a>    glicemiaAlvoEmMGDL<span class="op">,</span></span>
-<span id="cb4-4"><a href="#cb4-4"></a>    totalDeUnidadesNasUltimas24H) {</span>
-<span id="cb4-5"><a href="#cb4-5"></a>    <span class="kw">const</span> fatorDaInsulina <span class="op">=</span> <span class="dv">1700</span><span class="op">;</span></span>
-<span id="cb4-6"><a href="#cb4-6"></a>    <span class="kw">const</span> fatorDeSensibilidade <span class="op">=</span> totalDeUnidadesNasUltimas24H <span class="op">/</span> fatorDaInsulina<span class="op">;</span></span>
-<span id="cb4-7"><a href="#cb4-7"></a>    <span class="cf">return</span> (glicemiaAtualEmMGDL <span class="op">-</span> glicemiaAlvoEmMGDL) <span class="op">/</span> fatorDeSensibilidade<span class="op">;</span></span>
-<span id="cb4-8"><a href="#cb4-8"></a>}</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode" id="cb13"><pre class="sourceCode numberSource js number-lines code-with-copy"><code class="sourceCode javascript"><span id="cb13-1"><a href="#cb13-1"></a><span class="kw">function</span> <span class="fu">calcularBolusDeInsulina</span>(</span>
+<span id="cb13-2"><a href="#cb13-2"></a>    glicemiaAtualEmMGDL<span class="op">,</span></span>
+<span id="cb13-3"><a href="#cb13-3"></a>    glicemiaAlvoEmMGDL<span class="op">,</span></span>
+<span id="cb13-4"><a href="#cb13-4"></a>    totalDeUnidadesNasUltimas24H) {</span>
+<span id="cb13-5"><a href="#cb13-5"></a>    <span class="kw">const</span> fatorDaInsulina <span class="op">=</span> <span class="dv">1700</span><span class="op">;</span></span>
+<span id="cb13-6"><a href="#cb13-6"></a>    <span class="kw">const</span> fatorDeSensibilidade <span class="op">=</span> totalDeUnidadesNasUltimas24H <span class="op">/</span> fatorDaInsulina<span class="op">;</span></span>
+<span id="cb13-7"><a href="#cb13-7"></a>    <span class="cf">return</span> (glicemiaAtualEmMGDL <span class="op">-</span> glicemiaAlvoEmMGDL) <span class="op">/</span> fatorDeSensibilidade<span class="op">;</span></span>
+<span id="cb13-8"><a href="#cb13-8"></a>}</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</section></section>
+<section>
+<section id="não-escreva-códigos-para-agradar-o-interpretador-ou-compilador-escreva-códigos-para-agradar-humanos" class="title-slide slide level1 center">
+<h1>Não escreva códigos para agradar o interpretador ou compilador, escreva códigos para agradar humanos!</h1>
+
 </section>
 <section id="tente-ser-o-mais-claro-possível" class="slide level2">
 <h2>Tente ser o mais claro possível</h2>
 <p>Os nomes nunca devem induzir um desenvolvedor ao erro, ou seja, não devem permitir interpretações dúbias.</p>
 <p>🚨 <strong>Atenção!</strong></p>
-<div class="sourceCode" id="cb5"><pre class="sourceCode numberSource js number-lines code-with-copy"><code class="sourceCode javascript"><span id="cb5-1"><a href="#cb5-1"></a>    <span class="fu">buscarDadosDoUsuario</span>()<span class="op">;</span></span>
-<span id="cb5-2"><a href="#cb5-2"></a>    <span class="fu">buscarInfoDoUsuario</span>()<span class="op">;</span></span>
-<span id="cb5-3"><a href="#cb5-3"></a>    <span class="co">// ou</span></span>
-<span id="cb5-4"><a href="#cb5-4"></a>    <span class="fu">getUserData</span>()<span class="op">;</span></span>
-<span id="cb5-5"><a href="#cb5-5"></a>    <span class="fu">getUserInfo</span>()<span class="op">;</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode" id="cb14"><pre class="sourceCode numberSource js number-lines code-with-copy"><code class="sourceCode javascript"><span id="cb14-1"><a href="#cb14-1"></a>    <span class="fu">buscarDadosDoUsuario</span>()<span class="op">;</span></span>
+<span id="cb14-2"><a href="#cb14-2"></a>    <span class="fu">buscarInfoDoUsuario</span>()<span class="op">;</span></span>
+<span id="cb14-3"><a href="#cb14-3"></a>    <span class="co">// ou</span></span>
+<span id="cb14-4"><a href="#cb14-4"></a>    <span class="fu">getUserData</span>()<span class="op">;</span></span>
+<span id="cb14-5"><a href="#cb14-5"></a>    <span class="fu">getUserInfo</span>()<span class="op">;</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </section>
 <section id="escolha-um-idioma" class="slide level2">
 <h2>Escolha um idioma</h2>
@@ -521,9 +645,71 @@ Vicente Calfo
 <p>Frameworks, pacotes, bibliotecas e até mesmo a linguagem de programação estão em inglês. Portanto, é natural manter a coerência e adotar o inglês para os nomes em nosso código, especialmente considerando a crescente internacionalização das empresas.</p>
 </section></section>
 <section>
-<section id="nomeando-classes-e-métodos" class="title-slide slide level1 center">
-<h1>Nomeando classes e métodos</h1>
+<section id="section-5" class="title-slide slide level1 center">
+<h1>💩👇</h1>
+<div class="sourceCode" id="cb15"><pre class="sourceCode numberSource js number-lines code-with-copy"><code class="sourceCode javascript"><span id="cb15-1"><a href="#cb15-1"></a><span class="co">// Codificando em inglês 😊</span></span>
+<span id="cb15-2"><a href="#cb15-2"></a><span class="kw">public</span> <span class="kw">class</span> CustomerRepository { <span class="op">...</span> }</span>
+<span id="cb15-3"><a href="#cb15-3"></a></span>
+<span id="cb15-4"><a href="#cb15-4"></a><span class="co">// Agora mudou para "portuglês" 🥴</span></span>
+<span id="cb15-5"><a href="#cb15-5"></a><span class="kw">public</span> <span class="kw">class</span> ProdutoRepository { <span class="op">...</span> }</span>
+<span id="cb15-6"><a href="#cb15-6"></a></span>
+<span id="cb15-7"><a href="#cb15-7"></a><span class="co">// Agora é português 🤔</span></span>
+<span id="cb15-8"><a href="#cb15-8"></a><span class="kw">public</span> <span class="kw">class</span> RepositorioUnidadeMedida { <span class="op">...</span> }</span>
+<span id="cb15-9"><a href="#cb15-9"></a></span>
+<span id="cb15-10"><a href="#cb15-10"></a><span class="co">// Utilizou sufixo ASYNC no método assíncrono 👌</span></span>
+<span id="cb15-11"><a href="#cb15-11"></a><span class="kw">public</span> <span class="kw">async</span> Task<span class="op">&lt;</span>Product<span class="op">&gt;</span> <span class="fu">GetAsync</span>() { <span class="op">...</span> }</span>
+<span id="cb15-12"><a href="#cb15-12"></a></span>
+<span id="cb15-13"><a href="#cb15-13"></a><span class="co">// Agora não usou mais =/ 😠</span></span>
+<span id="cb15-14"><a href="#cb15-14"></a><span class="kw">public</span> <span class="kw">async</span> Task<span class="op">&lt;</span>Course<span class="op">&gt;</span> <span class="fu">Get</span>() { <span class="op">...</span> }</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</section>
+<section id="padrões-de-design" class="slide level2">
+<h2>Padrões de design</h2>
+<p>Ao seguir convenções de nomenclatura e padrões de design, você cria um código mais consistente e facilita a identificação de elementos comuns.</p>
+</section></section>
+<section id="não-seja-engraçado" class="title-slide slide level1 center">
+<h1>Não seja engraçado!</h1>
+<div class="sourceCode" id="cb16"><pre class="sourceCode numberSource js number-lines code-with-copy"><code class="sourceCode javascript"><span id="cb16-1"><a href="#cb16-1"></a></span>
+<span id="cb16-2"><a href="#cb16-2"></a><span class="fu">killProcess</span>()<span class="op">;</span></span>
+<span id="cb16-3"><a href="#cb16-3"></a></span>
+<span id="cb16-4"><a href="#cb16-4"></a><span class="co">//</span></span>
+<span id="cb16-5"><a href="#cb16-5"></a></span>
+<span id="cb16-6"><a href="#cb16-6"></a><span class="fu">fireInTheHole</span>()<span class="op">;</span></span>
+<span id="cb16-7"><a href="#cb16-7"></a></span>
+<span id="cb16-8"><a href="#cb16-8"></a><span class="fu">deusEstaNoComando</span>()<span class="op">;</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</section>
 
+<section>
+<section id="nomeando-funções-classes-e-métodos" class="title-slide slide level1 center">
+<h1>Nomeando funções, classes e métodos</h1>
+
+</section>
+<section id="nome-de-funções-e-métodos" class="slide level2">
+<h2>Nome de funções e métodos</h2>
+<p>O mais comum é usar verbos para designar métodos e funções, mmas há casos que outra forma de expressão pode ser útil.</p>
+</section>
+<section id="imperativo-ou-infinitivo" class="slide level2">
+<h2>Imperativo ou infinitivo?</h2>
+<p>Depende do que sua equipe adotar como estilo.</p>
+<p>Apenas seja coerente!</p>
+<div class="sourceCode" id="cb17"><pre class="sourceCode numberSource js number-lines code-with-copy"><code class="sourceCode javascript"><span id="cb17-1"><a href="#cb17-1"></a></span>
+<span id="cb17-2"><a href="#cb17-2"></a><span class="kw">const</span> resultadoDaSoma <span class="op">=</span> <span class="fu">somar</span>(x<span class="op">,</span>y)<span class="op">;</span> <span class="co">// infinitivo</span></span>
+<span id="cb17-3"><a href="#cb17-3"></a><span class="co">// ou</span></span>
+<span id="cb17-4"><a href="#cb17-4"></a><span class="kw">const</span> resultadoDaSoma <span class="op">=</span> <span class="fu">some</span>(x<span class="op">,</span>y)<span class="op">;</span> <span class="co">// imperativo</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>🚨</p>
+<p>Muita confusão surge porque funções nomeadas em Inglês podem ter tanto a conotação de imperativo quanto de infinitivo. Por exemplo, execute() pode ser entendido tanto quanto to execute (executar, no infinitivo) quanto execute (execute, no imperativo).</p>
+</section>
+<section id="métodos-getters-e-setters" class="slide level2">
+<h2>Métodos getters e setters</h2>
+<ul>
+<li>Métodos devem ter verbos;</li>
+</ul>
+<div class="sourceCode" id="cb18"><pre class="sourceCode numberSource js number-lines code-with-copy"><code class="sourceCode javascript"><span id="cb18-1"><a href="#cb18-1"></a></span>
+<span id="cb18-2"><a href="#cb18-2"></a><span class="fu">setName</span>()<span class="op">;</span></span>
+<span id="cb18-3"><a href="#cb18-3"></a><span class="fu">getName</span>()<span class="op">;</span></span>
+<span id="cb18-4"><a href="#cb18-4"></a></span>
+<span id="cb18-5"><a href="#cb18-5"></a>employee<span class="op">.</span><span class="fu">getName</span>()<span class="op">;</span></span>
+<span id="cb18-6"><a href="#cb18-6"></a>employee<span class="op">.</span><span class="fu">setName</span>(<span class="st">'Matheus'</span>)<span class="op">;</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>Se o método ou função irá retornar um booleano é comum ter uma construção específica indicando uma capacidade. Ex.: is, can, has, isThere (alguns preferem usar só o has), allow (que pode ser o mesmo que can).</p>
 </section>
 <section id="nome-de-classes" class="slide level2">
 <h2>Nome de classes</h2>
@@ -531,9 +717,35 @@ Vicente Calfo
 <li>Os nomes de classes devem refletir sua representação, em vez de suas ações.</li>
 <li>É importante que esses nomes sejam substantivos e não verbos.</li>
 </ul>
+<div class="sourceCode" id="cb19"><pre class="sourceCode numberSource js number-lines code-with-copy"><code class="sourceCode javascript"><span id="cb19-1"><a href="#cb19-1"></a>Customer</span>
+<span id="cb19-2"><a href="#cb19-2"></a>WikiPage</span>
+<span id="cb19-3"><a href="#cb19-3"></a>Account</span>
+<span id="cb19-4"><a href="#cb19-4"></a>AddressParser</span>
+<span id="cb19-5"><a href="#cb19-5"></a></span>
+<span id="cb19-6"><a href="#cb19-6"></a><span class="co">// 💩</span></span>
+<span id="cb19-7"><a href="#cb19-7"></a></span>
+<span id="cb19-8"><a href="#cb19-8"></a>Manager</span>
+<span id="cb19-9"><a href="#cb19-9"></a>Processor</span>
+<span id="cb19-10"><a href="#cb19-10"></a>Data</span>
+<span id="cb19-11"><a href="#cb19-11"></a>Info</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</section>
+<section id="escolha-uma-palavra-por-conceito" class="slide level2">
+<h2>Escolha uma palavra por conceito</h2>
+<p>Escolha uma palavra para um conceito abstrato e fique com ela.</p>
+<p>Por exemplo, é confuso ter fetch, retrieve e get como métodos equivalentes de diferentes classes.</p>
+</section>
+<section id="não-adicione-contexto-gratuito" class="slide level2">
+<h2>Não adicione contexto gratuito</h2>
+<p>Imaginem uma aplicação ser chamada de ProFlora.</p>
+<p>Uma má ideia prefixar todas as classes com PRF.</p>
+<p>Exemplo:</p>
+<ul>
+<li><p>PRFTaxon</p></li>
+<li><p>PRFOccurrence</p></li>
+</ul>
 
 <img src="http://www.sr2.uerj.br/inovuerj/images/logonova.gif" class="slide-logo r-stretch"><div class="footer footer-default">
-<p>Código Limpo - Nomeando as coisas</p>
+<p>Código Limpo</p>
 </div>
 </section></section>
     </div>

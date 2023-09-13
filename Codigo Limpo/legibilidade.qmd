@@ -1,0 +1,62 @@
+---
+title: "Código limpo"
+subtitle: "Legibilidade de código"
+author: "Vicente Calfo"
+format:
+  revealjs:
+    logo: http://www.sr2.uerj.br/inovuerj/images/logonova.gif
+    footer: "Código Limpo"
+---
+
+## Argumentos da função
+
+💩
+```js
+function createMenu(title, body, buttonText, cancellable) {
+  // ...
+}
+
+createMenu("Foo", "Bar", "Baz", true);
+```
+
+😊
+
+```js
+function createMenu({ title, body, buttonText, cancellable }) {
+  // ...
+}
+
+createMenu({
+  title: "Foo",
+  body: "Bar",
+  buttonText: "Baz",
+  cancellable: true
+});
+```
+
+## Funções devem apresentar apenas uma única utilidade
+
+💩
+```js
+function emailClients(clients) {
+  clients.forEach(client => {
+    const clientRecord = database.lookup(client);
+    if (clientRecord.isActive()) {
+      email(client);
+    }
+  });
+}
+```
+
+😊
+
+```js
+function emailActiveClients(clients) {
+  clients.filter(isActiveClient).forEach(email);
+}
+
+function isActiveClient(client) {
+  const clientRecord = database.lookup(client);
+  return clientRecord.isActive();
+}
+```

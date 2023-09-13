@@ -5,7 +5,7 @@ author: "Vicente Calfo"
 format:
   revealjs:
     logo: http://www.sr2.uerj.br/inovuerj/images/logonova.gif
-    footer: "Código Limpo - Nomeando as coisas"
+    footer: "Código Limpo"
 ---
 
 # Use nomes significativos
@@ -13,6 +13,19 @@ format:
 ## Legibilidade
 
 Nomes bem escolhidos tornam o código mais legível. Quando alguém lê o código, nomes descritivos facilitam a compreensão do propósito e da função das partes do código.
+
+```js
+
+// Evite
+var x = 256;
+
+// Duração do que? Qual a métrica?
+int duration = 25;
+
+// Muito mais expressivo
+int durationInMinutes = 25;
+
+```
 
 ## Compreensão rápida
 
@@ -24,21 +37,93 @@ Código com nomes descritivos é mais fácil de manter e atualizar. Quando você
 
 ## Comunicação eficiente
 
-Em equipes de desenvolvimento, nomes bem escolhidos facilitam a comunicação. Os desenvolvedores podem discutir o código de forma mais eficaz quando têm nomes significativos para se referir.
+Em equipes de desenvolvimento, nomes bem escolhidos facilitam a comunicação. Os desenvolvedores podem discutir o código de forma mais eficaz quando têm nomes significativos para se referir.Faça distinções
+
+**Faça distinções significantes**
+
+```js
+// Evite 💩👇
+var salario = 7500;
+
+// Tem um significado maior
+var salarioEmReais = 7500;
+
+// Total do que? 💩👇 
+decimal total = 0;
+
+// Total do carrinho de compras
+decimal shoppingCartTotal = 0;
+```
 
 ## Evitar comentários excessivos
 
 Nomes apropriados podem reduzir a necessidade de comentários explicativos. Em vez de explicar o que uma variável faz em um comentário, você pode usar um nome que transmita essa informação de maneira mais clara.
 
+#
+
+```php
+<?php
+
+//Autentica usuário
+$this->autenticar($usuario, $senha);
+
+// método construtor
+public function __construct()
+{
+}
+
+foreach($array as $key => $value) {
+    if ($value === true) {
+    } // Fim if
+} // Fim foreach
+```
+
+# Não use comentários para versionar o código
+
+USA O GIT OU SVN PELO AMOR DE DEUS! 🥺
+
+#
+
+```php
+<?php
+private function exemplo()
+{
+   $gruposAcesso = explode(',', $_SESSION['GRUPOSACESSO']);
+
+   /* 
+     if (in_array(self::GRUPO_ADMINISTRADOR, $gruposAcesso)) {
+         return true;
+     }
+     return false; 
+   */
+
+   return in_array(self::GRUPO_ADMINISTRADOR, $gruposAcesso);
+}
+```
+
+
 ## Redução de erros
 
 Nomes ambíguos ou genéricos podem levar a erros de interpretação. Escolher nomes específicos ajuda a evitar confusões e erros decorrentes de interpretações equivocadas.
+<br />
 
-## Padrões de design
+💩👇
 
-Ao seguir convenções de nomenclatura e padrões de design, você cria um código mais consistente e facilita a identificação de elementos comuns.
+```js
+console.log(listaDeEspecies)
+console.log(typeof listaDeEspecies)
 
-## 👇
+// Manilkara decrescens, Parinari alvimii, Anomochloa marantoidea
+// string
+
+// refatorando: listaDeEspeciesSeparadasPorVirgula
+```
+
+## Corrija quando achar nomes melhores
+
+Existe um estágio clássico de um software que é quando o desenvolvedor ainda não entendeu em detalhes o problema a ser resolvido — que basicamente é o estado inicial de qualquer código — e escolhe nomes não tão bons.
+
+## 💩👇
 
 ```js
 function bolus(gm, ga, dtnu24) {
@@ -58,6 +143,39 @@ Valores literais que são usados diretamente no código, sem uma explicação ou
 
 Quando um número é usado diretamente em várias partes do código, não fica claro qual é o significado desse número. Isso pode levar a confusão e interpretações erradas.
 
+#
+
+💩👇
+```php 
+<?php
+private function exemplo()
+{
+    $gruposAcesso = explode(',',$_SESSION['GRUPOSACESSO']);
+
+    if (in_array(10, $gruposAcesso)) {
+        return true;
+    }
+
+    return false;
+}
+```
+#
+```php 
+<?php
+const GRUPO_ADMINISTRADOR = 10;
+
+private function deveExecutar()
+{
+    $gruposAcesso = explode(',',$_SESSION['GRUPOSACESSO']);
+
+    if (in_array(self::GRUPO_ADMINISTRADOR, $gruposAcesso)) {
+        return true;
+    }
+
+    return false;
+}
+```
+
 ## Dificuldade de manutenção
 
 Se você precisar fazer uma alteração no valor em vários lugares do código, será necessário localizar e atualizar cada ocorrência do número mágico. Isso aumenta a chance de erros e torna a manutenção mais trabalhosa.
@@ -66,11 +184,25 @@ Se você precisar fazer uma alteração no valor em vários lugares do código, 
 
 Números mágicos tornam o código frágil porque, se o valor precisar ser alterado, você pode esquecer de atualizá-lo em todos os lugares apropriados. Isso pode resultar em comportamento inesperado do programa.
 
+```js
+
+// Evite 💩👇
+if(environment == "PROD")
+    ...
+
+// Utilize
+const string ENV = "PROD";
+
+if(environment == ENV)
+    ...
+
+```
+
 ## Falta de documentação
 
 Quando números mágicos são usados sem comentários explicativos, não há documentação adequada do que esses valores representam, o que dificulta a compreensão futura.
 
-# Abreviações
+## Abreviações
 
 Tornam o código menos legível. Quando você ou outros desenvolvedores revisarem o código, pode ser difícil entender o significado das abreviações, o que leva a confusões.
 
@@ -78,6 +210,17 @@ Tornam o código menos legível. Quando você ou outros desenvolvedores revisare
 - Atrapalha a compreensão rápida;
 - Podem não seguir padronização (abrviações podem ser ambíguas);
 - Obriga o mapeamento mental;
+
+```js
+const zc = address.zc; // o que é zc??? zipcode (cep)?
+
+address.zc;
+address.zipc;
+address.zcode;
+
+😡☝️
+
+```
 
 ## Vamos olhar o código novamente👇
 
@@ -109,6 +252,8 @@ function calcularBolusDeInsulina(
 }
 ```
 
+# Não escreva códigos para agradar o interpretador ou compilador, escreva códigos para agradar humanos!
+
 ## Tente ser o mais claro possível
 
 Os nomes nunca devem induzir um desenvolvedor ao erro, ou seja, não devem permitir interpretações dúbias.
@@ -134,9 +279,115 @@ Escolha um e siga o projeto!
 Frameworks, pacotes, bibliotecas e até mesmo a linguagem de programação estão em inglês.
 Portanto, é natural manter a coerência e adotar o inglês para os nomes em nosso código, especialmente considerando a crescente internacionalização das empresas.
 
-# Nomeando classes e métodos
+# 💩👇
+
+```js
+// Codificando em inglês 😊
+public class CustomerRepository { ... }
+
+// Agora mudou para "portuglês" 🥴
+public class ProdutoRepository { ... }
+
+// Agora é português 🤔
+public class RepositorioUnidadeMedida { ... }
+
+// Utilizou sufixo ASYNC no método assíncrono 👌
+public async Task<Product> GetAsync() { ... }
+
+// Agora não usou mais =/ 😠
+public async Task<Course> Get() { ... }
+```
+
+## Padrões de design
+
+Ao seguir convenções de nomenclatura e padrões de design, você cria um código mais consistente e facilita a identificação de elementos comuns.
+
+# Não seja engraçado!
+
+```js
+
+killProcess();
+
+//
+
+fireInTheHole();
+
+deusEstaNoComando();
+
+```
+
+# Nomeando funções, classes e métodos
+
+## Nome de funções e métodos
+
+O mais comum é usar verbos para designar métodos e funções, mmas há casos que outra forma de expressão pode ser útil.
+
+## Imperativo ou infinitivo?
+
+Depende do que sua equipe adotar como estilo. 
+
+Apenas seja coerente!
+
+```js
+
+const resultadoDaSoma = somar(x,y); // infinitivo
+// ou
+const resultadoDaSoma = some(x,y); // imperativo
+
+```
+🚨
+
+Muita confusão surge porque funções nomeadas em Inglês podem ter tanto a conotação de imperativo quanto de infinitivo. Por exemplo, execute() pode ser entendido tanto quanto to execute (executar, no infinitivo) quanto execute (execute, no imperativo).
+
+## Métodos getters e setters
+
+- Métodos devem ter verbos;
+
+```js
+
+setName();
+getName();
+
+employee.getName();
+employee.setName('Matheus');
+
+```
+Se o método ou função irá retornar um booleano é comum ter uma construção específica indicando uma capacidade. Ex.: is, can, has, isThere (alguns preferem usar só o has), allow (que pode ser o mesmo que can).
 
 ## Nome de classes
 
 - Os nomes de classes devem refletir sua representação, em vez de suas ações.
 - É importante que esses nomes sejam substantivos e não verbos.
+
+```js
+Customer
+WikiPage
+Account
+AddressParser
+
+// 💩
+
+Manager
+Processor
+Data
+Info
+
+```
+
+## Escolha uma palavra por conceito
+
+Escolha uma palavra para um conceito abstrato e fique com ela.
+
+Por exemplo, é confuso ter fetch, retrieve e get como métodos equivalentes de diferentes classes.
+
+## Não adicione contexto gratuito
+
+Imaginem uma aplicação ser chamada de ProFlora.
+
+Uma má ideia prefixar todas as classes com PRF. 
+
+Exemplo: 
+
+- PRFTaxon
+
+- PRFOccurrence
