@@ -1,0 +1,1246 @@
+---
+title: "SOLID"
+subtitle: "Código limpo"
+author: "Vicente Calfo"
+format:
+  revealjs:
+    logo: http://www.sr2.uerj.br/inovuerj/images/logonova.gif
+    footer: "Código Limpo"
+---
+
+# SOLID
+
+SOLID são cinco princípios da programação orientada a objetos que facilitam no desenvolvimento de softwares, tornando-os fáceis de manter e estender. 
+
+- SOLID é um acrônimo criado por Michael Feathers após observar que cinco princípios da orientação a objetos e design de código criados por Uncle Bob descritos nos artigo [http://butunclebob.com/ArticleS.UncleBob.PrinciplesOfOod](http://butunclebob.com/ArticleS.UncleBob.PrinciplesOfOod).
+
+## S -> *Single Responsability Principle* (SRP) ou Princípio da Responsabilidade Única
+
+Um módulo deve ter uma, e apenas uma razão para mudar!
+
+Esse princípio declara que uma classe deve ser especializada em um único assunto e possuir apenas uma responsabilidade dentro do software, ou seja, a classe deve ter uma única tarefa ou ação para executar.
+
+---
+
+```php
+
+<?php
+
+class Order{
+
+    public function calculateTotalSum(){/*...*/}
+
+    public function getItems(){/*...*/}
+
+    public function getItemCount(){/*...*/}
+
+    public function addItem($item){/*...*/}
+
+    public function deleteItem($item){/*...*/}
+
+    public function printOrder(){/*...*/}
+
+    public function showOrder(){/*...*/}
+
+    public function load(){/*...*/}
+
+    public function save(){/*...*/}
+
+    public function update(){/*...*/}
+
+    public function delete(){/*...*/}
+
+}
+
+```
+
+# GOD Class
+
+<img src="https://upload.wikimedia.org/wikipedia/commons/7/7c/Cima_da_Conegliano%2C_God_the_Father.jpg" style="height:400px; display:block; margin:0 auto;" />
+
+## A classe Order viola o SRP porque realiza 3 tipos distintos de tarefas!
+
+* Falta de coesão — uma classe não deve assumir responsabilidades que não são suas;
+* Alto acoplamento — Mais responsabilidades geram um maior nível de dependências, deixando o sistema engessado e frágil para alterações;
+* Dificuldades na implementação de testes automatizados — É difícil de “mockar” dados para testes;
+
+# Vamos refatorar! 
+
+## O Pedido!
+
+```php
+<?php
+
+class Order{
+
+    public function calculateTotalSum(){/*...*/}
+
+    public function getItems(){/*...*/}
+
+    public function getItemCount(){/*...*/}
+
+    public function addItem($item){/*...*/}
+
+    public function deleteItem($item){/*...*/}
+
+}
+```
+
+## A persistência
+
+```php
+<?php
+
+class OrderRepository{
+
+    public function load($orderID){/*...*/}
+
+    public function save($order){/*...*/}
+
+    public function update($order){/*...*/}
+
+    public function delete($order){/*...*/}
+
+}
+```
+
+## A visualização
+
+```php
+<?php
+
+class OrderViewer{
+
+    public function printOrder($order){/*...*/}
+
+    public function showOrder($order){/*...*/}
+
+}
+```
+
+# A tal da alta coesão e baixo acoplamento 😎
+
+**O que é coesão?** 
+A coesão lexical consiste na utilização de palavras que possuem sentido aproximado ou que pertencem a um mesmo campo lexical.
+
+<hr />
+
+Objetos flexíveis e com responsabilidades limitadas!
+
+<hr />
+
+**Exemplo:** Objeto feito para salvar dado no banco **NÃO** deve gerar mensagem de log (**não é coeso**)!
+
+# Uma classe deve ter apenas um motivo para mudar!
+
+# 💩
+ ```typescript
+class Product{
+    constructor(name, price, taxRate){
+        this.name = name;
+        this.price = price;
+        this.taxRate = taxRate;
+    }
+
+    calculateTax(){
+        return this.price * this.taxRate;
+    }
+}
+```
+<hr />
+
+ ```typescript
+const coolSneakers = new Product('Tênis Irado', 55, 0.1);
+const coolSneakersTax = coolSneakers.calculateTax();
+
+// output coolSneakersTax: 5.5
+```
+
+## Bora Refatorar! 🤓
+
+ ```typescript
+class Product{
+    constructor(name, price, taxRate){
+        this.name = name;
+        this.price = price;
+        this.taxRate = taxRate;
+    }
+
+   getPrice(){
+    return this.price;
+   }
+
+   getTaxRate(){
+    return this.taxRate;
+   }
+}
+```
+<hr />
+
+ ```typescript
+class TaxCalculator{
+    static calculateTax(product){
+        return product.getPrice() * product.getTaxRate();
+    }
+}
+```
+
+# Calculando o imposto
+
+```typescript
+const coolSneakers = new Product('Tênis Irado', 55, 0.1);
+const coolSneakersTax = TaxCalculator.calculateTax(coolSneakers);
+
+```
+
+# Bora melhorar isso aí?
+
+```typescript
+const TAX_RATES = {
+    RJ: 0.1,
+    SP: 0.2,
+    MG: 0.0
+};
+```
+<hr />
+
+ ```typescript
+class Product{
+    constructor(name, price){
+        this.name = name;
+        this.price = price;
+    }
+   getPrice(){
+    return this.price;
+   }
+}
+```
+---
+
+ ```typescript
+class TaxCalculator{
+    static calculateTax(product, state){
+        return product.getPrice() * TAX_RATES[state];
+    }
+}
+```
+<hr />
+
+```typescript
+const coolSneakers = new Product('Tênis Irado', 55);
+const coolSneakersTaxInRJ = TaxCalculator.calculateTax(coolSneakers, 'RJ');
+const coolSneakersTaxInSP = TaxCalculator.calculateTax(coolSneakers, 'SP');
+```
+
+# Vamos para mais um exemplo!
+
+---
+
+```typescript
+const sendNewsletter = (book)=> {
+  switch (book.category) {
+    case "fiction":
+      const content = `'${book.title}' é um dis melhores livros de ficção, divirta-se!`;
+      break;
+    case "cooking":
+      const content = `'${book.title}' pode ser um ótimo presente para seu amigo cozinheiro.` ;
+      break;
+  }
+    database.getAll('customers').forEach(costumer =>{
+        if(customer.hasEmailSubscription()){
+            const emailContent = `<h1>Our weekly newsletter</h1><p>${content}</p>`
+            mailClient.send(emailReceivers, emailContent);
+        }
+    }) 
+}
+```
+# Hora da refatoração!
+
+<img src="https://media.tenor.com/58DNSt-Lvw0AAAAM/corgi-computer.gif" />
+
+---
+
+```typescript
+const getMessage ({category, title}) => {
+    return {
+        fiction: `'${title}' é um dis melhores livros de ficção, divirta-se!`,
+        cooking: `'${title}' pode ser um ótimo presente para seu amigo cozinheiro.`;
+    }
+}
+```
+<hr />
+
+```typescript
+const sendNewsletter = (book)=> { 
+    const content = getMessage(book);
+    const customers = database.getAll('customers');
+    const hasEmailSubscription = (costumer) => costumer.hasEmailSubscription();
+    customers.filter(hasEmailSubscription).forEach((costumer) =>{
+        const email = costumer.getEmailAddress();
+        sendEmail({
+            email,
+            content
+        })
+    });
+}
+
+const sendEmail = ({email, content}) => {
+    const mailClient = // instancia o cliente
+    mailClient.send(customer.getEmailAddress(), content)
+}
+```
+
+---
+
+```typescript
+
+const getcustomersWhoHasEmailSubscription = () =>{
+    const customers = database.getAll('customers');
+    const hasEmailSubscription = (costumer) => costumer.hasEmailSubscription();
+    return customers.filter(hasEmailSubscription);
+}
+
+const sendNewsletter = (book, customers)=> { 
+    const content = getMessage(book);
+    customers.forEach((costumer) =>{
+        const email = costumer.getEmailAddress();
+        sendEmail({
+            email,
+            content
+        })
+    });
+}
+```
+
+
+## O -> *Open-Closed Principle* ou Princípio aberto-fechado
+
+Objetos ou entidades devem estar abertos para extensão, mas fechados para modificação, ou seja, quando novos comportamentos e recursos precisam ser adicionados no software, devemos estender e não alterar o código fonte original.
+
+## 💩
+
+```php
+<?php
+
+class ContratoClt
+{
+    public function salario()
+    {
+        //...
+    }
+}
+
+class Estagio
+{
+    public function bolsaAuxilio()
+    {
+        //...
+    }
+}
+```
+
+## 💩
+
+```php
+class FolhaDePagamento
+{
+    protected $saldo;
+    
+    public function calcular($funcionario)
+    {
+        if ( $funcionario instanceof ContratoClt ) {
+            $this->saldo = $funcionario->salario();
+        } else if ( $funcionario instanceof Estagio) {
+            $this->saldo = $funcionario->bolsaAuxilio();
+        }
+    }
+}
+```
+
+# Agora precisamos implementar funcionário em regime de PJ! 🤡
+
+## 💩
+
+```php
+class ContratoPJ
+{
+    public function valorDoContrato()
+    {
+        //...
+    }
+}
+```
+
+## 💩
+
+```php
+class FolhaDePagamento
+{
+    protected $saldo;
+    
+    public function calcular($funcionario)
+    {
+        if ( $funcionario instanceof ContratoClt ) {
+            $this->saldo = $funcionario->salario();
+        } else if ( $funcionario instanceof Estagio) {
+            $this->saldo = $funcionario->bolsaAuxilio();
+        } else if ( $funcionario instanceof ContratoPJ) {
+            $this->saldo = $funcionario->valorDoContrato();
+        }
+    }
+}
+```
+
+# Bora melhorar isso aí? 😎
+
+# Separe o comportamento extensível por trás de uma interface e inverta as dependências.
+*Uncle Bob*
+
+## 💡
+
+```php
+
+<?php
+
+interface Remuneravel
+{
+    public function remuneracao();
+}
+
+```
+
+---
+
+```php
+<?php
+
+class ContratoClt implements Remuneravel
+{
+    public function remuneracao()
+    {
+        //...
+    }
+}
+
+class Estagio implements Remuneravel
+{
+    public function remuneracao()
+    {
+        //...
+    }
+}
+```
+
+---
+
+## 💡
+
+```php
+<?php
+
+class ContratoPJ implements Remuneravel
+{
+    public function remuneracao()
+    {
+        //...
+    }
+}
+```
+<hr />
+
+```php
+class FolhaDePagamento
+{
+    protected $saldo;
+    
+    public function calcular(Remuneravel $funcionario)
+    {
+        $this->saldo = $funcionario->remuneracao();
+    }
+}
+```
+
+# Agora a classe FolhaDePagamento não precisa mais saber quais métodos chamar para calcular.  🤌
+
+# Open-Closed Principle também é base para o padrão de projeto *Strategy*!
+
+Até o final do curso nós veremos esse padrão de projeto! (Prometo 🤞)
+
+# Vamos mais um exemplo?
+
+## 💩
+
+```typescript
+class CartaoCredito {
+
+  private Codigo: String;
+  private Expiracao: Date;
+  protected CustoMensal: number;
+
+  constructor(codigo: String, expiracao: Date, custoMensal: number) {
+      this.Codigo = codigo;
+      this.Expiracao = expiracao;
+      this.CustoMensal = custoMensal;
+  }
+
+  obterCodigo(): String {
+      return this.Codigo;
+  }
+
+  obterExpiracao(): Date {
+      return this.Expiracao;
+  }
+
+  descontoMensal(): number {
+      return this.CustoMensal * 0.02;
+  }
+
+  descontoMensalSilver(): number {
+      return this.CustoMensal * 0.03;
+  }
+
+  descontoMensalGold(): number {
+      return this.CustoMensal * 0.05;
+  }
+
+}
+```
+
+# Hora da Refatoração
+
+<img src="https://gifs.eco.br/wp-content/uploads/2022/02/gifs-do-gatinho-digitando-2.gif" />
+
+## 😍
+
+```typescript
+class CartaoCredito {
+
+  private Codigo: String;
+  private Expiracao: Date;
+  protected CustoMensal: number;
+
+  constructor(codigo: String, expiracao: Date, custoMensal: number) {
+      this.Codigo = codigo;
+      this.Expiracao = expiracao;
+      this.CustoMensal = custoMensal;
+  }
+
+  obterCodigo(): String {
+      return this.Codigo;
+  }
+
+  obterExpiracao(): Date {
+      return this.Expiracao;
+  }
+
+  descontoMensal(): number {
+      return this.CustoMensal * 0.02;
+  }
+
+}
+```
+
+## 😍
+
+```typescript
+class CartaoCreditoGold extends CartaoCredito {
+
+  descontoMensal(): number {
+    return this.CustoMensal * 0.05;
+  }
+
+}
+
+
+class CartaoCreditoSilver extends CartaoCredito {
+
+  descontoMensal(): number {
+      return this.CustoMensal * 0.03;
+  }
+
+}
+```
+
+# Você deve ser capaz de estender o comportamento de uma classe sem modifica-la!
+
+# L -> *Liskov substitution principle* ou Princípio da Substituição de Liskov
+
+Este conceito foi introduzido por Barbara Liskov em 1987, no qual defende a ideia que uma classe base pode ser substituída em qualquer momento por suas classes herdadas sem ser modificada.
+
+## Observe:
+```typescript
+export interface Cliente {
+  recuperarDocumento();
+  calcularTarifa();
+}
+
+export class Program {
+  private _clientes: Cliente[];
+
+  constructor(clientes: Cliente[]) {
+    this._clientes = clientes;
+  }
+
+  exibirRelatorio() {
+    this._clientes.forEach((cliente) => {
+      const documento = cliente.recuperarDocumento();
+      const tarifa = cliente.calcularTarifa();
+      console.log(`${documento} | ${tarifa}`);
+    })
+  }
+}
+```
+
+#
+```typescript
+export class ClientePF implements Cliente {
+  private _cpf: string;
+
+  constructor(cpf: string) {
+    if (cpf.length !== 11) {
+      throw new Error("O CPF de um Cliente pessoa física deve conter exatamente 11 dígitos");
+    }
+
+    this._cpf = cpf;
+  }
+
+  recuperarDocumento() {
+    return this._cpf;
+  }
+
+  calcularTarifa() {
+    /** regras para calcular tarifa de um cliente PF */
+  }
+}
+```
+
+#
+```typescript
+export class ClientePJ implements Cliente {
+  private _cnpj: string;
+
+  constructor(cnpj: string) {
+    if (cnpj.length !== 14) {
+      throw new Error("O CNPJ de um Cliente pessoa jurídica deve conter exatamente 14 dígitos");
+    }
+
+    this._cnpj = cnpj;
+  }
+
+  recuperarDocumento() {
+    return this._cnpj;
+  }
+
+  calcularTarifa() {
+    /** regras para calcular tarifa de um cliente PJ */
+  }
+}
+```
+
+# Conclusão 🤓
+Temos duas classes que representam tipos diferentes de clientes, cada uma com suas regras de negócio específicas, porém ambas respeitam o contrato da interface Cliente. Assim, o programa está preparado para receber em seu construtor qualquer uma das duas implementações.
+
+# Situação problema 🤔
+Imagine que nosso sistema precise salvar um usuário no banco de dados, mas queremos ter total independência em relação ao banco que será utilizado, pois ainda não escolhemos qual banco.
+
+## *Repository Pattern*
+
+- Conceito de abstração de banco de dados e implementar um padrão de design "Repository".
+
+- Vamos criar um "contrato" que diga que todo toda classe que lide com o banco de dados tenha um método chamado "create".
+
+```typescript
+interface IUserRepository {
+  create(name: string, age: number): Promise<void>;
+}
+```
+
+# Lidando com MYSQL
+
+```typescript
+import mysql from 'mysql2/promise';  // Só exemplo
+
+class UserRepositoryMySQL implements IUserRepository {
+  constructor() {
+    this.mysql = mysql.createPool({
+      /* configuração da conexão */
+    });
+  }
+
+    async create(name: string, age: number): Promise<void> {
+      await this.mysql.execute(
+        'INSERT INTO users (name, age) VALUES (?, ?);',
+        [name, age]
+      )
+    }
+  }
+```
+
+# Lidando com MongoDB
+
+```typescript
+// pasta "fictícia"que armazena as Models do Mongoose
+
+import { User } from 'mongooseModels';  
+
+class UserRepositoryMongo implements IUserRepository {
+  constructor() {
+    this.userModel = new User();
+  }
+
+  async create(name: string, age: number): Promise<void> {
+    await this.userMode.create({ name, age });
+  }
+}
+```
+
+# Criando um serviço
+
+```typescript
+import { IUserRepository } from 'IUserRepository';
+
+class CreateUserService {
+  constructor(private userRepository: IUserRepository) {}
+
+  async execute(name: string, age: number) {
+    this.userRepository.create(name, age);
+  }
+}
+```
+
+# Salvando no banco 
+
+```typescript
+import { UserRepositoryMySQL } from 'UserRepositoryMySQL';
+import { UserRepositoryMongo } from 'UserRepositoryMongo';
+import { CreateUserService } from 'CreateUserService';
+
+
+const createUserService = new CreateUserService(userRepositoryMySQL);
+//ou
+const createUserService = new CreateUserService(userRepositoryMongo);
+await createUserService.execute('Vicente', 40);
+```
+
+# Conclusão 😍
+
+Criamos duas classes que lidam com DB diferentes, porém podemos utilizar qualquer uma das duas em nosso serviço de criação de usuário *CreateUserService*, isso porque o serviço espera a *Interface IUserRepository* e como nossas classes implementam essa Interface podem ser usadas como substitutas.
+
+##  I -> *Interface Segregation Principle* ou Princípio de Segregação de Interfaces
+
+O Princípio de Segregação de Interfaces recomenda que separemos nossas Interfaces em "blocos mínimos", em outras palavras, as criemos altamente especializadas e caso surja a necessidade, podemos criar uma Interface mais completa estendendo as mais específicas.
+
+## Vamos ao exemplo! 
+
+```typescript
+export interface Carro {
+  acelerar();
+  frear();
+}
+```
+
+# 🚗
+```typescript
+export class Fiat implements Carro {
+  acelerar() {
+    console.log('O Fiat está sendo acelerada');
+  }
+ 
+  frear() {
+    console.log('Você acabou de frear o Fiat');
+  }
+}
+ 
+export class Ford implements Carro {
+  acelerar() {
+    console.log('O Ford está sendo acelerada');
+  }
+ 
+  frear() {
+    console.log('Você acabou de frear o Ford');
+  }
+}
+```
+
+# Aqui tá tudo certo! ISP sendo aplicado, até ...
+
+# ... o Wellington ter uma grande ideia 🧑‍🔬
+Ele inventou um carro que viaja no tempo chamado **DeLorean**! 
+
+## Ele deu um jeitinho nas coisas 🤡
+
+```typescript
+export interface Carro {
+  acelerar();
+  frear();
+  viajarNoTempo();
+}
+
+export class DeLorean implements Carro {
+  acelerar() {
+    console.log('O DeLorean está sendo acelerado');
+  }
+ 
+  frear() {
+    console.log('Você acabou de frear o DeLorean');
+  }
+ 
+  viajarNoTempo() {
+    console.log('Vamos de volta para o futuro com o DeLorean');
+  }
+}
+```
+
+# Qual é o fedor na solução anterior???? 💩
+O Compilador está nos forçando a implementar o método viajarNoTempo() nas classes Fiat e Ford, por mais que este comportamento não exista nestes tipos de carro!
+
+## Mas Wellington logo percebeu e resolveu refatorar! 😏
+
+```typescript
+export interface Carro {
+  acelerar();
+  frear();
+}
+ 
+export interface MaquinaDoTempo {
+  viajarNoTempo();
+}
+```
+
+## Agora está tudo certo! 😍
+
+```typescript
+export class DeLorean implements Carro, MaquinaDoTempo {
+  acelerar() {
+    console.log('O DeLorean está sendo acelerado');
+  }
+ 
+  frear() {
+    console.log('Você acabou de frear o DeLorean');
+  }
+ 
+  viajarNoTempo() {
+    console.log('Vamos de volta para o futuro com o DeLorean');
+  }
+}
+```
+Ao realizar estas alterações voltamos a respeitar o ISP, já que isolamos as interfaces da aplicação através das diferenças de responsabilidade e comportamentos, e, portanto, passamos a ter interfaces específicas ao invés de interfaces genéricas.
+
+## Agora Wellington pode curtir a praia dele tranquilão! 😎
+
+<img src="https://gifdb.com/images/high/vacation-mr-bean-s-holiday-7gf50xw9odioby08.gif" />
+
+# Conclusão
+
+Princípio da Segregação de Interface está relacionado a coesão de interfaces, definindo que classes ou componentes clientes não devem ser forçados a depender de métodos que eles não precisam. 
+
+# Crie pequenas interfaces granulares que são específicas do cliente.
+
+# Vamos ver mais um exemplo!
+
+#
+
+```php
+interface Aves
+{
+    public function setLocalizacao($longitude, $latitude);
+    public function setAltitude($altitude);
+}
+```
+
+```php
+class Papagaio implements Aves
+{
+    public function setLocalizacao($longitude, $latitude){}
+    public function setAltitude($altitude){}
+}
+
+class Pinguim implements Aves
+{
+    public function setLocalizacao($longitude, $latitude){}
+    
+    // A Interface Aves está forçando a Classe Pinguim a implementar esse método.
+    // Isso viola o príncipio ISP
+    public function setAltitude($altitude){
+    //Não faz nada...  Pinguins são aves que não voam!
+    }
+}
+```
+
+# Acertando as coisas
+
+```php
+<?php
+
+interface Aves
+{
+    public function setLocalizacao($longitude, $latitude);
+}
+
+interface AvesQueVoam extends Aves
+{
+    public function setAltitude($altitude);
+}
+
+
+<?php
+
+interface Aves
+{
+    public function setLocalizacao($longitude, $latitude);
+    public function renderizar();
+}
+
+interface AvesQueVoam extends Aves
+{
+    public function setAltitude($altitude);
+}
+
+class Papagaio implements AvesQueVoam{}
+class Pinguim implements Aves{}
+
+```
+
+
+# D -> *Dependency Inversion Principle* ou Princípio da Inversão de Dependência
+
+Sempre dependa de abstrações, nunca de implementações concretas.
+
+## Importante!
+
+- Módulos de alto nível não devem depender de módulos de baixo nível. Ambos devem depender da abstração.
+
+- Abstrações não devem depender de detalhes. Detalhes devem depender de abstrações.
+
+# 💩
+```php
+
+<?php
+
+use MySQLConnection;
+
+class PasswordReminder
+{
+    private $dbConnection;
+    
+    public function __construct()
+    {       
+        $this->dbConnection = new MySQLConnection();           
+    }
+    
+    // Faz alguma coisa
+}
+```
+
+# Qual o problema agora?
+
+- a classe PasswordReminder, precisa conectar na base de dados, por tanto, ela cria um instancia da classe MySQLConnection;
+- Isso causa um alto nível de acoplamento! Isso acontece porque a classe PasswordReminder tem a responsabilidade de criar uma instância da classe MySQLConnection.
+
+# Resolvendo o problema!
+```php
+
+<?php
+
+use MySQLConnection;
+
+class PasswordReminder
+{
+    private $dbConnection;
+    
+    public function __construct(MySQLConnection $dbConnection)
+    {       
+        $this->dbConnection = $dbConnection;           
+    }
+    
+    // Faz alguma coisa
+}
+```
+# Agora temos a Injeção de Dependência!
+
+# Mas nem tudo são flores ... 😢
+
+Apesar de termos usado a injeção de dependência para melhorar o nível de acoplamento do nosso código, ele ainda viola o princípio da inversão de dependência! — lembre-se, um não é igual ao outro.
+
+- Além disso violamos o OCP, se precisarmos alterar o banco de dados, precisaremos mexer na classe PasswordReminder.
+
+# Por que violamos o Dependency Inversion Principle? 🤬
+
+Porque estamos dependendo de uma implementação e não de uma abstração!
+
+# Um módulo de alto nível não deve depender de módulos de baixo nível, ambos devem depender da abstração. 🤔
+- Vamos no exemplo identificar qual é alto nível e baixo nível!
+
+## PasswordReminder depende da classe MySQLConnection
+
+- Sendo assim, PasswordReminder é o módulo de alto nível e MySQLConnection é o módulo de baixo nível.
+
+Velho ditado em POO: 👏
+
+- Programe para uma interface e não para uma implementação.
+
+# Vamos começar a refatoração!
+
+<img src="https://media.tenor.com/myWhE0y5rTsAAAAC/brent-rambo-thumbs-up.gif" />
+
+# Criando a interface
+
+```php
+interface DBConnectionInterface
+{
+    public function connect();
+}
+```
+
+## Implementando a interface
+
+```php
+class MySQLConnection implements DBConnectionInterface
+{
+    public function connect()
+    {
+        // ...
+    }
+}
+
+class MongoDBConnection implements DBConnectionInterface
+{
+    public function connect()
+    {
+        // ...
+    }
+}
+
+class OracleConnection implements DBConnectionInterface
+{
+    public function connect()
+    {
+        // ...
+    }
+}
+```
+
+# Password Reminder
+
+```php
+class PasswordReminder
+{
+    private $dbConnection;
+    public function __construct(DBConnectionInterface $dbConnection) {
+        $this->dbConnection = $dbConnection;
+    }
+    // Faz alguma coisa
+}
+```
+
+# 😍
+
+- Agora a classe PasswordReminder não tem a mínima ideia de qual banco de dados a aplicação irá utilizar;
+- As classes estão desacopladas e dependendo de uma abstração (DBConnectionInterface);
+- Estamos favorecendo a reusabilidade do código;
+- SRP 🤌
+- OCP 🤌
+
+# Bora mais um exemplo ??? 🥺
+
+<img src="https://media.tenor.com/HPht2t341E8AAAAC/puppy-dog-eyes-sad.gif" />
+
+## Atenção ao acoplamento!
+
+```typescript
+import { SendGridService } from '../../services'; // <- Código Fonte da dependência
+
+class InserirUsuarioController extends BaseController {
+                                                        
+  private emailService: SendGridService = new SendGridService(); // <- classe concreta
+
+  constructor () {
+  }
+
+  protected enviarEmail (): void {
+    // enviar email
+    const email = new Email(...)
+    this.emailService.sendMail(mail);
+  }
+}
+```
+
+## Atenção ao acoplamento!
+
+```typescript
+class InserirUsuarioController extends BaseController {
+
+  constructor (private emailService: SendGridService) { // <- classe concreta
+  }
+
+  protected enviarEmail (): void {
+    
+    // envia mail
+    const email = new Email(...)
+    this.emailService.sendMail(email);
+  }
+}
+```
+
+## Ajustando as coisas! 😍
+
+```typescript
+interface IEmailService {
+  sendMail() : void;
+}
+
+class InserirUsuarioController extends BaseController {
+
+  constructor (private emailService: IEmailService) { // <- abstração
+  }
+
+  protected enviarEmail (): void {
+    // envia mail
+    const email = new Email(...)
+    this.emailService.sendMail(email);
+  }
+}
+```
+
+# Só mais 1 exemplo! Eu JURO! 😇
+
+## Vamos pensar nas dependências
+
+<img src="https://miro.medium.com/v2/resize:fit:720/format:webp/1*ctCgGCiNCWDM6DIyejMj3Q.png" />
+
+As dependências seguem uma sequência, onde o fluxo começa com a função de alto nível (gerarNotaFiscal), que depende de uma função de baixo nível (calcular) que, por sua vez, depende de um detalhe (obterProdutos).
+
+
+## Olhando o código:
+```php
+function gerarNotaFiscal(int $pedidoId)
+{
+    $preçoPedido = calcular($pedidoId);
+    // rotina para gerar a nota fiscal
+}
+function calcular(int $pedidoId) : float
+{
+    $produtos = obterProdutos($pedidoId);
+    // rotina que calcula a soma de todos os produtos
+    return 678.50;
+}
+function obterProdutos(int $pedidoId) : array
+{
+    // rotina que busca a lista de produtos
+    // no banco de dados com base no id do pedido
+    return [];
+}
+```
+
+## Refatorando de procedural para OO
+```php
+class NotaFiscal
+{
+    public function gerarNota(int $pedidoId)
+    {
+        $calculo = new Calculo;
+        $preçoPedido = $calculo->calcularPreçoPedido();
+        // rotina para gerar a nota fiscal
+    }
+}
+class Calculo
+{
+    public function calcularPreçoPedido(int $pedidoId) : void
+    {
+        $produtos = new Produtos;
+        $lista = $produtos->obterProdutos($pedidoId);
+        // rotina que calcula a soma de todos os produtos
+        return 678.50;
+    }
+}
+class Produtos
+{
+    public function obterProdutos(int $pedidoId) : array
+    {
+        // rotina que busca a lista de produtos
+        // no banco de dados com base no id do pedido
+        return [];
+    }
+}
+```
+
+# As dependências continuam seguindo a mesma sequência 🥲
+
+## Qualquer mudança em qualquer uma dessas classes irá quebrar todas as que estiverem ligadas a partir das dependências provenientes do acoplamento.
+
+<img src="https://media.tenor.com/VTBy6ITcbE4AAAAC/doctor-who-rain.gif" />
+
+## Invertendo as dependências
+
+<img src="https://miro.medium.com/v2/resize:fit:1100/format:webp/1*N-cNf7xTIqh3cpnQthEJnQ.png" />
+
+No diagrama acima a direção das cetas indica a dependência das classes. Note que a ceta vermelha está invertida, quebrando a cascata. Agora, todas as classes dependem de abstrações (ICalculoPedidos e IProdutos).
+
+# Hora do código! 🥳
+
+```php
+class NotaFiscal
+{
+    public function gerarNota(ICalculo $calculo)
+    {
+        $preçoPedido = $calculo->total();
+        // rotina para gerar a nota fiscal
+    }
+}
+```
+
+# 😲
+
+```php
+interface ICalculo
+{
+    public function calcularPreçoPedido(IProdutos $produtos) : void;
+    public function total() : float;
+}
+class Calculo implements ICalculo 
+{
+    private $produtos;
+    public function calcularPreçoPedido(IProdutos $produtos) : void
+    {
+        $this->produtos = $produtos;
+    }
+    public function total() : float
+    {
+        $lista = $this->produtos->obterProdutos();
+        // rotina que soma os preços dos produtos ...
+        return 678.50;
+    }
+}
+```
+
+# 😲
+
+```php
+interface IProdutos
+{
+    public function setarPedidoId(int $pedidoId) : void;
+    public function obterProdutos() : array;
+}
+class Produtos implements IProdutos
+{
+    private $pedidoId;
+    public function setarPedidoId(int $pedidoId) : void
+    {
+        $this->pedidoId = $pedidoId;
+    }
+    public function obterProdutos() : array
+    {
+        return $this->consultarNoBanco($this->pedidoId);
+    }
+    private function consultarNoBanco(int $pedidoId) : array
+    {
+        // implementação qualquer ...
+        return [];
+    }
+}
+```
+
+## É uma boa prática programar para interfaces, pois isso diminui o acoplamento entre as classes, e não tornamos dependentes delas!
+
+-  Quando você estabelece qual a interface utilizada, você já definiu um contrato entre a classe e o tipo;
+- A partir daí, não importa qual é exatamente a classe recebida como parâmetro do construtor, desde que ela implemente a interface.
