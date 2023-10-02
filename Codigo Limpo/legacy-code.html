@@ -1158,6 +1158,79 @@ Vicente Calfo
 <span id="cb20-26"><a href="#cb20-26"></a>    }</span>
 <span id="cb20-27"><a href="#cb20-27"></a>}</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </section></section>
+<section id="features-flags" class="title-slide slide level1 center">
+<h1>Features Flags</h1>
+<p>É uma técnica que permite, dentre outras coisas: que seja possível ativar ou desativar uma funcionalidade em produção em tempo real sem fazer deploy.</p>
+</section>
+
+<section id="exemplo" class="title-slide slide level1 center">
+<h1>Exemplo</h1>
+<div class="sourceCode" id="cb21"><pre class="sourceCode numberSource javascript number-lines code-with-copy"><code class="sourceCode javascript"><span id="cb21-1"><a href="#cb21-1"></a><span class="kw">function</span> <span class="fu">calculateEOO</span>(occurrences){</span>
+<span id="cb21-2"><a href="#cb21-2"></a>  <span class="co">// implementação de cálculo de EOO</span></span>
+<span id="cb21-3"><a href="#cb21-3"></a>}</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>Situação problema: Precisamos testar em produção o novo cálculo de EOO.</p>
+</section>
+
+<section>
+<section id="resolvendo-a-situação" class="title-slide slide level1 center">
+<h1>Resolvendo a situação</h1>
+<div class="sourceCode" id="cb22"><pre class="sourceCode numberSource javascript number-lines code-with-copy"><code class="sourceCode javascript"><span id="cb22-1"><a href="#cb22-1"></a><span class="kw">function</span> <span class="fu">calculateEOO</span>(occurrences){</span>
+<span id="cb22-2"><a href="#cb22-2"></a>  <span class="kw">const</span> useNewCalculateEOO <span class="op">=</span> <span class="kw">false</span><span class="op">;</span></span>
+<span id="cb22-3"><a href="#cb22-3"></a></span>
+<span id="cb22-4"><a href="#cb22-4"></a>  <span class="cf">if</span>(useNewCalculateEOO){</span>
+<span id="cb22-5"><a href="#cb22-5"></a>    <span class="cf">return</span> <span class="fu">newCalculateEOO</span>(occurrences)</span>
+<span id="cb22-6"><a href="#cb22-6"></a>  }<span class="cf">else</span>{</span>
+<span id="cb22-7"><a href="#cb22-7"></a>    <span class="cf">return</span> <span class="fu">oldCalculateEOO</span>(occurrences)</span>
+<span id="cb22-8"><a href="#cb22-8"></a>  }</span>
+<span id="cb22-9"><a href="#cb22-9"></a>}</span>
+<span id="cb22-10"><a href="#cb22-10"></a></span>
+<span id="cb22-11"><a href="#cb22-11"></a><span class="kw">function</span> <span class="fu">newCalculateEOO</span>(occurrences){</span>
+<span id="cb22-12"><a href="#cb22-12"></a>  <span class="co">// faz o novo calculo de EOO</span></span>
+<span id="cb22-13"><a href="#cb22-13"></a>}</span>
+<span id="cb22-14"><a href="#cb22-14"></a></span>
+<span id="cb22-15"><a href="#cb22-15"></a><span class="kw">function</span> <span class="fu">oldCalculateEOO</span>(occurrences){</span>
+<span id="cb22-16"><a href="#cb22-16"></a>  <span class="co">// essa é a implementação antiga</span></span>
+<span id="cb22-17"><a href="#cb22-17"></a>  <span class="co">// que se chamava calculateEOO</span></span>
+<span id="cb22-18"><a href="#cb22-18"></a>}</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</section>
+<section id="flag-com-arquivo-de-configuração" class="slide level2">
+<h2>Flag com arquivo de configuração</h2>
+<ol type="1">
+<li>Criando um arquivo de configuração:</li>
+</ol>
+<div class="sourceCode" id="cb23"><pre class="sourceCode numberSource javascript number-lines code-with-copy"><code class="sourceCode javascript"><span id="cb23-1"><a href="#cb23-1"></a><span class="co">//arquivo de configuração feature-flag-config</span></span>
+<span id="cb23-2"><a href="#cb23-2"></a><span class="im">export</span> <span class="im">default</span> <span class="kw">const</span> featureFlagConfig <span class="op">=</span> {</span>
+<span id="cb23-3"><a href="#cb23-3"></a>  <span class="dt">useNewCalculateEOO</span><span class="op">:</span> <span class="kw">true</span></span>
+<span id="cb23-4"><a href="#cb23-4"></a>}</span>
+<span id="cb23-5"><a href="#cb23-5"></a></span>
+<span id="cb23-6"><a href="#cb23-6"></a><span class="co">// arquivo onde implementa o calculo de EOO</span></span>
+<span id="cb23-7"><a href="#cb23-7"></a><span class="im">import</span> {featureFlagConfig} <span class="im">from</span> <span class="st">'feature-flag-config'</span><span class="op">;</span></span>
+<span id="cb23-8"><a href="#cb23-8"></a></span>
+<span id="cb23-9"><a href="#cb23-9"></a><span class="kw">function</span> <span class="fu">calculateEOO</span>(occurrences){</span>
+<span id="cb23-10"><a href="#cb23-10"></a>  <span class="kw">const</span> useNewCalculateEOO <span class="op">=</span> featureFlagConfig<span class="op">.</span><span class="at">useNewCalculateEOO</span><span class="op">;</span></span>
+<span id="cb23-11"><a href="#cb23-11"></a>  <span class="co">// restante da implementação</span></span>
+<span id="cb23-12"><a href="#cb23-12"></a>}</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</section>
+<section id="flag-dinâmica" class="slide level2">
+<h2>Flag dinâmica</h2>
+<ol type="1">
+<li>Cria uma lógica para determinar se a flag está habilitada ou não baseado no usuário;</li>
+</ol>
+<div class="sourceCode" id="cb24"><pre class="sourceCode numberSource javascript number-lines code-with-copy"><code class="sourceCode javascript"><span id="cb24-1"><a href="#cb24-1"></a></span>
+<span id="cb24-2"><a href="#cb24-2"></a><span class="kw">function</span> <span class="fu">calculateEOO</span>(occurrences){</span>
+<span id="cb24-3"><a href="#cb24-3"></a></span>
+<span id="cb24-4"><a href="#cb24-4"></a>  <span class="kw">const</span> useNewCalculateEOO <span class="op">=</span> <span class="fu">featureFlagByUser</span>(<span class="st">'useNewCalculateEOO'</span><span class="op">,</span> $userId)<span class="op">;</span></span>
+<span id="cb24-5"><a href="#cb24-5"></a>  <span class="co">// restante da implementação</span></span>
+<span id="cb24-6"><a href="#cb24-6"></a>}</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</section>
+<section id="cuidados-ao-usar-feature-flags" class="slide level2">
+<h2>Cuidados ao usar feature flags</h2>
+<ul>
+<li>Tenha regras claras para ativar ou desativar as flags. Considere usar métricas ou critérios específicos para decidir quando uma funcionalidade deve ser ativada ou desativada.</li>
+<li>Quando uma feature flag não for mais necessária, remova o código associado a ela. Não deixe código morto no aplicativo.</li>
+<li>Documente claramente todas as feature flags, incluindo seu propósito, quem as controla e como elas devem ser usadas. Isso ajuda a evitar confusão e erros.</li>
+</ul>
+</section></section>
 <section id="o-que-é-um-padrão-de-projeto" class="title-slide slide level1 center">
 <h1>O que é um padrão de projeto?</h1>
 <p>Padrões de projeto são soluções em nível de design para problemas recorrentes que os engenheiros de software encontram com frequência.</p>
@@ -1191,87 +1264,92 @@ Vicente Calfo
 <section id="situação-problema" class="slide level2">
 <h2>Situação problema</h2>
 <p>Considere que tem hoje um sistema de log que salva em um arquivo local todas as informações geradas pela aplicação, e que esse possui a seguinte interface e implementação:</p>
-<div class="sourceCode" id="cb21"><pre class="sourceCode numberSource typescript number-lines code-with-copy"><code class="sourceCode typescript"><span id="cb21-1"><a href="#cb21-1"></a><span class="kw">interface</span> Logger {</span>
-<span id="cb21-2"><a href="#cb21-2"></a>  <span class="fu">info</span>(message<span class="op">:</span> <span class="dt">string</span>)<span class="op">:</span> <span class="bu">Promise</span><span class="op">&lt;</span><span class="dt">void</span><span class="op">&gt;;</span></span>
-<span id="cb21-3"><a href="#cb21-3"></a>}</span>
-<span id="cb21-4"><a href="#cb21-4"></a></span>
-<span id="cb21-5"><a href="#cb21-5"></a><span class="kw">class</span> FileLogger <span class="kw">implements</span> Logger {</span>
-<span id="cb21-6"><a href="#cb21-6"></a>  <span class="kw">public</span> <span class="kw">async</span> <span class="fu">info</span>(message<span class="op">:</span> <span class="dt">string</span>)<span class="op">:</span> <span class="bu">Promise</span><span class="op">&lt;</span><span class="dt">void</span><span class="op">&gt;</span> {</span>
-<span id="cb21-7"><a href="#cb21-7"></a>    <span class="bu">console</span><span class="op">.</span><span class="fu">info</span>(message)<span class="op">;</span></span>
-<span id="cb21-8"><a href="#cb21-8"></a>    <span class="bu">console</span><span class="op">.</span><span class="fu">info</span>(<span class="st">'This Message was saved with FileLogger'</span>)<span class="op">;</span></span>
-<span id="cb21-9"><a href="#cb21-9"></a>  }</span>
-<span id="cb21-10"><a href="#cb21-10"></a>}</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode" id="cb25"><pre class="sourceCode numberSource typescript number-lines code-with-copy"><code class="sourceCode typescript"><span id="cb25-1"><a href="#cb25-1"></a><span class="kw">interface</span> Logger {</span>
+<span id="cb25-2"><a href="#cb25-2"></a>  <span class="fu">info</span>(message<span class="op">:</span> <span class="dt">string</span>)<span class="op">:</span> <span class="bu">Promise</span><span class="op">&lt;</span><span class="dt">void</span><span class="op">&gt;;</span></span>
+<span id="cb25-3"><a href="#cb25-3"></a>}</span>
+<span id="cb25-4"><a href="#cb25-4"></a></span>
+<span id="cb25-5"><a href="#cb25-5"></a><span class="kw">class</span> FileLogger <span class="kw">implements</span> Logger {</span>
+<span id="cb25-6"><a href="#cb25-6"></a>  <span class="kw">public</span> <span class="kw">async</span> <span class="fu">info</span>(message<span class="op">:</span> <span class="dt">string</span>)<span class="op">:</span> <span class="bu">Promise</span><span class="op">&lt;</span><span class="dt">void</span><span class="op">&gt;</span> {</span>
+<span id="cb25-7"><a href="#cb25-7"></a>    <span class="bu">console</span><span class="op">.</span><span class="fu">info</span>(message)<span class="op">;</span></span>
+<span id="cb25-8"><a href="#cb25-8"></a>    <span class="bu">console</span><span class="op">.</span><span class="fu">info</span>(<span class="st">'This Message was saved with FileLogger'</span>)<span class="op">;</span></span>
+<span id="cb25-9"><a href="#cb25-9"></a>  }</span>
+<span id="cb25-10"><a href="#cb25-10"></a>}</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </section></section>
 <section>
 <section id="section" class="title-slide slide level1 center">
 <h1></h1>
 <p>Essa mesma implementação é usada por todo o sistema e sempre gerado um log o mesmo é tratado por essa classe FileLogger como no exemplo abaixo:</p>
-<div class="sourceCode" id="cb22"><pre class="sourceCode numberSource typescript number-lines code-with-copy"><code class="sourceCode typescript"><span id="cb22-1"><a href="#cb22-1"></a><span class="kw">class</span> NotificationService {</span>
-<span id="cb22-2"><a href="#cb22-2"></a>  <span class="kw">protected</span> logger<span class="op">:</span> Logger<span class="op">;</span></span>
-<span id="cb22-3"><a href="#cb22-3"></a>  </span>
-<span id="cb22-4"><a href="#cb22-4"></a>  <span class="kw">constructor</span> (logger<span class="op">:</span> Logger) {    </span>
-<span id="cb22-5"><a href="#cb22-5"></a>    <span class="kw">this</span><span class="op">.</span><span class="at">logger</span> <span class="op">=</span> logger<span class="op">;</span></span>
-<span id="cb22-6"><a href="#cb22-6"></a>  }</span>
-<span id="cb22-7"><a href="#cb22-7"></a></span>
-<span id="cb22-8"><a href="#cb22-8"></a>  <span class="kw">public</span> <span class="kw">async</span> <span class="fu">send</span>(message<span class="op">:</span> <span class="dt">string</span>)<span class="op">:</span> <span class="bu">Promise</span><span class="op">&lt;</span><span class="dt">void</span><span class="op">&gt;</span> {</span>
-<span id="cb22-9"><a href="#cb22-9"></a>    <span class="co">//... Implementation</span></span>
-<span id="cb22-10"><a href="#cb22-10"></a>    <span class="cf">await</span> <span class="kw">this</span><span class="op">.</span><span class="at">logger</span><span class="op">.</span><span class="fu">info</span>(<span class="vs">`Notification sended: </span><span class="sc">${</span>message<span class="sc">}</span><span class="vs">`</span>)<span class="op">;</span></span>
-<span id="cb22-11"><a href="#cb22-11"></a>  }</span>
-<span id="cb22-12"><a href="#cb22-12"></a>}</span>
-<span id="cb22-13"><a href="#cb22-13"></a></span>
-<span id="cb22-14"><a href="#cb22-14"></a><span class="co">// Inicialização com o FileLogger</span></span>
-<span id="cb22-15"><a href="#cb22-15"></a>(<span class="kw">async</span> () <span class="kw">=&gt;</span> {</span>
-<span id="cb22-16"><a href="#cb22-16"></a>  <span class="kw">const</span> fileLogger <span class="op">=</span> <span class="kw">new</span> <span class="fu">FileLogger</span>()<span class="op">;</span></span>
-<span id="cb22-17"><a href="#cb22-17"></a>  <span class="kw">const</span> notificationService <span class="op">=</span> <span class="kw">new</span> <span class="fu">NotificationService</span>(fileLogger)<span class="op">;</span></span>
-<span id="cb22-18"><a href="#cb22-18"></a>  <span class="cf">await</span> notificationService<span class="op">.</span><span class="fu">send</span>(<span class="st">'My notification'</span>)<span class="op">;</span></span>
-<span id="cb22-19"><a href="#cb22-19"></a>})()<span class="op">;</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode" id="cb26"><pre class="sourceCode numberSource typescript number-lines code-with-copy"><code class="sourceCode typescript"><span id="cb26-1"><a href="#cb26-1"></a><span class="kw">class</span> NotificationService {</span>
+<span id="cb26-2"><a href="#cb26-2"></a>  <span class="kw">protected</span> logger<span class="op">:</span> Logger<span class="op">;</span></span>
+<span id="cb26-3"><a href="#cb26-3"></a>  </span>
+<span id="cb26-4"><a href="#cb26-4"></a>  <span class="kw">constructor</span> (logger<span class="op">:</span> Logger) {    </span>
+<span id="cb26-5"><a href="#cb26-5"></a>    <span class="kw">this</span><span class="op">.</span><span class="at">logger</span> <span class="op">=</span> logger<span class="op">;</span></span>
+<span id="cb26-6"><a href="#cb26-6"></a>  }</span>
+<span id="cb26-7"><a href="#cb26-7"></a></span>
+<span id="cb26-8"><a href="#cb26-8"></a>  <span class="kw">public</span> <span class="kw">async</span> <span class="fu">send</span>(message<span class="op">:</span> <span class="dt">string</span>)<span class="op">:</span> <span class="bu">Promise</span><span class="op">&lt;</span><span class="dt">void</span><span class="op">&gt;</span> {</span>
+<span id="cb26-9"><a href="#cb26-9"></a>    <span class="co">//... Implementation</span></span>
+<span id="cb26-10"><a href="#cb26-10"></a>    <span class="cf">await</span> <span class="kw">this</span><span class="op">.</span><span class="at">logger</span><span class="op">.</span><span class="fu">info</span>(<span class="vs">`Notification sended: </span><span class="sc">${</span>message<span class="sc">}</span><span class="vs">`</span>)<span class="op">;</span></span>
+<span id="cb26-11"><a href="#cb26-11"></a>  }</span>
+<span id="cb26-12"><a href="#cb26-12"></a>}</span>
+<span id="cb26-13"><a href="#cb26-13"></a></span>
+<span id="cb26-14"><a href="#cb26-14"></a><span class="co">// Inicialização com o FileLogger</span></span>
+<span id="cb26-15"><a href="#cb26-15"></a>(<span class="kw">async</span> () <span class="kw">=&gt;</span> {</span>
+<span id="cb26-16"><a href="#cb26-16"></a>  <span class="kw">const</span> fileLogger <span class="op">=</span> <span class="kw">new</span> <span class="fu">FileLogger</span>()<span class="op">;</span></span>
+<span id="cb26-17"><a href="#cb26-17"></a>  <span class="kw">const</span> notificationService <span class="op">=</span> <span class="kw">new</span> <span class="fu">NotificationService</span>(fileLogger)<span class="op">;</span></span>
+<span id="cb26-18"><a href="#cb26-18"></a>  <span class="cf">await</span> notificationService<span class="op">.</span><span class="fu">send</span>(<span class="st">'My notification'</span>)<span class="op">;</span></span>
+<span id="cb26-19"><a href="#cb26-19"></a>})()<span class="op">;</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </section>
 <section id="situação-problema-1" class="slide level2">
 <h2>Situação problema</h2>
 <p>Agora precisamos usar uma nova forma de salvar os logs, pois com o crescimento de nossa aplicação, salvar em disco não é mais uma alternativa, assim precisamos usar a AWS.</p>
-<div class="sourceCode" id="cb23"><pre class="sourceCode numberSource typescript number-lines code-with-copy"><code class="sourceCode typescript"><span id="cb23-1"><a href="#cb23-1"></a><span class="kw">interface</span> CloudLogger {</span>
-<span id="cb23-2"><a href="#cb23-2"></a>  <span class="fu">sendToServer</span>(message<span class="op">:</span> <span class="dt">string</span><span class="op">,</span> type<span class="op">:</span> <span class="dt">string</span>)<span class="op">:</span> <span class="bu">Promise</span><span class="op">&lt;</span><span class="dt">void</span><span class="op">&gt;;</span></span>
-<span id="cb23-3"><a href="#cb23-3"></a>}</span>
-<span id="cb23-4"><a href="#cb23-4"></a></span>
-<span id="cb23-5"><a href="#cb23-5"></a><span class="kw">class</span> AwsLogger <span class="kw">implements</span> CloudLogger {</span>
-<span id="cb23-6"><a href="#cb23-6"></a>  <span class="kw">public</span> <span class="kw">async</span> <span class="fu">sendToServer</span>(message<span class="op">:</span> <span class="dt">string</span><span class="op">,</span> type<span class="op">:</span> <span class="dt">string</span>)<span class="op">:</span> <span class="bu">Promise</span><span class="op">&lt;</span><span class="dt">void</span><span class="op">&gt;</span> {</span>
-<span id="cb23-7"><a href="#cb23-7"></a>    <span class="bu">console</span><span class="op">.</span><span class="fu">info</span>(message)<span class="op">;</span></span>
-<span id="cb23-8"><a href="#cb23-8"></a>    <span class="bu">console</span><span class="op">.</span><span class="fu">info</span>(<span class="st">'This Message was saved with AwsLogger'</span>)<span class="op">;</span></span>
-<span id="cb23-9"><a href="#cb23-9"></a>  }</span>
-<span id="cb23-10"><a href="#cb23-10"></a>}</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode" id="cb27"><pre class="sourceCode numberSource typescript number-lines code-with-copy"><code class="sourceCode typescript"><span id="cb27-1"><a href="#cb27-1"></a><span class="kw">interface</span> CloudLogger {</span>
+<span id="cb27-2"><a href="#cb27-2"></a>  <span class="fu">sendToServer</span>(message<span class="op">:</span> <span class="dt">string</span><span class="op">,</span> type<span class="op">:</span> <span class="dt">string</span>)<span class="op">:</span> <span class="bu">Promise</span><span class="op">&lt;</span><span class="dt">void</span><span class="op">&gt;;</span></span>
+<span id="cb27-3"><a href="#cb27-3"></a>}</span>
+<span id="cb27-4"><a href="#cb27-4"></a></span>
+<span id="cb27-5"><a href="#cb27-5"></a><span class="kw">class</span> AwsLogger <span class="kw">implements</span> CloudLogger {</span>
+<span id="cb27-6"><a href="#cb27-6"></a>  <span class="kw">public</span> <span class="kw">async</span> <span class="fu">sendToServer</span>(message<span class="op">:</span> <span class="dt">string</span><span class="op">,</span> type<span class="op">:</span> <span class="dt">string</span>)<span class="op">:</span> <span class="bu">Promise</span><span class="op">&lt;</span><span class="dt">void</span><span class="op">&gt;</span> {</span>
+<span id="cb27-7"><a href="#cb27-7"></a>    <span class="bu">console</span><span class="op">.</span><span class="fu">info</span>(message)<span class="op">;</span></span>
+<span id="cb27-8"><a href="#cb27-8"></a>    <span class="bu">console</span><span class="op">.</span><span class="fu">info</span>(<span class="st">'This Message was saved with AwsLogger'</span>)<span class="op">;</span></span>
+<span id="cb27-9"><a href="#cb27-9"></a>  }</span>
+<span id="cb27-10"><a href="#cb27-10"></a>}</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <p>Ou seja, para que possamos usar essa nova classe precisaríamos refatorar todo nosso código para usar o novo formato de envio de log … 💩</p>
 </section>
 <section id="ou-usamos-um-adaptador" class="slide level2">
 <h2>ou usamos um adaptador</h2>
-<div class="sourceCode" id="cb24"><pre class="sourceCode numberSource typescript number-lines code-with-copy"><code class="sourceCode typescript"><span id="cb24-1"><a href="#cb24-1"></a><span class="kw">class</span> CloudLoggerAdapter <span class="kw">implements</span> Logger {</span>
-<span id="cb24-2"><a href="#cb24-2"></a>  <span class="kw">protected</span> cloudLogger<span class="op">:</span> CloudLogger<span class="op">;</span></span>
-<span id="cb24-3"><a href="#cb24-3"></a></span>
-<span id="cb24-4"><a href="#cb24-4"></a>  <span class="kw">constructor</span> (cloudLogger<span class="op">:</span> CloudLogger) {</span>
-<span id="cb24-5"><a href="#cb24-5"></a>    <span class="kw">this</span><span class="op">.</span><span class="at">cloudLogger</span> <span class="op">=</span> cloudLogger<span class="op">;</span></span>
-<span id="cb24-6"><a href="#cb24-6"></a>  }</span>
-<span id="cb24-7"><a href="#cb24-7"></a></span>
-<span id="cb24-8"><a href="#cb24-8"></a>  <span class="kw">public</span> <span class="kw">async</span> <span class="fu">info</span>(message<span class="op">:</span> <span class="dt">string</span>)<span class="op">:</span> <span class="bu">Promise</span><span class="op">&lt;</span><span class="dt">void</span><span class="op">&gt;</span> {</span>
-<span id="cb24-9"><a href="#cb24-9"></a>    <span class="cf">await</span> <span class="kw">this</span><span class="op">.</span><span class="at">cloudLogger</span><span class="op">.</span><span class="fu">sendToServer</span>(message<span class="op">,</span> <span class="st">'info'</span>)<span class="op">;</span></span>
-<span id="cb24-10"><a href="#cb24-10"></a>  }</span>
-<span id="cb24-11"><a href="#cb24-11"></a>}</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode" id="cb28"><pre class="sourceCode numberSource typescript number-lines code-with-copy"><code class="sourceCode typescript"><span id="cb28-1"><a href="#cb28-1"></a><span class="kw">class</span> CloudLoggerAdapter <span class="kw">implements</span> Logger {</span>
+<span id="cb28-2"><a href="#cb28-2"></a>  <span class="kw">protected</span> cloudLogger<span class="op">:</span> CloudLogger<span class="op">;</span></span>
+<span id="cb28-3"><a href="#cb28-3"></a></span>
+<span id="cb28-4"><a href="#cb28-4"></a>  <span class="kw">constructor</span> (cloudLogger<span class="op">:</span> CloudLogger) {</span>
+<span id="cb28-5"><a href="#cb28-5"></a>    <span class="kw">this</span><span class="op">.</span><span class="at">cloudLogger</span> <span class="op">=</span> cloudLogger<span class="op">;</span></span>
+<span id="cb28-6"><a href="#cb28-6"></a>  }</span>
+<span id="cb28-7"><a href="#cb28-7"></a></span>
+<span id="cb28-8"><a href="#cb28-8"></a>  <span class="kw">public</span> <span class="kw">async</span> <span class="fu">info</span>(message<span class="op">:</span> <span class="dt">string</span>)<span class="op">:</span> <span class="bu">Promise</span><span class="op">&lt;</span><span class="dt">void</span><span class="op">&gt;</span> {</span>
+<span id="cb28-9"><a href="#cb28-9"></a>    <span class="cf">await</span> <span class="kw">this</span><span class="op">.</span><span class="at">cloudLogger</span><span class="op">.</span><span class="fu">sendToServer</span>(message<span class="op">,</span> <span class="st">'info'</span>)<span class="op">;</span></span>
+<span id="cb28-10"><a href="#cb28-10"></a>  }</span>
+<span id="cb28-11"><a href="#cb28-11"></a>}</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </section></section>
 <section id="section-1" class="title-slide slide level1 center">
 <h1></h1>
 <p>antes</p>
-<div class="sourceCode" id="cb25"><pre class="sourceCode numberSource typescript number-lines code-with-copy"><code class="sourceCode typescript"><span id="cb25-1"><a href="#cb25-1"></a><span class="co">// Inicialização com o FileLogger</span></span>
-<span id="cb25-2"><a href="#cb25-2"></a>(<span class="kw">async</span> () <span class="kw">=&gt;</span> {</span>
-<span id="cb25-3"><a href="#cb25-3"></a>  <span class="kw">const</span> fileLogger <span class="op">=</span> <span class="kw">new</span> <span class="fu">FileLogger</span>()<span class="op">;</span></span>
-<span id="cb25-4"><a href="#cb25-4"></a>  <span class="kw">const</span> notificationService <span class="op">=</span> <span class="kw">new</span> <span class="fu">NotificationService</span>(fileLogger)<span class="op">;</span></span>
-<span id="cb25-5"><a href="#cb25-5"></a>  <span class="cf">await</span> notificationService<span class="op">.</span><span class="fu">send</span>(<span class="st">'My notification'</span>)<span class="op">;</span></span>
-<span id="cb25-6"><a href="#cb25-6"></a>})()<span class="op">;</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode" id="cb29"><pre class="sourceCode numberSource typescript number-lines code-with-copy"><code class="sourceCode typescript"><span id="cb29-1"><a href="#cb29-1"></a><span class="co">// Inicialização com o FileLogger</span></span>
+<span id="cb29-2"><a href="#cb29-2"></a>(<span class="kw">async</span> () <span class="kw">=&gt;</span> {</span>
+<span id="cb29-3"><a href="#cb29-3"></a>  <span class="kw">const</span> fileLogger <span class="op">=</span> <span class="kw">new</span> <span class="fu">FileLogger</span>()<span class="op">;</span></span>
+<span id="cb29-4"><a href="#cb29-4"></a>  <span class="kw">const</span> notificationService <span class="op">=</span> <span class="kw">new</span> <span class="fu">NotificationService</span>(fileLogger)<span class="op">;</span></span>
+<span id="cb29-5"><a href="#cb29-5"></a>  <span class="cf">await</span> notificationService<span class="op">.</span><span class="fu">send</span>(<span class="st">'My notification'</span>)<span class="op">;</span></span>
+<span id="cb29-6"><a href="#cb29-6"></a>})()<span class="op">;</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <p>depois</p>
-<div class="sourceCode" id="cb26"><pre class="sourceCode numberSource typescript number-lines code-with-copy"><code class="sourceCode typescript"><span id="cb26-1"><a href="#cb26-1"></a><span class="co">// Inicialização com o AwsLogger</span></span>
-<span id="cb26-2"><a href="#cb26-2"></a>(<span class="kw">async</span> () <span class="kw">=&gt;</span> {</span>
-<span id="cb26-3"><a href="#cb26-3"></a>  <span class="kw">const</span> awsLogger <span class="op">=</span> <span class="kw">new</span> <span class="fu">AwsLogger</span>()<span class="op">;</span></span>
-<span id="cb26-4"><a href="#cb26-4"></a>  <span class="kw">const</span> cloudLoggerAdapter <span class="op">=</span> <span class="kw">new</span> <span class="fu">CloudLoggerAdapter</span>(awsLogger)<span class="op">;</span></span>
-<span id="cb26-5"><a href="#cb26-5"></a>  <span class="kw">const</span> notificationService <span class="op">=</span> <span class="kw">new</span> <span class="fu">NotificationService</span>(cloudLoggerAdapter)<span class="op">;</span></span>
-<span id="cb26-6"><a href="#cb26-6"></a>  <span class="cf">await</span> notificationService<span class="op">.</span><span class="fu">send</span>(<span class="st">'My notification'</span>)<span class="op">;</span></span>
-<span id="cb26-7"><a href="#cb26-7"></a>})()<span class="op">;</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode" id="cb30"><pre class="sourceCode numberSource typescript number-lines code-with-copy"><code class="sourceCode typescript"><span id="cb30-1"><a href="#cb30-1"></a><span class="co">// Inicialização com o AwsLogger</span></span>
+<span id="cb30-2"><a href="#cb30-2"></a>(<span class="kw">async</span> () <span class="kw">=&gt;</span> {</span>
+<span id="cb30-3"><a href="#cb30-3"></a>  <span class="kw">const</span> awsLogger <span class="op">=</span> <span class="kw">new</span> <span class="fu">AwsLogger</span>()<span class="op">;</span></span>
+<span id="cb30-4"><a href="#cb30-4"></a>  <span class="kw">const</span> cloudLoggerAdapter <span class="op">=</span> <span class="kw">new</span> <span class="fu">CloudLoggerAdapter</span>(awsLogger)<span class="op">;</span></span>
+<span id="cb30-5"><a href="#cb30-5"></a>  <span class="kw">const</span> notificationService <span class="op">=</span> <span class="kw">new</span> <span class="fu">NotificationService</span>(cloudLoggerAdapter)<span class="op">;</span></span>
+<span id="cb30-6"><a href="#cb30-6"></a>  <span class="cf">await</span> notificationService<span class="op">.</span><span class="fu">send</span>(<span class="st">'My notification'</span>)<span class="op">;</span></span>
+<span id="cb30-7"><a href="#cb30-7"></a>})()<span class="op">;</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</section>
+
+<section id="strategy-comportamental" class="title-slide slide level1 center">
+<h1>Strategy (comportamental)</h1>
+<p>Utilize o Strategy quando você tem muitas classes parecidas que somente diferem na forma que elas executam algum comportamento.</p>
 
 <img src="http://www.sr2.uerj.br/inovuerj/images/logonova.gif" class="slide-logo r-stretch"><div class="footer footer-default">
 <p>Código Limpo</p>

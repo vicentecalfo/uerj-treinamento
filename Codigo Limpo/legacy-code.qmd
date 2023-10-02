@@ -794,6 +794,77 @@ private function processProfile($csv, $profile) {
 
 ```
 
+# Features Flags
+É uma técnica que permite, dentre outras coisas: que seja possível ativar ou desativar uma funcionalidade em produção em tempo real sem fazer deploy.
+
+# Exemplo
+```javascript
+function calculateEOO(occurrences){
+  // implementação de cálculo de EOO
+}
+```
+
+Situação problema: Precisamos testar em produção o novo cálculo de EOO.
+
+# Resolvendo a situação
+```javascript
+function calculateEOO(occurrences){
+  const useNewCalculateEOO = false;
+
+  if(useNewCalculateEOO){
+    return newCalculateEOO(occurrences)
+  }else{
+    return oldCalculateEOO(occurrences)
+  }
+}
+
+function newCalculateEOO(occurrences){
+  // faz o novo calculo de EOO
+}
+
+function oldCalculateEOO(occurrences){
+  // essa é a implementação antiga
+  // que se chamava calculateEOO
+}
+```
+
+## Flag com arquivo de configuração
+
+1. Criando um arquivo de configuração:
+```javascript
+//arquivo de configuração feature-flag-config
+export default const featureFlagConfig = {
+  useNewCalculateEOO: true
+}
+
+// arquivo onde implementa o calculo de EOO
+import {featureFlagConfig} from 'feature-flag-config';
+
+function calculateEOO(occurrences){
+  const useNewCalculateEOO = featureFlagConfig.useNewCalculateEOO;
+  // restante da implementação
+}
+```
+
+## Flag dinâmica
+
+1. Cria uma lógica para determinar se a flag está habilitada ou não baseado no usuário;
+
+```javascript
+
+function calculateEOO(occurrences){
+
+  const useNewCalculateEOO = featureFlagByUser('useNewCalculateEOO', $userId);
+  // restante da implementação
+}
+```
+
+## Cuidados ao usar feature flags
+
+- Tenha regras claras para ativar ou desativar as flags. Considere usar métricas ou critérios específicos para decidir quando uma funcionalidade deve ser ativada ou desativada.
+- Quando uma feature flag não for mais necessária, remova o código associado a ela. Não deixe código morto no aplicativo.
+- Documente claramente todas as feature flags, incluindo seu propósito, quem as controla e como elas devem ser usadas. Isso ajuda a evitar confusão e erros.
+
 # O que é um padrão de projeto?
 
 Padrões de projeto são soluções em nível de design para problemas recorrentes que os engenheiros de software encontram com frequência.
