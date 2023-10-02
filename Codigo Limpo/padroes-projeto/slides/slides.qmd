@@ -1,0 +1,12 @@
+---
+title: "Código limpo"
+author: "Vicente Calfo"
+format:
+  revealjs:
+    logo: http://www.sr2.uerj.br/inovuerj/images/logonova.gif
+    footer: "Código Limpo"
+---
+
+# Quarto
+
+Quarto enables you to weave together content and executable code into a finished document. To learn more about Quarto see <https://quarto.org>.

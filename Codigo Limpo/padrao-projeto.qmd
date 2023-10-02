@@ -1,0 +1,38 @@
+---
+title: "Padrões de Projeto"
+subtitle: "Código limpo"
+author: "Vicente Calfo"
+format:
+  revealjs:
+    logo: http://www.sr2.uerj.br/inovuerj/images/logonova.gif
+    footer: "Código Limpo"
+---
+
+# O que é um padrão de projeto?
+
+Padrões de projeto são soluções em nível de design para problemas recorrentes que os engenheiros de software encontram com frequência.
+
+
+# Tipos de padrões de projetos
+
+## Criacionais
+
+Padrões criados para a instanciação de classes. Eles podem tanto ser padrões de criação de classes como de criação de objetos.
+
+Exemplos: Factory, Prototype, Singleton. 
+
+
+## Estruturais
+
+Padrões criado levando em conta a estrutura de uma classe e sua composição. O objetivo principal da maioria desses padrões é aumentar a funcionalidade das classes envolvidas, sem alterar muito de sua composição.
+
+Exemplos: Adapter, Facade, Decorator, Composite.
+
+## Comportamentais
+
+Padrões criados levando em conta a forma como uma classe se comunica com as outras.
+
+Exemplos: Observer, Memento, Strategy.
+
+
+

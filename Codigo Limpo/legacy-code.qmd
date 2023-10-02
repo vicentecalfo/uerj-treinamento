@@ -1,0 +1,924 @@
+---
+title: "Lidando com código legado"
+subtitle: "Código limpo"
+author: "Vicente Calfo"
+format:
+  revealjs:
+    logo: http://www.sr2.uerj.br/inovuerj/images/logonova.gif
+    footer: "Código Limpo"
+---
+
+# Quatro razões para mudar de software
+
+* Adicionando um recurso
+* Corrigindo um bug
+* Melhorar o design (por exemplo, torná-lo mais fácil de entender, expressar intenção)
+* Otimizando o uso de recursos (por exemplo, consultas de banco de dados mais eficientes)
+
+## O comportamento é a coisa mais importante no software. Se não conseguirmos o comportamento desejado, o software falhou.
+
+## Mitigando Riscos
+
+* Que mudanças vamos fazer?
+* Como saberemos que os fizemos corretamente?
+* Como saberemos que não quebramos nada?
+
+Respota: **TESTANDO**
+
+## Se você deseja alterar o código legado com segurança, este é o processo de alto nível:
+
+* Identifique os pontos de mudança
+* Encontre pontos de teste
+* Quebre dependências (se necessário)
+* Escreva testes
+* Faça alterações e refatore
+
+## As opções:
+
+* Editar e rezar pelo melhor; 💩
+* Cobrir e modificar; 😎
+
+# Método Sprout (broto)
+
+O Método Sprout pode ser aplicado quando você não tem tempo para testar o código legado, mas precisa adicionar um NOVO recurso.
+
+---
+
+```javascript
+
+const InternalizationService = {
+	translate(key) { ... }
+
+	// bunch more code here
+}
+
+```
+
+- Este é o InternalizationService que depende da configuração global. 
+- **Missão:** Você precisa adicionar um novo recurso para formatar quantias de dinheiro.
+
+---
+
+```javascript
+const InternalizationService = {
+	translate(key) { ... }
+
+	formatCurrency(amount){
+        // Começa a escrever seu código aqui! 💩
+    }
+}
+```
+- Não aumenta a base de código legada e NÂO testada;
+- Escreva o código isolado (em outro lugar) e usa DENTRO do código legado.
+
+---
+
+```javascript
+import { formatCurrency } from "./formatCurrency";
+
+const InternalizationService = {
+	translate(key) { ... }
+
+	formatCurrency(amount){
+        return formatCurrency(globalConfig.locale, this.language, amount); 😎
+    }
+}
+```
+
+**Vantagens:**
+
+- Isolamento da nova funcionalidade (mais segurança na manutenção);
+- Possibilidade de criar testes unitários para essa nova funcionalidade;
+
+# Método Wrapper (embrulho)
+
+O Método Wrap cumpre um propósito semelhante ao Método Sprout. Quando você estiver sob pressão de tempo, use este método ao adicionar um novo recurso ou modificar o código existente sem testar primeiro o código legado.
+
+**Esta não é uma situação ideal, mas não vivemos num mundo ideal.**
+
+---
+
+```typescript
+
+class Employee {
+
+    // faz outras coisas
+
+    pay(): void {
+        const amount: Money = new Money();
+        for (const card of timecards) {
+            if (this.payPeriod.contains(date)) {
+                amount.add(card.getHours() * payRate);
+            }
+        }
+        this.payDispatcher.pay(this, date, amount);
+    }
+}
+
+```
+
+- Neste método, estamos somando os cartões de ponto diários de um funcionário e, em seguida, enviando suas informações de pagamento para um PayDispatcher. 
+- **Missão:**  Toda vez que pagamos um funcionário, precisamos atualizar um arquivo com o nome do funcionário para que ele possa ser enviado a algum software de relatórios.
+
+---
+
+```typescript
+
+class Employee {
+
+    // faz outras coisas
+
+    pay(): void {
+        const amount: Money = new Money();
+        for (const card of timecards) {
+            if (this.payPeriod.contains(date)) {
+                amount.add(card.getHours() * payRate);
+            }
+        }
+        this.payDispatcher.pay(this, date, amount);
+        
+        // Implementar o codigo de log 💩
+    }
+}
+
+```
+
+---
+
+
+```typescript
+
+class Employee {
+
+    // faz outras coisas
+
+    private dispatchPayment(): void {
+        const amount: Money = new Money();
+        for (const card of timecards) {
+            if (this.payPeriod.contains(date)) {
+                amount.add(card.getHours() * payRate);
+            }
+        }
+        this.payDispatcher.pay(this, date, amount);
+        
+        // Implementar o codigo de log 💩
+    }
+
+
+    private logPayment() { // ... faz as coisas do log
+    }
+    pay(){
+        this.logPayment();
+        this.dispatchPayment();
+    }
+}
+
+```
+
+- No código, renomeamos a função `pay()` como `dispatchPayment()` e a tornamos privada.
+- Criamos um novo método chamado `pay()` que chama a função `dispatchPayment()`.
+- Isso permite que os clientes que costumavam chamar `pay()` não precisem saber ou se preocupar com a mudança.
+- Eles simplesmente fazem sua chamada, e tudo funciona bem.
+
+
+# Extract Method 
+
+---
+
+```javascript
+
+updateQuality() {
+  for (var i = 0; i < this.items.length; i++) {
+    if (this.items[i].name != 'Aged Brie' && this.items[i].name != 'Backstage pass') {
+      if (this.items[i].quality > 0) {
+        if (this.items[i].name != 'Sulfuras, Hand of Ragnaros') {
+          this.items[i].quality = this.items[i].quality - 1;
+        }
+      }
+    } else {
+      if (this.items[i].quality < 50) {
+        this.items[i].quality = this.items[i].quality + 1;
+        if (this.items[i].name == 'Backstage pass') {
+          if (this.items[i].sellIn < 11) {
+            if (this.items[i].quality < 50) {
+              this.items[i].quality = this.items[i].quality + 1;
+            }
+          }
+          if (this.items[i].sellIn < 6) {
+            if (this.items[i].quality < 50) {
+              this.items[i].quality = this.items[i].quality + 1;
+            }
+          }
+        }
+      }
+    }
+    if (this.items[i].name != 'Sulfuras, Hand of Ragnaros') {
+      this.items[i].sellIn = this.items[i].sellIn - 1;
+    }
+    if (this.items[i].sellIn < 0) {
+      if (this.items[i].name != 'Aged Brie') {
+        if (this.items[i].name != 'Backstage pass') {
+          if (this.items[i].quality > 0) {
+            if (this.items[i].name != 'Sulfuras, Hand of Ragnaros') {
+              this.items[i].quality = this.items[i].quality - 1;
+            }
+          }
+        } else {
+          this.items[i].quality = this.items[i].quality - this.items[i].quality;
+        }
+      } else {
+        if (this.items[i].quality < 50) {
+          this.items[i].quality = this.items[i].quality + 1;
+        }
+      }
+    }
+  }
+  return this.items;
+}
+
+```
+---
+
+# ... e aí vc precisa dar manutenção nesse código ...
+
+<img src="https://media.tenor.com/l_goH8BAXdQAAAAM/sad-dog-sad.gif" />
+
+---
+
+```javascript
+
+updateQuality() {
+  for (var i = 0; i < this.items.length; i++) {
+    this.atualizaUmItem(items[i]);
+  }
+  return this.items;
+}
+
+```
+<br />
+
+```javascript
+
+atualizaUmItem(item) {
+  if (item.name != 'Aged Brie' && item.name != 'Backstage pass') {
+    if (item.quality > 0) {
+      if (item.name != 'Sulfuras, Hand of Ragnaros') {
+        item.quality = item.quality - 1;
+      }
+    }
+  } else {
+    if (item.quality < 50) {
+      item.quality = item.quality + 1;
+      if (item.name == 'Backstage pass') {
+        if (item.sellIn < 11) {
+          if (item.quality < 50) {
+            item.quality = item.quality + 1;
+          }
+        }
+        if (item.sellIn < 6) {
+          if (item.quality < 50) {
+            item.quality = item.quality + 1;
+          }
+        }
+      }
+    }
+  }
+  if (item.name != 'Sulfuras, Hand of Ragnaros') {
+    item.sellIn = item.sellIn - 1;
+  }
+  if (item.sellIn < 0) {
+    if (item.name != 'Aged Brie') {
+      if (item.name != 'Backstage pass') {
+        if (item.quality > 0) {
+          if (item.name != 'Sulfuras, Hand of Ragnaros') {
+            item.quality = item.quality - 1;
+          }
+        }
+      } else {
+        item.quality = item.quality - item.quality;
+      }
+    } else {
+      if (item.quality < 50) {
+        item.quality = item.quality + 1;
+      }
+    }
+  }
+}
+
+```
+
+## O que fizemos até agora ...
+
+- A alteração realizada foi extremamente simples.
+- Extraímos o conteúdo do loop `for` para um método chamado `atualizaUmItem`.
+- O método `atualizaUmItem` descreve a ação que estava dentro do loop.
+- Em vez de usar `this.items[i]` como valor, modificamos para usar o parâmetro `item` que passamos.
+- Dentro do loop `for`, invocamos o método `atualizaUmItem` com os devidos argumentos.
+
+---
+
+# Vamos olhar com mais calma o código 
+
+---
+
+```javascript
+
+if (item.name != 'Aged Brie' && item.name != 'Backstage pass') {
+  if (item.quality > 0) {
+    if (item.name != 'Sulfuras, Hand of Ragnaros') {
+      item.quality = item.quality - 1;
+    }
+  }
+} else {
+  if (item.quality < 50) {
+    item.quality = item.quality + 1;
+    if (item.name == 'Backstage pass') {
+      if (item.sellIn < 11) {
+        if (item.quality < 50) {
+          item.quality = item.quality + 1;
+        }
+      }
+      if (item.sellIn < 6) {
+        if (item.quality < 50) {
+          item.quality = item.quality + 1;
+        }
+      }
+    }
+  }
+}
+
+```
+
+BAD SMELL: temos uma condicional negativa.
+
+---
+
+```javascript
+
+if (item.name != 'Aged Brie' && item.name != 'Backstage pass') {
+  // NÃO É um Aged Brie E NÃO É um Backstage pass
+} else {
+  // É um Aged Brie OU É um Backstage pass
+}
+
+```
+
+- Condicionais negativas são ruins, pois temos que pensar um pouco mais sobre o que está acontecendo no código (mapeamento mental).
+- Legibilidade ruim.
+
+---
+
+## Vamos inverter as coisas
+
+```javascript
+if (item.name == 'Aged Brie' || item.name == 'Backstage pass') {
+  // É um Aged Brie OU É um Backstage pass
+} else {
+  // NÃO É um Aged Brie E NÃO É um Backstage pass
+}
+```
+
+---
+
+```javascript
+if (item.name == 'Aged Brie' || item.name == 'Backstage pass') {
+  if (item.quality < 50) {
+    item.quality = item.quality + 1;
+    if (item.name == 'Backstage pass') {
+      if (item.sellIn < 11) {
+        if (item.quality < 50) {
+          item.quality = item.quality + 1;
+        }
+      }
+      if (item.sellIn < 6) {
+        if (item.quality < 50) {
+          item.quality = item.quality + 1;
+        }
+      }
+    }
+  }
+} else {
+  if (item.quality > 0) {
+    if (item.name != 'Sulfuras, Hand of Ragnaros') {
+      item.quality = item.quality - 1;
+    }
+  }
+}
+```
+
+O if supostamente deveria ter apenas uma responsabilidade!
+
+Mas qual a responsabilidade do if? Talvez o nome atualizaAgedBrieOuBackstagePass?
+
+
+# O if implementa a lógica para os dois itens 😥
+
+## Arrumando a casa 😁
+
+- Como nossa condicional possui um ||, nós podemos quebrar a segunda condição em um else if !
+- Agora podemos separar a responsabilidade de cada um dos blocos em seu próprio método.
+
+```javascript
+if (item.name == 'Aged Brie') {
+  atualizaItemAgedBrie();
+} else if (item.name == 'Backstage pass') {
+  atualizaItemBackstagePass();
+} else { 
+  atualizaItemPadrao();
+}
+```
+
+---
+
+**Exemplo real - extração de métodos**
+
+```php
+
+<?php
+
+namespace cncflora\reports ;
+
+class Occurrences {
+
+  public $title = "Ocorrências";
+  public $description = "Lista com todas as ocorrências do recorte por espécie.";
+  public $is_private = true;
+  public $filters = ["checklist","family","species"];
+  public $fields = ['familia aceita','nome aceito'];
+  public $fields_array = array(
+    "occurrenceID" => "id da ocorrência",
+    "bibliographicCitation" => "literatura",
+    "institutionCode" => "código da instituição",
+    "collectionCode" => "código da coleção",
+    "catalogNumber" => "número de catálogo/código de barras",
+    "recordNumber" => "número do coletor",
+    "recordedBy" => "coletor",
+    "year" => "ano da coleta",
+    "month" => "mês da coleta",
+    "day" => "dia da coleta",
+    "identifiedBy" => "identificado por",
+    "stateProvince" => "estado",
+    "municipality" => "município",
+    "locality" => "localidade",
+    "decimalLatitude" => "latitude",
+    "decimalLongitude" => "longitude",
+    "family" => "família",
+    "genus" => "gênero",
+    "specificEpithet" => "epíteto específico",
+    "infraspecificEpithet" => "variedade",
+    "scientificName" => "nome científico",
+    "georeferenceRemarks" => "obs. de SIG",
+    "georeferenceProtocol" => "geo protocolo",
+    "georeferenceVerificationStatus" => "status SIG",
+    "georeferencedBy" => "analista SIG",
+    "coordinateUncertaintyInMeters" => "geo precisão",
+    "valid" => "válido",
+    "validation_taxonomy" => "taxonomia válida",
+    "validation_cultivated" => "cultivada ex-situ",
+    "validation_duplicated" => "registro de duplicata",
+    "validation_native" => "nativa na localidade",
+    "validation_georeference" => "georeferência válida",
+    "metadata_contributor" => "colaboradores",
+    "metadata_modified" => "data da última modificação",
+    "remarks" => "observações",
+    "ecology.biomas" => "Bioma",
+    "taxonID" => "id do taxon",
+    "taxonomicStatus" => "status taxonômico",
+    "concatCollectionCode_CatalogNumber" => "número de tombo + acrônimo da coleção",
+    "comments" => "comentários",
+    "occurrenceRemarks" => "observações da ocorrência"
+  );
+
+
+  public function __construct() {
+    $this->fields = array_merge($this->fields, array_keys($this->fields_array));
+  }
+
+  function run($csv,$checklist,$family=null,$specie=null) {
+    fputcsv($csv,$this->fields, ';');
+
+    $repoOcc = new \cncflora\repository\Occurrences($checklist);
+    $repoTaxon = new \cncflora\repository\Taxon($checklist);
+
+    if($family==null) {
+      $families = $repoTaxon->listFamilies();
+    } else {
+      $families = [$family];
+    }
+
+    $got=[];
+    foreach($families as $f) {
+      if($specie==null) {
+        $spps = $repoTaxon->listFamily($f);
+      } else {
+        $spps = [$repoTaxon->getSpecie($specie)];
+      }
+      foreach($spps as $spp) {
+        $names = $repoTaxon->listNames($spp['scientificNameWithoutAuthorship']);
+        $occs  = $repoOcc->flatten($repoOcc->listOccurrences($names,false));
+        foreach($occs as $occ) {
+          $id = $occ['occurrenceID'];
+          if(isset($got[$id])) {
+            continue;
+          }
+          $got[$id]=true;
+          $data  = [$f,$spp['scientificNameWithoutAuthorship']];
+          foreach($this->fields_array as $k=>$n) {
+            if(!isset($occ[$k])) $occ[$k]='';
+            if($k == "concatCollectionCode_CatalogNumber")
+                $occ[$k] = $occ['collectionCode'] . $occ['catalogNumber'];
+            if($checklist=='livro_vermelho_2013') {
+              $data[] = utf8_decode($occ[$k]);
+            } else {
+              $data[] = $occ[$k];
+            }
+          }
+          fputcsv($csv,str_replace(array("\n", "\r"), ' ', str_replace(";", ",", $data)), ';');
+        }
+      }
+    }
+
+  }
+
+}
+
+```
+
+## Problemas/Soluções
+
+**Remoção de Atributos Públicos**: Os atributos públicos como `$title`, `$description`, `$is_private`, `$filters`, `$fields`, e `$fields_array` foram modificados para serem privados.
+
+Isso segue o princípio de encapsulamento, que sugere que os atributos devem ser privados para controlar o acesso a eles.
+
+
+## Problemas/Soluções
+
+**Uso de "Early Return"**: Em vez de aninhar várias instruções `if` e `foreach`, utilizei o padrão "early return". Isso ajuda a evitar a profundidade excessiva de aninhamento e torna o código mais legível. Por exemplo, se `$family` for `null`, o código verifica e lista todas as famílias. Em seguida, se `$specie` for `null`, ele lista todas as espécies. Em cada um desses pontos, se a condição for atendida, o código retorna imediatamente, evitando que o restante do código seja executado desnecessariamente.
+
+
+## Problemas/Soluções
+
+**Uso de Constantes para Strings Literais**: Em vez de usar strings literais diretamente, usei constantes ou variáveis para armazenar essas strings. Isso torna o código mais legível e evita possíveis erros de digitação ao longo do código.
+
+
+## Problemas/Soluções
+
+**Melhorias na Saída CSV**: A função `fputcsv` foi usada para gerar a saída CSV, e eu adicionei uma substituição de caracteres de quebra de linha e ponto e vírgula para evitar problemas com a formatação CSV.
+
+
+## Problemas/Soluções
+
+**Utilização de UTF-8**: No código original, há um tratamento especial para o checklist `'livro_vermelho_2013'`, onde é utilizado `utf8_decode` para codificar os dados. 
+
+---
+
+```php
+<?php
+
+namespace cncflora\reports;
+
+class Occurrences {
+    private $fields = ['familia aceita', 'nome aceito'];
+    private $fieldsArray = [
+        "occurrenceID" => "id da ocorrência",
+        "bibliographicCitation" => "literatura",
+        // Adicione outros campos aqui
+    ];
+
+    private $repoOcc;
+    private $repoTaxon;
+
+    public function __construct($checklist) {
+        $this->fields = array_merge($this->fields, array_keys($this->fieldsArray));
+        $this->repoOcc = new \cncflora\repository\Occurrences($checklist);
+        $this->repoTaxon = new \cncflora\repository\Taxon($checklist);
+    }
+
+    public function run($csv, $checklist, $family = null, $specie = null) {
+        fputcsv($csv, $this->fields, ';');
+
+        $families = ($family === null) ? $this->repoTaxon->listFamilies() : [$family];
+
+        $got = [];
+        foreach ($families as $f) {
+            $species = ($specie === null) ? $this->repoTaxon->listFamily($f) : [$this->repoTaxon->getSpecie($specie)];
+            $this->processSpecies($csv, $species, $got, $f, $checklist);
+        }
+    }
+
+    private function processSpecies($csv, $species, &$got, $family, $checklist) {
+        foreach ($species as $spp) {
+            $scientificNameWithoutAuthorship = $spp['scientificNameWithoutAuthorship'];
+            $occs = $this->flattenOccurrences($scientificNameWithoutAuthorship);
+            $this->processOccurrences($csv, $occs, $got, $family, $scientificNameWithoutAuthorship, $checklist);
+        }
+    }
+
+    private function flattenOccurrences($scientificNameWithoutAuthorship) {
+        $names = $this->repoTaxon->listNames($scientificNameWithoutAuthorship);
+        return $this->repoOcc->flatten($this->repoOcc->listOccurrences($names, false));
+    }
+
+    private function processOccurrences($csv, $occs, &$got, $family, $scientificNameWithoutAuthorship, $checklist) {
+        foreach ($occs as $occ) {
+            $id = $occ['occurrenceID'];
+            if (isset($got[$id])) {
+                continue;
+            }
+            $got[$id] = true;
+            $data = [$family, $scientificNameWithoutAuthorship];
+            $this->processFieldsArray($data, $occ, $checklist);
+            fputcsv($csv, $data, ';');
+        }
+    }
+
+    private function processFieldsArray(&$data, $occ, $checklist) {
+        foreach ($this->fieldsArray as $key => $name) {
+            $value = isset($occ[$key]) ? $occ[$key] : '';
+            if ($key == "concatCollectionCode_CatalogNumber") {
+                $value = $occ['collectionCode'] . $occ['catalogNumber'];
+            }
+            if ($checklist == 'livro_vermelho_2013') {
+                $value = utf8_decode($value);
+            }
+            $data[] = str_replace(["\n", "\r", ";", ","], ' ', $value);
+        }
+    }
+}
+
+```
+
+# Outro exmeplo real
+
+---
+**Observe o código**
+
+```php
+<?php
+
+namespace cncflora\reports;
+
+class Biomas {
+
+  public $title = "Biomas";
+  public $description = "Lista de biomas por espécie.";
+  public $is_private = false;
+  public $fields = ["familia","nome científico","bioma"];
+  public $filters=["checklist","family"];
+
+  function run($csv,$checklist="",$family=null,$specie=null) {
+    fputcsv($csv,$this->fields);
+
+    $repo=new \cncflora\repository\Profiles($checklist);
+
+    if($family!=null) {
+      $profiles=$repo->listFamily($family);
+    } else {
+      $profiles=$repo->listAll();
+    }
+    foreach($profiles as $d) {
+      if(isset($d["ecology"]) && isset($d["ecology"]["biomas"]) && is_array($d["ecology"]["biomas"])) {
+        foreach($d["ecology"]["biomas"] as $t) {
+          $data = [$d["taxon"]["family"],$d["taxon"]["scientificNameWithoutAuthorship"],$t];
+          fputcsv($csv,$data);
+        }
+      }
+    }
+  }
+}
+```
+## Refatoração
+```php
+<?php
+
+namespace cncflora\reports;
+
+class Biomas {
+    public $title = "Biomas";
+    public $description = "Lista de biomas por espécie.";
+    public $is_private = false;
+    public $fields = ["familia", "nome científico", "bioma"];
+    public $filters = ["checklist", "family"];
+
+    public function run($csv, $checklist = "", $family = null, $specie = null) {
+        fputcsv($csv, $this->fields);
+
+        $repo = new \cncflora\repository\Profiles($checklist);
+
+        $profiles = ($family !== null) ? [$repo->listFamily($family)] : $repo->listAll();
+
+        foreach ($profiles as $profile) {
+            $this->processProfile($csv, $profile);
+        }
+    }
+
+    private function processProfile($csv, $profile) {
+        $ecology = $profile["ecology"] ?? null;
+        $biomas = $ecology["biomas"] ?? null;
+
+        if (is_array($biomas)) {
+            foreach ($biomas as $bioma) {
+                $data = [
+                    $profile["taxon"]["family"],
+                    $profile["taxon"]["scientificNameWithoutAuthorship"],
+                    $bioma
+                ];
+                fputcsv($csv, $data);
+            }
+        }
+    }
+}
+```
+
+## Tratando erros
+
+```php
+private function processProfile($csv, $profile) {
+    try {
+        $ecology = $profile["ecology"] ?? null;
+        $biomas = $ecology["biomas"] ?? null;
+
+        if (!is_array($biomas)) {
+            throw new ProfileProcessingException("Biomas não são um array.");
+        }
+
+        foreach ($biomas as $bioma) {
+            $data = [
+                $profile["taxon"]["family"],
+                $profile["taxon"]["scientificNameWithoutAuthorship"],
+                $bioma
+            ];
+            fputcsv($csv, $data);
+        }
+    } catch (ProfileProcessingException $e) {
+        // Lidar com a exceção aqui, por exemplo, registrar ou lançar novamente.
+        // Você pode usar $e->getMessage() para obter a mensagem de erro.
+        // Exemplo de tratamento de erro:
+        // echo "Erro no processamento do perfil: " . $e->getMessage();
+        // ou lançar novamente a exceção se desejar que outros níveis de código lidem com ela.
+        // throw $e;
+    }
+}
+```
+
+## Melhorando o IF de erro
+
+```php
+private function processProfile($csv, $profile) {
+    try {
+        $ecology = $profile["ecology"] ?? null;
+        $biomas = $ecology["biomas"] ?? null;
+        $biomaHasNoData = !is_array($biomas);
+
+        if ($biomaHasNoData) {
+            throw new ProfileProcessingException("Biomas não são um array.");
+        }
+
+        foreach ($biomas as $bioma) {
+            $data = [
+                $profile["taxon"]["family"],
+                $profile["taxon"]["scientificNameWithoutAuthorship"],
+                $bioma
+            ];
+            fputcsv($csv, $data);
+        }
+    } catch (ProfileProcessingException $e) {
+        // Lidar com a exceção aqui, por exemplo, registrar ou lançar novamente.
+        // Você pode usar $e->getMessage() para obter a mensagem de erro.
+        // Exemplo de tratamento de erro:
+        // echo "Erro no processamento do perfil: " . $e->getMessage();
+        // ou lançar novamente a exceção se desejar que outros níveis de código lidem com ela.
+        // throw $e;
+    }
+}
+
+```
+
+# O que é um padrão de projeto?
+
+Padrões de projeto são soluções em nível de design para problemas recorrentes que os engenheiros de software encontram com frequência.
+
+
+# Tipos de padrões de projetos
+
+## Criacionais
+
+Padrões criados para a instanciação de classes. Eles podem tanto ser padrões de criação de classes como de criação de objetos.
+
+Exemplos: Factory, Prototype, Singleton. 
+
+
+## Estruturais
+
+Padrões criado levando em conta a estrutura de uma classe e sua composição. O objetivo principal da maioria desses padrões é aumentar a funcionalidade das classes envolvidas, sem alterar muito de sua composição.
+
+Exemplos: Adapter, Facade, Decorator, Composite.
+
+## Comportamentais
+
+Padrões criados levando em conta a forma como uma classe se comunica com as outras.
+
+Exemplos: Observer, Memento, Strategy.
+
+
+# Adapter Pattern (estrutural)
+
+Adapter Pattern tem exatamente a mesma função, conectar dois pontos incompatíveis entre si.
+
+
+## Situação problema
+Considere que tem hoje um sistema de log que salva em um arquivo local todas as informações geradas pela aplicação, e que esse possui a seguinte interface e implementação:
+
+```typescript
+interface Logger {
+  info(message: string): Promise<void>;
+}
+
+class FileLogger implements Logger {
+  public async info(message: string): Promise<void> {
+    console.info(message);
+    console.info('This Message was saved with FileLogger');
+  }
+}
+```
+#
+Essa mesma implementação é usada por todo o sistema e sempre gerado um log o mesmo é tratado por essa classe FileLogger como no exemplo abaixo:
+
+```typescript
+class NotificationService {
+  protected logger: Logger;
+  
+  constructor (logger: Logger) {    
+    this.logger = logger;
+  }
+
+  public async send(message: string): Promise<void> {
+    //... Implementation
+    await this.logger.info(`Notification sended: ${message}`);
+  }
+}
+
+// Inicialização com o FileLogger
+(async () => {
+  const fileLogger = new FileLogger();
+  const notificationService = new NotificationService(fileLogger);
+  await notificationService.send('My notification');
+})();
+```
+
+## Situação problema
+
+Agora precisamos usar uma nova forma de salvar os logs, pois com o crescimento de nossa aplicação, salvar em disco não é mais uma alternativa, assim precisamos usar a AWS.
+```typescript
+interface CloudLogger {
+  sendToServer(message: string, type: string): Promise<void>;
+}
+
+class AwsLogger implements CloudLogger {
+  public async sendToServer(message: string, type: string): Promise<void> {
+    console.info(message);
+    console.info('This Message was saved with AwsLogger');
+  }
+}
+```
+Ou seja, para que possamos usar essa nova classe precisaríamos refatorar todo nosso código para usar o novo formato de envio de log ... 💩
+
+## ou usamos um adaptador
+
+```typescript
+class CloudLoggerAdapter implements Logger {
+  protected cloudLogger: CloudLogger;
+
+  constructor (cloudLogger: CloudLogger) {
+    this.cloudLogger = cloudLogger;
+  }
+
+  public async info(message: string): Promise<void> {
+    await this.cloudLogger.sendToServer(message, 'info');
+  }
+}
+```
+#
+antes
+```typescript
+// Inicialização com o FileLogger
+(async () => {
+  const fileLogger = new FileLogger();
+  const notificationService = new NotificationService(fileLogger);
+  await notificationService.send('My notification');
+})();
+```
+depois
+```typescript
+// Inicialização com o AwsLogger
+(async () => {
+  const awsLogger = new AwsLogger();
+  const cloudLoggerAdapter = new CloudLoggerAdapter(awsLogger);
+  const notificationService = new NotificationService(cloudLoggerAdapter);
+  await notificationService.send('My notification');
+})();
+```
+
+# Strategy (comportamental)
+
+Utilize o Strategy quando você tem muitas classes parecidas que somente diferem na forma que elas executam algum comportamento.
