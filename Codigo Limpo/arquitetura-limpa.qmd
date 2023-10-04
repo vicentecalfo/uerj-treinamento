@@ -14,6 +14,15 @@ format:
   - Robert C. Martin, autor de "Clean Code" e "Clean Architecture".
 - **Arquitetura Limpa** é um padrão arquitetural proposto por Robert Martin – mais conhecido como Uncle Bob – com o objetivo de promover a implementação de sistemas que favorecem reusabilidade de código, coesão, independência de tecnologia e testabilidade. 
 
+##
+ - Arquitetura Hexagonal (também conhecida como Portas e Adaptadores);
+ - Arquitetura Cebola por Jeffrey Palermo;
+ - DCI de James Coplien e Trygve Reenskaug;
+ - BCE por Ivar Jacobson em seu livro Object Oriented Software Engineering: A Use-Case Driven Approach;
+
+#
+Todos têm o mesmo objetivo, que é a separação de interesses. Todos eles conseguem essa separação dividindo o software em camadas.
+
 ## Os Princípios da Arquitetura Limpa
 
 1. Separação de preocupações.
@@ -253,3 +262,31 @@ Porém na prática o código implementado muitas vezes não respeita os conceito
  - Controllers e Views fazendo validações que são de responsabilidade da Model.
  - Controllers e Views com lógica de negócio, as quais devem estar nas Models.
  - Views interagindo diretamente com Models sem passar pelo Controller.
+
+# DTO (Data Transfer Object)
+
+É um padrão de software voltado para a transferência de dados entre as camadas de uma aplicação. Ele consiste basicamente no entendimento de como as informações trafegam dentro de um sistema.
+
+## Vantagens DTO
+
+- **Abstração de Detalhes Internos**: Os DTOs permitem abstrair os detalhes internos de um objeto ou estrutura de dados, fornecendo uma interface mais simples e específica para transferência de dados.
+
+- **Redução de Exposição de Dados Confidenciais**: Ao utilizar DTOs, você pode escolher exatamente quais dados serão transferidos, reduzindo a exposição de dados confidenciais ou sensíveis.
+
+- **Melhoria no Desempenho**: Transferir somente os dados necessários em vez de objetos completos pode melhorar o desempenho, especialmente em redes com largura de banda limitada.
+
+## Vantagens DTO
+
+- **Suporte a Versões e Mudanças de API**: DTOs facilitam a evolução da API, permitindo adicionar ou remover campos de forma controlada sem afetar os consumidores da API.
+
+- **Flexibilidade de Mapeamento**: DTOs oferecem flexibilidade para mapear dados de fontes diferentes (por exemplo, bancos de dados, serviços externos) para um formato consistente.
+
+- **Validação de Dados Simplificada**: Validar os dados recebidos em DTOs é mais simples, pois eles contêm apenas um subconjunto de informações.
+
+## Vantagens DTO
+
+- **Facilita a Comunicação entre Camadas**: Ao usar DTOs, você pode facilitar a comunicação entre as diferentes camadas de uma aplicação, como a camada de apresentação e a camada de serviço.
+
+- **Suporte a Requisitos de Segurança**: Você pode aplicar regras de segurança específicas aos DTOs, garantindo que os dados transmitidos estejam em conformidade com as políticas de segurança da aplicação.
+
+- **Melhoria na Legibilidade do Código**: Usar DTOs pode tornar o código mais legível, pois fornece uma representação clara e específica dos dados que estão sendo transferidos.

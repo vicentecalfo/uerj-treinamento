@@ -347,6 +347,20 @@ Vicente Calfo
 <li><strong>Arquitetura Limpa</strong> é um padrão arquitetural proposto por Robert Martin – mais conhecido como Uncle Bob – com o objetivo de promover a implementação de sistemas que favorecem reusabilidade de código, coesão, independência de tecnologia e testabilidade.</li>
 </ul>
 </section>
+<section id="section" class="slide level2">
+<h2></h2>
+<ul>
+<li>Arquitetura Hexagonal (também conhecida como Portas e Adaptadores);</li>
+<li>Arquitetura Cebola por Jeffrey Palermo;</li>
+<li>DCI de James Coplien e Trygve Reenskaug;</li>
+<li>BCE por Ivar Jacobson em seu livro Object Oriented Software Engineering: A Use-Case Driven Approach;</li>
+</ul>
+</section>
+<section>
+<section id="section-1" class="title-slide slide level1 center">
+<h1></h1>
+<p>Todos têm o mesmo objetivo, que é a separação de interesses. Todos eles conseguem essa separação dividindo o software em camadas.</p>
+</section>
 <section id="os-princípios-da-arquitetura-limpa" class="slide level2">
 <h2>Os Princípios da Arquitetura Limpa</h2>
 <ol type="1">
@@ -402,9 +416,9 @@ Vicente Calfo
 <li>Reutilização de código.</li>
 <li>Facilita a colaboração.</li>
 </ul>
-</section>
+</section></section>
 <section>
-<section id="section" class="title-slide slide level1 center">
+<section id="section-2" class="title-slide slide level1 center">
 <h1></h1>
 <p><img src="https://engsoftmoderna.info/artigos/figs/arquitetura-limpa-novo.svg" style="height:650px"></p>
 </section>
@@ -445,13 +459,13 @@ Vicente Calfo
 <h2>Invertendo o Fluxo de Controle</h2>
 
 <img src="https://engsoftmoderna.info/artigos/figs/arquitetura-limpa-exemplo.svg" class="r-stretch"></section></section>
-<section id="section-1" class="title-slide slide level1 center">
+<section id="section-3" class="title-slide slide level1 center">
 <h1></h1>
 
 <img src="https://i.stack.imgur.com/xXPZN.png" class="r-stretch"></section>
 
 <section>
-<section id="section-2" class="title-slide slide level1 center">
+<section id="section-4" class="title-slide slide level1 center">
 <h1></h1>
 
 <img src="https://i.stack.imgur.com/CrYBC.png" class="r-stretch"></section>
@@ -526,7 +540,7 @@ Vicente Calfo
 <li>Requer planejamento cuidadoso.</li>
 </ul>
 </section></section>
-<section id="section-3" class="title-slide slide level1 center">
+<section id="section-5" class="title-slide slide level1 center">
 <h1></h1>
 
 <img src="https://codigoencasa.com/content/images/2022/05/diagrama-arquitectura-hexagonal-wata-factory-1536x1194.png" class="r-stretch"></section>
@@ -612,7 +626,7 @@ Vicente Calfo
 <li>Requer colaboração estreita entre desenvolvedores e especialistas no domínio.</li>
 </ul>
 </section></section>
-<section id="section-4" class="title-slide slide level1 center">
+<section id="section-6" class="title-slide slide level1 center">
 <h1></h1>
 
 <img src="https://guia.dev/assets/img/pictures/layers-ddd.png" class="r-stretch"></section>
@@ -623,11 +637,11 @@ Vicente Calfo
 </section>
 
 <section>
-<section id="section-5" class="title-slide slide level1 center">
+<section id="section-7" class="title-slide slide level1 center">
 <h1></h1>
 
 <img src="https://guia.dev/assets/img/pictures/layers-microservices.png" class="r-stretch"></section>
-<section id="section-6" class="slide level2">
+<section id="section-8" class="slide level2">
 <h2></h2>
 <p>Cada microsserviço deve nascer em função da segregação de um contexto do domínio de negócio.</p>
 <p>Esse contexto, segregado em um microsserviço, pode de acordo com a necessidade ser implementado usando conceitos e padrões de projetos distintos</p>
@@ -639,7 +653,7 @@ Vicente Calfo
 </section>
 
 <section>
-<section id="section-7" class="title-slide slide level1 center">
+<section id="section-9" class="title-slide slide level1 center">
 <h1></h1>
 
 <img src="https://guia.dev/assets/img/pictures/layers-mvc.png" class="r-stretch"><p>Porém na prática o código implementado muitas vezes não respeita os conceitos do MVC e menos ainda sobre o uso de camadas.</p>
@@ -652,6 +666,35 @@ Vicente Calfo
 <li>Controllers e Views fazendo validações que são de responsabilidade da Model.</li>
 <li>Controllers e Views com lógica de negócio, as quais devem estar nas Models.</li>
 <li>Views interagindo diretamente com Models sem passar pelo Controller.</li>
+</ul>
+</section></section>
+<section>
+<section id="dto-data-transfer-object" class="title-slide slide level1 center">
+<h1>DTO (Data Transfer Object)</h1>
+<p>É um padrão de software voltado para a transferência de dados entre as camadas de uma aplicação. Ele consiste basicamente no entendimento de como as informações trafegam dentro de um sistema.</p>
+</section>
+<section id="vantagens-dto" class="slide level2">
+<h2>Vantagens DTO</h2>
+<ul>
+<li><p><strong>Abstração de Detalhes Internos</strong>: Os DTOs permitem abstrair os detalhes internos de um objeto ou estrutura de dados, fornecendo uma interface mais simples e específica para transferência de dados.</p></li>
+<li><p><strong>Redução de Exposição de Dados Confidenciais</strong>: Ao utilizar DTOs, você pode escolher exatamente quais dados serão transferidos, reduzindo a exposição de dados confidenciais ou sensíveis.</p></li>
+<li><p><strong>Melhoria no Desempenho</strong>: Transferir somente os dados necessários em vez de objetos completos pode melhorar o desempenho, especialmente em redes com largura de banda limitada.</p></li>
+</ul>
+</section>
+<section id="vantagens-dto-1" class="slide level2">
+<h2>Vantagens DTO</h2>
+<ul>
+<li><p><strong>Suporte a Versões e Mudanças de API</strong>: DTOs facilitam a evolução da API, permitindo adicionar ou remover campos de forma controlada sem afetar os consumidores da API.</p></li>
+<li><p><strong>Flexibilidade de Mapeamento</strong>: DTOs oferecem flexibilidade para mapear dados de fontes diferentes (por exemplo, bancos de dados, serviços externos) para um formato consistente.</p></li>
+<li><p><strong>Validação de Dados Simplificada</strong>: Validar os dados recebidos em DTOs é mais simples, pois eles contêm apenas um subconjunto de informações.</p></li>
+</ul>
+</section>
+<section id="vantagens-dto-2" class="slide level2">
+<h2>Vantagens DTO</h2>
+<ul>
+<li><p><strong>Facilita a Comunicação entre Camadas</strong>: Ao usar DTOs, você pode facilitar a comunicação entre as diferentes camadas de uma aplicação, como a camada de apresentação e a camada de serviço.</p></li>
+<li><p><strong>Suporte a Requisitos de Segurança</strong>: Você pode aplicar regras de segurança específicas aos DTOs, garantindo que os dados transmitidos estejam em conformidade com as políticas de segurança da aplicação.</p></li>
+<li><p><strong>Melhoria na Legibilidade do Código</strong>: Usar DTOs pode tornar o código mais legível, pois fornece uma representação clara e específica dos dados que estão sendo transferidos.</p></li>
 </ul>
 
 <img src="http://www.sr2.uerj.br/inovuerj/images/logonova.gif" class="slide-logo r-stretch"><div class="footer footer-default">
