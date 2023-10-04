@@ -1,0 +1,255 @@
+---
+title: "Arquitetura Limpa"
+subtitle: "Código limpo"
+author: "Vicente Calfo"
+format:
+  revealjs:
+    logo: http://www.sr2.uerj.br/inovuerj/images/logonova.gif
+    footer: "Código Limpo"
+---
+
+## Uncle Bob e a Arquitetura Limpa
+
+- Quem é Uncle Bob?
+  - Robert C. Martin, autor de "Clean Code" e "Clean Architecture".
+- **Arquitetura Limpa** é um padrão arquitetural proposto por Robert Martin – mais conhecido como Uncle Bob – com o objetivo de promover a implementação de sistemas que favorecem reusabilidade de código, coesão, independência de tecnologia e testabilidade. 
+
+## Os Princípios da Arquitetura Limpa
+
+1. Separação de preocupações.
+2. Independência de frameworks.
+3. Testabilidade.
+4. Independência de UI.
+5. Independência de banco de dados.
+
+## Clean Code - O Pré-Requisito
+
+- O que é código limpo?
+  - Código que é fácil de ler, entender e manter.
+- Relação com a Arquitetura Limpa:
+  - A arquitetura limpa depende de um código limpo como base sólida.
+
+## Componentes da Arquitetura Limpa
+
+1. Entidades.
+2. Casos de Uso.
+3. Controladores (Adaptadores de Framework).
+4. Frameworks Externos.
+5. Interfaces de Dados.
+
+
+## Exemplo Prático
+
+- Um aplicativo de lista de tarefas.
+- Implementando a Arquitetura Limpa.
+  - Entidades: Tarefa, Lista de Tarefas.
+  - Casos de Uso: Adicionar Tarefa, Marcar como Concluída.
+  - Controladores: Interface de Linha de Comando, Interface Gráfica.
+  - Frameworks Externos: Banco de Dados, API de Notificações.
+
+## Benefícios da Arquitetura Limpa
+
+- Manutenibilidade.
+- Testabilidade.
+- Escalabilidade.
+- Reutilização de código.
+- Facilita a colaboração.
+
+#
+<img src="https://engsoftmoderna.info/artigos/figs/arquitetura-limpa-novo.svg" style="height:650px"/>
+
+
+## Entidades
+
+**Entidades** são classes comuns a vários sistemas da empresa. Suponha, por exemplo, uma universidade com sistemas acadêmico, financeiro, extensão, etc. Todos esses sistemas têm que lidar com classes como Aluno, Professor, Curso, Departamento, etc. Essas classes são então chamadas de Entidades. Além de dados, entidades podem implementar regras de negócio genéricas. 
+
+Por exemplo, uma regra da universidade define que todo Professor deve pertencer a exatamente um Departamento.
+
+## Casos de Uso
+
+**Casos de Uso** implementam regras de negócio específicas de um sistema.
+
+Por exemplo, o sistema acadêmico do nosso exemplo pode ter uma classe **DiarioDeClasse** que armazena a lista de objetos do tipo **Aluno** matriculados em uma **Disciplina** que está sendo ofertada em um determinado semestre. Uma regra de negócio define que um **Aluno** somente pode ser incluído em um **DiarioDeClasse** se tiver cursado os pré-requisitos da sua **Disciplina**.
+
+## Adaptadores
+
+Na terceira camada, de dentro para fora, temos classes e interfaces chamadas de Adaptadores. Eles têm como função mediar a interação entre a camada mais externa da arquitetura (sistemas externos) e as camadas centrais (Casos de Uso e Entidades).
+
+Suponha, por exemplo, que o sistema use uma API REST para comunicação com seus clientes. As classes adaptadoras serão então responsáveis por implementar os endpoints REST da API. Isto é, elas devem receber as requisições e encaminhá-las para os casos de uso correspondentes.
+
+## Adaptadores de Interface
+
+- Criando Repositórios;
+- Empacotando Repositórios dentro de Serviços;
+- Serviços Wrap dentro de manipuladores
+
+## Frameworks Externos
+
+Na camada mais externa, temos as classes de bibliotecas, frameworks e quaisquer sistemas externos. 
+
+Por exemplo, é nessa camada que ficam os sistemas responsáveis por persistência em bancos de dados, construção de interfaces com usuários, envio de mails, comunicação com provedores de pagamento, comunicação com determinados hardware, etc.
+
+## Regra de Dependência
+Em uma Arquitetura Limpa, as classes de uma camada X não devem conhecer nenhuma classe de uma camada Y mais externa. 
+
+**Exemplo**: Regra de Dependência garante que entidades e casos de uso são classes limpas de qualquer tecnologia ou serviço externo ao sistema.
+
+## Invertendo o Fluxo de Controle
+
+<img src="https://engsoftmoderna.info/artigos/figs/arquitetura-limpa-exemplo.svg" />
+
+#
+<img src="https://i.stack.imgur.com/xXPZN.png" />
+
+#
+<img src="https://i.stack.imgur.com/CrYBC.png" />
+
+
+
+## O que é a Arquitetura Hexagonal?
+
+- Definição da Arquitetura Hexagonal.
+  - Uma abordagem de design de software que enfatiza a separação de preocupações e a flexibilidade.
+- Origens e Influências.
+  - Também conhecida como Arquitetura de Portas e Adaptadores.
+  - Influenciada pelo trabalho de Alistair Cockburn e outros.
+
+## Princípios da Arquitetura Hexagonal
+
+1. **Separação de Concerns**: Separação clara entre o núcleo do sistema e os componentes externos.
+2. **Portas e Adaptadores**: Uso de interfaces (portas) e adaptadores para conectar o sistema a componentes externos.
+3. **Independência de Frameworks**: O núcleo do sistema não depende de nenhum framework específico.
+
+
+## Componentes da Arquitetura Hexagonal
+
+1. **Núcleo da Aplicação**: Contém a lógica de negócios central.
+2. **Portas (Ports)**: Interfaces que definem os contratos entre o núcleo e o mundo externo.
+3. **Adaptadores (Adapters)**: Implementações concretas das interfaces (Portas) que interagem com recursos externos.
+4. **Mundo Externo (External World)**: Recursos externos, como banco de dados, serviços web, UI, etc.
+
+## Fluxo de Dados
+
+- Como os dados fluem na Arquitetura Hexagonal:
+  - O Núcleo da Aplicação chama as Portas.
+  - Os Adaptadores implementam as Portas e lidam com a interação com o Mundo Externo.
+
+## Benefícios da Arquitetura Hexagonal
+
+- Separação de preocupações e coesão.
+- Testabilidade aprimorada.
+- Flexibilidade para substituir ou atualizar componentes externos.
+- Maior facilidade para adotar novas tecnologias.
+- Manutenção e escalabilidade simplificadas.
+
+## Implementação da Arquitetura Hexagonal
+
+- Como implementar a Arquitetura Hexagonal em um projeto:
+  - Identificar as portas necessárias.
+  - Criar interfaces (portas) para essas funcionalidades.
+  - Implementar adaptadores para interagir com recursos externos.
+  - Configurar a injeção de dependência para conectar as portas aos adaptadores.
+
+## Desafios da Arquitetura Hexagonal
+
+- Complexidade inicial.
+- Aumento do número de camadas.
+- Requer planejamento cuidadoso.
+
+#
+<img src="https://codigoencasa.com/content/images/2022/05/diagrama-arquitectura-hexagonal-wata-factory-1536x1194.png" />
+
+
+# Discurso na metodologia que não se sustenta na prática (ou quase nunca)
+
+## Independência de frameworks
+
+Geralmente isso complica muito o desenvolvimento e quase sempre não precisa, e se precisa será inefetivo, até porque a pessoa nunca consegue prever o futuro, você não troca fácil um framework sem mudar várias filosofias do sistema e sem muito trabalho. 
+
+## Independência de UI
+
+SPA???
+
+## Independência de banco de dados
+
+ Você não vai trocar o banco de dados e principalmente não vai mudar o modelo do banco de dados sem afetar uma boa parte da aplicação fundamentalmente.
+
+
+# O que é Domain-Driven Design?
+
+- Definição do DDD.
+  - Uma abordagem de design de software que coloca o foco no domínio do problema.
+- Por que o domínio é importante?
+  - O domínio do problema é o coração de qualquer software; compreendê-lo é essencial para o sucesso.
+
+## Principais Conceitos do DDD
+
+1. **Entidades**: Objetos com identidade própria (Exemplo: Cliente, Produto).
+2. **Value Objects**: Objetos imutáveis sem identidade (Exemplo: Endereço, Moeda).
+3. **Agregados**: Grupos de entidades e value objects que são tratados como uma unidade (Exemplo: Pedido e seus itens).
+4. **Repositórios**: Abstração para acessar entidades e agregados.
+5. **Serviços de Domínio**: Lógica de negócios que não pertence a uma entidade específica.
+
+## Bounded Contexts
+
+- **Contextos Delimitados (Bounded Contexts)**:
+  - Divisão do domínio em partes menores e mais gerenciáveis.
+  - Cada Bounded Context tem seu próprio modelo de domínio.
+  - Evita conflitos entre modelos em diferentes partes do sistema.
+
+## Implementação do DDD
+
+- Como implementar o DDD em um projeto de software:
+  - Identificar entidades, value objects e agregados.
+  - Criar repositórios para acesso aos dados do domínio.
+  - Definir serviços de domínio para lógica de negócios complexa.
+  - Isolar Bounded Contexts com interfaces claras.
+
+## Vantagens do DDD
+
+- Melhor compreensão do domínio do problema.
+- Maior alinhamento entre desenvolvedores e especialistas no domínio.
+- Código mais claro e fácil de manter.
+- Melhor capacidade de escalabilidade e extensibilidade.
+
+## Desafios do DDD
+
+- A curva de aprendizado pode ser íngreme.
+- Pode ser complexo em projetos de pequena escala.
+- Requer colaboração estreita entre desenvolvedores e especialistas no domínio.
+
+# 
+
+<img src="https://guia.dev/assets/img/pictures/layers-ddd.png" />
+
+# Microserviços
+
+Se tornou popular na última década e se consolidou como uma opção na construção de soluções. Na relação com o uso de camadas, os microsserviços passam a ser uma divisão física orientada pelo domínio do negócio, e cada microsserviço pode ainda aplicar o uso das camadas lógicas.
+
+#
+<img src="https://guia.dev/assets/img/pictures/layers-microservices.png" />
+
+##
+Cada microsserviço deve nascer em função da segregação de um contexto do domínio de negócio. 
+
+Esse contexto, segregado em um microsserviço, pode de acordo com a necessidade ser implementado usando conceitos e padrões de projetos distintos
+
+Microsserviços permitem dentre muitas vantagens a escala de partes da solução de forma mais inteligente.
+
+# MVC
+
+O MVC se tornou um dos padrões mais conhecidos e associados ao uso de 3 camadas, ao ponto de ser confundido por muitos com o próprio conceito de 3 camadas. Ele propõe que a camada Model seja responsável pela leitura e escrita de dados, View pela interação com o usuário e Controller seja a responsável por receber as requisições da View, interagir com a Model e retornar os dados para View.
+
+#
+
+<img src="https://guia.dev/assets/img/pictures/layers-mvc.png" />
+
+Porém na prática o código implementado muitas vezes não respeita os conceitos do MVC e menos ainda sobre o uso de camadas.
+
+## Erros comuns:
+
+ - Models com atributos referentes a usabilidade da View, como flags de controle e formatação de dados.
+ - Models convertendo dados para formatos usados na View, como Json, xml, dentre outros.
+ - Controllers e Views fazendo validações que são de responsabilidade da Model.
+ - Controllers e Views com lógica de negócio, as quais devem estar nas Models.
+ - Views interagindo diretamente com Models sem passar pelo Controller.
