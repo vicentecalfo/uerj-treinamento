@@ -1176,6 +1176,41 @@ db.products.aggregate( [
 
 ---
 
+# $size
+
+```js
+db.posts.find( { tags: { $size: 4 } } )
+
+```
+
+---
+
+# projection - $concat
+
+```js
+db.taxon.find({id: 12}, {name:{$concat:["$taxonID", " ", "$scientificName"]}, taxonID: 0} )
+
+```
+
+---
+
+# projection - $dateToString
+
+```js
+db.taxon.find({id: 12}, {reportDate: { $dateToString: {  date: new Date(), format: "%Y-%m-%d" } }} )
+```
+
+---
+
+# case insensitive
+
+```js
+db.taxon.find({scientificName:{$regex:"agaricales", $options: "i"}})
+```
+
+
+---
+
 # Validators
 
 
@@ -1230,6 +1265,22 @@ db.runCommand({
 
 
 ```
+
+---
+
+# Boas práticas com MongoDB
+
+## Evite negações em queries
+
+Evite o uso excessivo de negações em consultas no MongoDB, pois a ausência de valores não é indexada, o que pode resultar em consultas mais lentas. Utilize operadores como $e, $in e $all em vez do operador $ne, sempre buscando maior seletividade para otimizar o desempenho das consultas.
+
+---
+
+# Boas práticas com MongoDB
+
+## Evite documentos muito grandes
+
+MongoDB suporta para um único documento é 16MB.
 
 ---
 

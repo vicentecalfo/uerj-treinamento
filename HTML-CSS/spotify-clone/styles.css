@@ -1,0 +1,399 @@
+/**
+* verde
+* Hex color:	#1DB954
+* RGB:	30 215 96
+* preto
+* Hex color:	#191414
+* RGB:	25 20 20
+*/
+
+:root {
+  --primary: #1db954;
+  --secondary: #191414;
+  --white-text: #ffffff;
+  --gray-text: #aaa;
+  --dark-gray:#1b1b1b;
+}
+
+* {
+  box-sizing: border-box;
+  font-family: "Roboto", sans-serif;
+}
+
+body {
+  margin: 0;
+  overflow: hidden;
+  background-color: var(--secondary);
+  color: #fff;
+}
+
+.app {
+  display: grid;
+  grid-template-columns: 20vw 1fr;
+  height: calc(100vh - 80px);
+}
+
+.app aside {
+  padding: 30px;
+}
+
+.primary-menu,
+.secondary-menu {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.primary-menu li {
+  margin-bottom: 1px;
+}
+
+.primary-menu li a,
+.secondary-menu li a {
+  padding: 10px;
+  display: flex;
+  text-decoration: none;
+  color: var(--gray-text);
+  gap: 10px;
+  font-size: 0.8rem;
+  font-weight: 500;
+  align-items: center;
+}
+
+.primary-menu li a:hover,
+.primary-menu li a.active {
+  background-color: rgba(255, 255, 255, 0.2);
+  color: var(--white-text);
+  border-radius: 2px;
+}
+
+.secondary-menu {
+  border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+  padding-bottom: 20px;
+}
+
+.secondary-menu li a {
+  padding-bottom: 0;
+}
+
+.secondary-menu li a span:first-child {
+  width: 30px;
+  height: 30px;
+  background-color: red;
+  align-items: center;
+  display: flex;
+  justify-content: center;
+}
+
+.secondary-menu li .playlist-add span:first-child {
+  background-color: var(--gray-text);
+  color: var(--secondary);
+}
+
+.secondary-menu li .liked-songs span:first-child {
+  background: linear-gradient(
+    145deg,
+    rgba(80, 24, 240, 1) 35%,
+    rgb(232, 228, 242) 100%
+  );
+  color: var(--white-text);   
+}
+
+nav h2 {
+  text-transform: uppercase;
+  margin-left: 10px;
+  font-size: 0.7rem;
+  color: var(--gray-text);
+  letter-spacing: 2px;
+  margin-top: 40px;
+}
+
+.app main {
+  background: linear-gradient(
+    180deg,
+    rgba(51, 85, 120, 1) 10%,
+    rgba(25, 20, 20, 1) 90%
+  );
+  padding: 30px;
+  overflow: auto;
+}
+
+.app main header {
+  display: grid;
+  grid-template-columns: 1fr auto;
+}
+
+.app main header .user-info {
+  display: grid;
+  grid-template-columns: auto 1fr auto;
+  height: 40px;
+  align-items: center;
+  background-color: var(--secondary);
+  border-radius: 20px;
+  cursor: pointer;
+  box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.6);
+  gap: 5px;
+}
+.app main header .user-info .avatar {
+  border-radius: 20px;
+  padding: 5px;
+  height: 40px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.app main header .user-info .avatar img {
+  border-radius: 100%;
+  width: 30px;
+  height: 30px;
+}
+
+.app main header .user-info .username {
+  font-size: 0.8rem;
+}
+.app main header .user-info .arrow-down {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: auto;
+  width: 40px;
+  color: var(--white-text);
+  background-color: transparent;
+  border: none;
+  cursor: pointer;
+}
+.app main header .control{
+    display: flex;
+    gap: 10px;
+}
+.app main header .control button {
+  width: 30px;
+  height: 30px;
+  border:none;
+  background-color: rgba(0, 0, 0, 0.5);
+  border-radius: 100%;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--gray-text);
+}
+
+.app main header .control button:hover{
+    background-color:var(--secondary);
+    color:var(--white-text);
+}
+
+.last-played{
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+    gap: 20px;
+}
+
+.last-played li{
+    display: grid;
+    grid-template-columns: 60px 1fr;
+    background-color: rgba(255,255,255, 0.1);
+    align-items: center;
+    gap: 20px;
+    font-size: 0.8rem;
+    font-weight: 500;
+    border-radius: 2px;
+    cursor: pointer;
+}
+
+.last-played li span:first-child img{
+    width: 100%;
+    display: block;
+    border-top-left-radius: 2px;
+    border-bottom-left-radius: 2px;
+}
+
+.last-played li:hover span:first-child img{
+    border-radius: 2px;
+    box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.3);
+}
+
+.heavy-rotation{
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    display: grid;
+    grid-template-columns: repeat(5, 1fr);
+    gap: 20px;
+}
+
+
+.heavy-rotation li {
+    display: grid;
+    grid-template-rows: 1fr auto;
+    background-color: rgba(0, 0, 0, 0.3);
+    padding: 15px;
+    border-radius: 5px;
+    gap: 10px;
+    cursor: pointer;
+}
+
+.heavy-rotation li span:first-child img{
+    width: 100%;
+    display: block;
+    border-top-left-radius: 2px;
+    border-bottom-left-radius: 2px;
+}
+
+.heavy-rotation li:hover span:first-child img{
+    border-radius: 2px;
+    box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.6);
+}
+
+.heavy-rotation li span:last-child{
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+}
+.heavy-rotation li span:last-child span:first-child{
+    color: var(--white-text);
+    font-size: 1.0rem;
+    font-weight: 800;
+}
+
+.heavy-rotation li span:last-child span:last-child{
+    color: var(--gray-text);
+    font-size: 0.8rem;
+    font-weight: 500;
+}
+
+.player{
+    width: 100vw;
+    height: 80px;
+    display: grid;
+    grid-template-columns: 25% 1fr 25%;
+    background-color: var(--dark-gray);
+    border-top:1px solid rgba(255,255,255, 0.1);
+    padding: 0px 30px;
+    gap:30px;
+}
+
+.player .album{
+    display: grid;
+    grid-template-columns: 50px 1fr auto;
+    align-items: center;
+    gap: 20px;
+}
+
+.player .album .cover img{
+    display: block;
+    width: 100%;
+}
+
+.player .album .info{
+    display: flex;
+    flex-direction: column;
+}
+
+.player .album .info span:first-child{
+    font-size: 0.9rem;
+    font-weight: 500;
+    color: var(--white-text);
+} 
+
+.player .album .info span:last-child{
+    font-size: 0.7rem;
+    font-weight: 500;
+    color: var(--gray-text);
+} 
+
+.player .album .like button{
+    cursor: pointer;
+    background-color: transparent;
+    color: var(--gray-text);
+    border: none;
+    font-size: 1.0rem;
+}
+
+.player .control-1{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+}
+
+.player .control-1 .row-1{
+    display: flex;
+    align-items: center;
+    gap: 15px;
+}
+
+.player .control-1 .row-1 .play{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 30px;
+    height: 30px;
+    background-color: var(--white-text);
+    color: var(--secondary);
+    border-radius: 100%;
+    border: none;
+    cursor: pointer;
+    box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.7);
+}
+
+.player .control-1 .row-1 .shuffle,
+.player .control-1 .row-1 .prev,
+.player .control-1 .row-1 .next,
+.player .control-1 .row-1 .repeat{
+    border: none;
+    background-color: transparent;
+    cursor: pointer;
+    color: rgba(255, 255, 255, 0.3);
+}
+
+.player .control-1 .row-2{
+    display: grid;
+    width: 100%;
+    grid-template-columns: auto 1fr auto;
+    gap: 10px;
+    font-size: 0.7rem;
+    color: var(--gray-text);
+    align-items: center;
+}
+
+.player .control-1 .row-2 .progress-bar,
+.player .control-2 .progress-bar{
+    background-color: rgba(255, 255, 255, 0.1);
+    height: 6px;
+    display: block;
+    border-radius: 3px;
+}
+
+.player .control-1 .row-2 .progress-bar .progress,
+.player .control-2 .progress-bar .progress{
+    background-color: var(--white-text);
+    height: inherit;
+    display: block;
+    border-radius:inherit
+}
+
+.player .control-2{
+    display: flex;
+    align-items: center;
+    justify-content: end;
+    gap:10px;
+    width: 100%;
+
+}
+
+.player .control-2 button{
+    border: none;
+    background-color: transparent;
+    cursor: pointer;
+    color: rgba(255, 255, 255, 0.3);
+}
+
+.player .control-2 .progress-bar{
+    width: 100px;
+}
