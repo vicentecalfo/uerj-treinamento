@@ -1,0 +1,17 @@
+taxon.aggregate([
+    {
+        
+            $match::{
+                "id": 121159
+            }
+        
+    },
+    {
+        $lookup:{
+            "from": "taxon",
+            "localfield": "id",
+            "foreignField": "id",
+            "as": "distribution"
+        }
+    }
+])

@@ -1208,6 +1208,15 @@ db.taxon.find({id: 12}, {reportDate: { $dateToString: {  date: new Date(), forma
 db.taxon.find({scientificName:{$regex:"agaricales", $options: "i"}})
 ```
 
+---
+
+# relacionamentos
+
+```js
+db.taxon.aggregate([{$match:{"id":"121159"}},{$lookup:{"from":"distribution","localField":"id","foreignField":"id","as":"distribution"}}]).toArray()
+```
+
+
 
 ---
 
